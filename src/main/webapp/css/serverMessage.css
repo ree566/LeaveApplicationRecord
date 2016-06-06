@@ -1,0 +1,12 @@
+#floatWiget{
+    text-align: center;
+    position: fixed;
+    bottom: 20px;    
+    right: 20px;
+    padding: 10px 15px;    
+    width: 300px;
+    color: white;
+}
+#message{
+    padding:10px 10px; 
+}

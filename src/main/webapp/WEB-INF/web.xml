@@ -1,12 +1,250 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-	 version="3.0">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <display-name>LeaveApplicationRecord</display-name>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    
+    <context-param>
+        <param-name>pageTitle</param-name>
+        <param-value>請假申請系統</param-value>
+    </context-param>
+    
     <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
+        <session-timeout>60</session-timeout>
     </session-config>
+    
+    <filter>
+        <filter-name>EncodingFilter</filter-name>
+        <filter-class>com.advantech.filter.EncodingFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>EncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+        <filter-name>LogFilter</filter-name>
+        <filter-class>com.advantech.filter.LoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LogFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+        <filter-name>PermissionFilter</filter-name>
+        <filter-class>com.advantech.filter.PermissionFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>PermissionFilter</filter-name>
+        <url-pattern>/admin/*</url-pattern>
+        <url-pattern>/OvertimeRequest</url-pattern>
+        <url-pattern>/OvertimeRequestCheck</url-pattern>
+        <url-pattern>/OvertimeRequestHistory</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+        <filter-name>RequestTimeFilter</filter-name>
+        <filter-class>com.advantech.filter.RequestTimeFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RequestTimeFilter</filter-name>
+        <url-pattern>/LeaveRequest</url-pattern>
+        <url-pattern>/OvertimeRequest</url-pattern>
+        <url-pattern>/OvertimeRequestCheck</url-pattern>
+        <url-pattern>/OvertimeRequestHistory</url-pattern>
+        <url-pattern>/LeaveReq</url-pattern>
+        <url-pattern>/OvertimeReq</url-pattern>
+    </filter-mapping>
+
+    <resource-ref>
+        <description>MFG-SEVER</description>
+        <res-ref-name>jdbc/leaveApp</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+    
+    <context-param>
+        <param-name>ADMIN_MODIFY_SIGN</param-name>
+        <param-value>0</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>USER_MODIFY_SIGN</param-name>
+        <param-value>1</param-value>
+    </context-param>
+    
+     <context-param>
+        <param-name>BASIC_PERMISSION</param-name>
+        <param-value>0</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>SYSOP_LIMIT_PERMISSION</param-name>
+        <param-value>3</param-value>
+    </context-param>
+    
+    <context-param> 
+        <description>Location to store uploaded file</description> 
+        <param-name>file-upload</param-name> 
+        <param-value>
+            \images\
+        </param-value> 
+    </context-param>
+    
+    <!--urls-->
+    <servlet>
+        <servlet-name>LeaveRequestHistory</servlet-name>
+        <jsp-file>/leaveRequestHistory.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LeaveRequestHistory</servlet-name>
+        <url-pattern>/LeaveRequestHistory</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>OvertimeRequestCheck</servlet-name>
+        <jsp-file>/overtimeRequestCheck.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OvertimeRequestCheck</servlet-name>
+        <url-pattern>/OvertimeRequestCheck</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>OvertimeRequestHistory</servlet-name>
+        <jsp-file>/overtimeRequestHistory.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OvertimeRequestHistory</servlet-name>
+        <url-pattern>/OvertimeRequestHistory</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>leaveRequest</servlet-name>
+        <jsp-file>/leaveRequest.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>leaveRequest</servlet-name>
+        <url-pattern>/LeaveRequest</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>overtimeRequest</servlet-name>
+        <jsp-file>/overtimeRequest.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>overtimeRequest</servlet-name>
+        <url-pattern>/OvertimeRequest</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>holidayManage</servlet-name>
+        <jsp-file>/admin/holidayManage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>holidayManage</servlet-name>
+        <url-pattern>/admin/HolidayManage</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>changePSW</servlet-name>
+        <jsp-file>/pswChange.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changePSW</servlet-name>
+        <url-pattern>/ChangePSW</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>totalLeaveRequest</servlet-name>
+        <jsp-file>/totalLeaveRequest.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>totalLeaveRequest</servlet-name>
+        <url-pattern>/TotalLeaveRequest</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>LeaveRequestManage</servlet-name>
+        <jsp-file>/admin/leaveRequestManage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LeaveRequestManage</servlet-name>
+        <url-pattern>/admin/LeaveRequestManage</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>LeaveRequestBatchInsert</servlet-name>
+        <jsp-file>/admin/leaveRequestBatchInsert.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LeaveRequestBatchInsert</servlet-name>
+        <url-pattern>/admin/LeaveRequestBatchInsert</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>admin-usermanage</servlet-name>
+        <jsp-file>/admin/userManage.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>admin-usermanage</servlet-name>
+        <url-pattern>/admin/UserManage</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Errortime</servlet-name>
+        <jsp-file>/errorTime.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Errortime</servlet-name>
+        <url-pattern>/Errortime</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>ErrorPermission</servlet-name>
+        <jsp-file>/errorPermission.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ErrorPermission</servlet-name>
+        <url-pattern>/ErrorPermission</url-pattern>
+    </servlet-mapping>
+    <!--urls-->
+
+    <servlet>
+        <servlet-name>QuartzInitializer</servlet-name>
+        <servlet-class>
+            org.quartz.ee.servlet.QuartzInitializerServlet
+        </servlet-class>
+        <init-param>
+            <param-name>config-file</param-name>
+            <param-value>/quartz.properties</param-value>
+        </init-param>
+        <init-param>
+            <param-name>shutdown-on-unload</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <init-param>
+            <param-name>start-scheduler-on-load</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+
+    <context-param>
+        <param-name>quartz:shutdown-on-unload</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:wait-on-shutdown</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <param-name>quartz:start-scheduler-on-load</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    
 </web-app>

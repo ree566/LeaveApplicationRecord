@@ -1,13 +1,24 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-   "http://www.w3.org/TR/html4/loose.dtd">
+<%-- 
+    Document   : index
+    Created on : 2016/2/22, 上午 09:46:58
+    Author     : Wei.Cheng
+--%>
 
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>${initParam.pageTitle}</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <div>
+            <c:set var="username" value="${sessionScope.user}"/>
+            <c:set var="jobnumber" value="${sessionScope.jobnumber}"/>
+            ${jobnumber == null ? "N/A" : jobnumber}，
+            ${username == null ? "Guest" : username}您好。
+            <c:redirect url="LeaveRequest" />
+        </div>
     </body>
 </html>
