@@ -5,6 +5,7 @@
  */
 package com.advantech.filter;
 
+import com.advantech.helper.StringParser;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -22,7 +23,13 @@ import org.joda.time.DateTime;
  */
 public class RequestTimeFilter implements Filter {
 
-    private final int MAX_WAIN_HOUR = 22;
+    private int ACCESS_CONTROL_TIME;
+
+    @Override
+    public void init(FilterConfig filterConfig) {
+        String contextParam = filterConfig.getServletContext().getInitParameter("ACCESS_CONTROL_TIME");
+        ACCESS_CONTROL_TIME = StringParser.strToInt(contextParam);
+    }
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res,
@@ -34,7 +41,7 @@ public class RequestTimeFilter implements Filter {
         DateTime d = new DateTime();
         int currentHour = d.getHourOfDay();
 
-        if (currentHour < MAX_WAIN_HOUR) {
+        if (currentHour < ACCESS_CONTROL_TIME) {
             chain.doFilter(request, response);
         } else {
             response.sendRedirect("Errortime");
@@ -45,7 +52,4 @@ public class RequestTimeFilter implements Filter {
     public void destroy() {
     }
 
-    @Override
-    public void init(FilterConfig filterConfig) {
-    }
 }

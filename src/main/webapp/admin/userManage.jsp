@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:useBean id="leaveRequest" class="com.advantech.service.LeaveRequestService" scope="application" />
+<jsp:useBean id="leaveRequest" class="com.advantech.model.LeaveRequestDAO" scope="application" />
 <!DOCTYPE html>
 <html>
     <head>
@@ -297,7 +297,8 @@
                         </c:forEach>
                     </select>
                     <select class="sitefloor">
-                        <option value="-1">請輸入樓層</option>
+                        <option value="">請輸入樓層</option>
+                        <option value="B1">B1</option>
                         <c:forEach var="i" begin="1" end="7" step="1">
                             <option value="${i}">${i}</option>
                         </c:forEach>

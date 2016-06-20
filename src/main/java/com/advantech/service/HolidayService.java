@@ -17,7 +17,7 @@ public class HolidayService {
 
     private final HolidayDAO holidayDAO;
 
-    public HolidayService() {
+    protected HolidayService() {
         holidayDAO = new HolidayDAO();
     }
 
@@ -31,6 +31,10 @@ public class HolidayService {
 
     public List<Holiday> getSpecialSaturday(int month) {
         return holidayDAO.getSpecialSaturday(month);
+    }
+
+    public boolean isSpecialDay(String date) {
+        return holidayDAO.isSpecialDay(date);
     }
 
     public boolean newHoliday(List beanList) {

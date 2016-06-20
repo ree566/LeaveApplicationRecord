@@ -5,6 +5,7 @@
  */
 package com.advantech.filter;
 
+import com.advantech.helper.StringParser;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -22,9 +23,12 @@ import javax.servlet.http.HttpSession;
  */
 public class PermissionFilter implements Filter {
 
-    private final int MANAGER_PERMISSION = 2;
+    private int TEST_FIELD_ACCESS_PERMISSION;
 
-    public PermissionFilter() {
+    @Override
+    public void init(FilterConfig filterConfig) {
+        String contextParam = filterConfig.getServletContext().getInitParameter("TEST_FIELD_ACCESS_PERMISSION");
+        TEST_FIELD_ACCESS_PERMISSION = StringParser.strToInt(contextParam);
     }
 
     @Override
@@ -38,7 +42,7 @@ public class PermissionFilter implements Filter {
 
         int userPermission = (int) session.getAttribute("permission");
 
-        if (userPermission >= MANAGER_PERMISSION) {
+        if (userPermission >= TEST_FIELD_ACCESS_PERMISSION) {
             chain.doFilter(request, response);
         } else {
             response.sendRedirect("ErrorPermission");
@@ -50,7 +54,4 @@ public class PermissionFilter implements Filter {
     public void destroy() {
     }
 
-    @Override
-    public void init(FilterConfig filterConfig) {
-    }
 }

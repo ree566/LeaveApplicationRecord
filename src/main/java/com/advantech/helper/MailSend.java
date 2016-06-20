@@ -9,10 +9,9 @@ package com.advantech.helper;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
 import javax.mail.*;
 import javax.mail.internet.*;
 import org.json.JSONArray;
@@ -111,10 +110,15 @@ public class MailSend {
 
     //測試main
     public static void main(String[] arg0) {
-        List<Integer> l = new ArrayList();
-        for (int i : l) {
-            System.out.println(i);
+     
+        try {
+            System.out.println(new MailSend().getHostAddr());
+        } catch (UnknownHostException ex) {
+            java.util.logging.Logger.getLogger(MailSend.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SocketException ex) {
+            java.util.logging.Logger.getLogger(MailSend.class.getName()).log(Level.SEVERE, null, ex);
         }
+ 
     }
 
     //Get the Host address.

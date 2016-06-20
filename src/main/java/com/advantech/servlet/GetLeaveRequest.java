@@ -45,39 +45,34 @@ public class GetLeaveRequest extends HttpServlet {
 
         res.setContentType("application/json");
         PrintWriter out = res.getWriter();
-        
-        String startDate = req.getParameter("startDate");
-        String endDate = req.getParameter("endDate");
 
         HttpSession session = req.getSession(false);
 
-        List l;
-        int permission = (int) session.getAttribute("permission");
-        if (permission == BASIC_PERMISSION) {
-            
-            int userNo = (int) session.getAttribute("userNo");
-            l = leaveRequestService.getPersonalTotalLeaveRequest(formatDate(startDate), formatDate(endDate), userNo);
-        
-        } else if (permission > BASIC_PERMISSION && permission < SYSOP_LIMIT_PERMISSION) {
-            
-            int sitefloor = (int) session.getAttribute("sitefloor");
-            l = leaveRequestService.getTotalLeaveRequestBySitefloor(formatDate(startDate), formatDate(endDate), sitefloor);
-        
-        } else if (permission >= SYSOP_LIMIT_PERMISSION) {
-            
-            l = leaveRequestService.getAllTotalLeaveRequest(formatDate(startDate), formatDate(endDate));
-            
-        } else {
-            
-            l = new ArrayList();
-            
-        }
-        out.print(new JSONObject().put("data", l));
-
+        out.print(new JSONObject().put("data", getLeaveRequest(
+                (int) session.getAttribute("userNo"),
+                (int) session.getAttribute("permission"),
+                (String) session.getAttribute("sitefloor"),
+                req.getParameter("startDate"),
+                req.getParameter("endDate")
+        )));
     }
 
     private String formatDate(String dateString) {
         return dateString + "-01";
+    }
+
+    private List getLeaveRequest(int userNo, int permission, String sitefloor, String startDate, String endDate) {
+        List l;
+        if (permission == BASIC_PERMISSION) {
+            l = leaveRequestService.getPersonalTotalLeaveRequest(formatDate(startDate), formatDate(endDate), userNo);
+        } else if (permission > BASIC_PERMISSION && permission < SYSOP_LIMIT_PERMISSION) {
+            l = leaveRequestService.getTotalLeaveRequestBySitefloor(formatDate(startDate), formatDate(endDate), sitefloor);
+        } else if (permission >= SYSOP_LIMIT_PERMISSION) {
+            l = leaveRequestService.getAllTotalLeaveRequest(formatDate(startDate), formatDate(endDate));
+        } else {
+            l = new ArrayList();
+        }
+        return l;
     }
 
 }

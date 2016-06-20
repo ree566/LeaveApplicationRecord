@@ -5,8 +5,10 @@
  */
 package com.advantech.model;
 
-import com.advantech.helper.Pagenation;
 import com.advantech.helper.ProcRunner;
+import com.blogspot.monstersupreme.dataaccess.ConnectionFactory;
+import com.blogspot.monstersupreme.dataaccess.UserTransactionFactory;
+import com.blogspot.monstersupreme.dataaccess.XUserTransaction;
 import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
@@ -46,16 +48,23 @@ public class BasicDAO implements Serializable {
     private static QueryRunner qRunner = new QueryRunner();
     private static ProcRunner pRunner = new ProcRunner();
 
+    private static ConnectionFactory connFactory = null;
+    private static UserTransactionFactory txFactory = null;
+
     private static final int RETRY_WAIT_TIME = 3000;
 
-    private static DataSource ds;
-
+//    private static DataSource ds;
     static {
-        try {
-            ds = getDataSource();
-        } catch (NamingException ex) {
-            log.error(ex.toString());
-        }
+
+//        try {
+        connFactory = new ConnectionFactory("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord", "waychien", "m3server");
+//            connFactory.setDataSource(getDataSource());
+
+        txFactory = new UserTransactionFactory();
+        txFactory.setConnectionFactory(connFactory);
+//        } catch (NamingException ex) {
+//            log.error(ex.toString());
+//        }
     }
 
     protected static void main(String arg0[]) {
@@ -69,13 +78,7 @@ public class BasicDAO implements Serializable {
     }
 
     protected static Connection getDBUtilConn() {
-        Connection conn = null;
-        try {
-            conn = ds.getConnection();
-        } catch (SQLException ex) {
-            log.error(ex.toString());
-        }
-        return conn;
+        return connFactory.getConnection();
     }
 
     protected static List select(Connection conn, String sql, Object... params) {
@@ -88,10 +91,14 @@ public class BasicDAO implements Serializable {
 
     private static List query(Connection conn, ResultSetHandler rsh, String sql, Object... params) {
         List<?> data = null;
+        XUserTransaction tx = txFactory.getUserTransaction();
         try {
+            tx.begin();
             data = (List) qRunner.query(conn, sql, rsh, params);
+            tx.commit();
         } catch (SQLException e) {
             log.error(e.toString());
+            tx.rollback();
         } finally {
             DbUtils.closeQuietly(conn);
         }
@@ -157,9 +164,10 @@ public class BasicDAO implements Serializable {
 
     public static void cleanUpSource() {
         qRunner = null;
-        ds = null;
+        connFactory = null;
+        txFactory = null;
     }
-    
+
 //    public List getNewsByPage(Object object, Pagenation pagenation) {
 //        
 //        //初始值
@@ -170,4 +178,12 @@ public class BasicDAO implements Serializable {
 //        session.close();
 //        return list;
 //    }
+    public static ConnectionFactory getConnFactory() {
+        return connFactory;
+    }
+
+    public static UserTransactionFactory getTxFactory() {
+        return txFactory;
+    }
+
 }

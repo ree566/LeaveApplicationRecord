@@ -48,32 +48,28 @@ public class GetOvertimeRequestHistory extends HttpServlet {
 
         HttpSession session = req.getSession(false);
 
-        int iDisplayStart = StringParser.strToInt(req.getParameter("iDisplayStart"));
-        int iDisplayLength = StringParser.strToInt(req.getParameter("iDisplayLength"));
+        out.print(new JSONObject().put("data", getOvertimeRequest(
+                (int) session.getAttribute("userNo"),
+                (int) session.getAttribute("permission"),
+                (String) session.getAttribute("sitefloor"),
+                StringParser.strToInt(req.getParameter("iDisplayStart")),
+                StringParser.strToInt(req.getParameter("iDisplayLength"))
+        )));
 
+    }
+
+    private List getOvertimeRequest(int userNo, int permission, String sitefloor, int iDisplayStart, int iDisplayLength) {
         List l;
-        int permission = (int) session.getAttribute("permission");
         if (permission == BASIC_PERMISSION) {
-            
-            int userNo = (int) session.getAttribute("userNo");
             l = overtimeRequestService.getPersonalOvertimeRequestHistory(userNo);
-            
         } else if (permission > BASIC_PERMISSION && permission < SYSOP_LIMIT_PERMISSION) {
-            
-            int sitefloor = (int) session.getAttribute("sitefloor");
             l = overtimeRequestService.getOvertimeHistoryBySitefloor(sitefloor);
-            
         } else if (permission >= SYSOP_LIMIT_PERMISSION) {
-            
             l = overtimeRequestService.getAllOvertimeRequestHistory(iDisplayLength, iDisplayStart);
             System.out.print("iDisplayStart: " + iDisplayStart + " iDisplayLength: " + iDisplayLength);
-            
         } else {
-            
             l = new ArrayList();
-            
         }
-        out.print(new JSONObject().put("data", l));
-
+        return l;
     }
 }

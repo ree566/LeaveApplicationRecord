@@ -17,7 +17,7 @@ public class Identit {
     private String name;
     private int department;
     private int permission;
-    private int sitefloor;
+    private String sitefloor;
     private String email;
 
     public Identit() {
@@ -29,7 +29,7 @@ public class Identit {
         this.password = password;
     }
 
-    public Identit(int id, String jobnumber, String password, String name, int department, int permission, int sitefloor, String email) {
+    public Identit(int id, String jobnumber, String password, String name, int department, int permission, String sitefloor, String email) {
         this.id = id;
         this.jobnumber = jobnumber;
         this.password = password;
@@ -88,11 +88,11 @@ public class Identit {
         this.permission = permission;
     }
 
-    public int getSitefloor() {
+    public String getSitefloor() {
         return sitefloor;
     }
 
-    public void setSitefloor(int sitefloor) {
+    public void setSitefloor(String sitefloor) {
         this.sitefloor = sitefloor;
     }
 

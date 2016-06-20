@@ -31,15 +31,17 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/serverMessage.js"></script>
         <script src="js/moment.js"></script>
+        <script src="js/jquery.blockUI.js"></script>
+        <script src="js/jquery.blockUI.Default.js"></script>
         <script>
             var minHourForBandon = 2;
-            
+
             function getAllBandon() {
                 var now = moment();
                 var hour = now.hour();
                 var beginHour = 13;
                 var endHour = 17;
-                if (beginHour <= hour && hour <= endHour && $("#userPermission").val() <= 3) {
+                if ((hour < beginHour || endHour < hour) && $("#userPermission").val() <= 3) {
                     $("input,select").attr("disabled", true);
                     $("#serverMsg").html("已經超過申請時間，開放的時間為" + beginHour + "點到" + endHour + "點。");
                 }
@@ -73,7 +75,7 @@
             function checkUserRequested() {
                 $.ajax({
                     type: "Post",
-                    url: "CheckOvertimeReq",
+                    url: "CheckOvertimeRequested",
                     dataType: 'json',
                     data: {
                         overtimeHours: $("#overtime").val(),
@@ -96,12 +98,14 @@
             function saveOvertimeRequest() {
                 var hour = $("#overtime").val();
                 var bandonId = $("#bentoList").val();
-                
-                if(hour < minHourForBandon && bandonId != null){
+
+                console.log(bandonId);
+
+                if (hour < minHourForBandon && bandonId != "") {
                     $("#serverMsg").html("您的加班時數低於可訂便當的時數( " + minHourForBandon + " 小時)，請重新輸入。");
                     return false;
                 }
-                
+
                 $.ajax({
                     type: "Post",
                     url: "OvertimeReq",
@@ -111,15 +115,12 @@
                         bandonId: bandonId
                     },
                     success: function (response) {
-                        if (response.redirect) {
-                            // data.redirect contains the string URL to redirect to
-                            window.location.href = response.redirect;
-                        } else {
-                            if (response == true) {
-                                disabledUserInput();
-                            }
-                            showServerMsg(response);
+                        if (response == true) {
+                            console.log(response);
+                            $("#serverMsg").html("");
+                            disabledUserInput();
                         }
+                        showServerMsg(response);
                     }
                 });
             }

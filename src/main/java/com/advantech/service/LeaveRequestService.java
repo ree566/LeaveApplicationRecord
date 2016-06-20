@@ -27,7 +27,7 @@ public class LeaveRequestService {
     private final int WORK_HOURS_PERDAY = 9;
     private final int LIMIT_PEOPLE_PERDAY = 2;
 
-    public LeaveRequestService() {
+    protected LeaveRequestService() {
         leaveRequestDAO = new LeaveRequestDAO();
     }
 
@@ -51,11 +51,11 @@ public class LeaveRequestService {
         return leaveRequestDAO.getAllDepartment();
     }
 
-    public List<LeaveRequest> getTomorrowsLeaveRequest(int sitefloor) {
+    public List<LeaveRequest> getTomorrowsLeaveRequest(String sitefloor) {
         return leaveRequestDAO.getTomorrowsLeaveRequest(sitefloor);
     }
 
-    public List<LeaveRequest> getLeaveRequestBySitefloor(int sitefloor) {
+    public List<LeaveRequest> getLeaveRequestBySitefloor(String sitefloor) {
         return leaveRequestDAO.getLeaveRequestBySitefloor(sitefloor);
     }
 
@@ -63,7 +63,7 @@ public class LeaveRequestService {
         return leaveRequestDAO.getPersonalRequest(userNo);
     }
 
-    public List<LeaveRequest> getTodaysLeaveRequset(int sitefloor) {
+    public List<LeaveRequest> getTodaysLeaveRequset(String sitefloor) {
         return leaveRequestDAO.getTodaysLeaveRequset(sitefloor);
     }
 
@@ -75,19 +75,19 @@ public class LeaveRequestService {
         return leaveRequestDAO.getAllTotalLeaveRequest(startDate, endDate);
     }
 
-    public List<Map> getTotalLeaveRequestBySitefloor(String startDate, String endDate, int sitefloor) {
+    public List<Map> getTotalLeaveRequestBySitefloor(String startDate, String endDate, String sitefloor) {
         return leaveRequestDAO.getTotalLeaveRequestBySitefloor(startDate, endDate, sitefloor);
     }
 
-    public List<Map> getTotalLeaveRequestForExeclOutput(String startDate, String endDate, int sitefloor) {
+    public List<Map> getTotalLeaveRequestForExeclOutput(String startDate, String endDate, String sitefloor) {
         return leaveRequestDAO.getTotalLeaveRequestForExeclOutput(startDate, endDate, sitefloor);
     }
 
-    public List<Map> getLeaveRequestPeopleAmount(String dateBegin, String dateEnd, int department, int sitefloor) {
+    public List<Map> getLeaveRequestPeopleAmount(String dateBegin, String dateEnd, int department, String sitefloor) {
         return leaveRequestDAO.getLeaveRequestPeopleAmount(dateBegin, dateEnd, department, sitefloor);
     }
 
-    public List<Map> getLeaveRequestInDay(String date, int department, int sitefloor) {
+    public List<Map> getLeaveRequestInDay(String date, int department, String sitefloor) {
         return leaveRequestDAO.getLeaveRequestInDay(date, department, sitefloor);
     }
 
@@ -95,10 +95,10 @@ public class LeaveRequestService {
         return leaveRequestDAO.isPersonDataInDayExist(l);
     }
 
-    public List peopleLimitCheck(String beginTime, String endTime, int userDepartment, int userSitefloor) throws JSONException {
+    public List peopleLimitCheck(String beginTime, String endTime, int userDepartment, String sitefloor) throws JSONException {
         List list = new ArrayList();
         if (DateParser.dateDiff(beginTime, endTime) >= WORK_HOURS_PERDAY) {
-            List l = getLeaveRequestPeopleAmount(beginTime, endTime, userDepartment, userSitefloor);
+            List l = getLeaveRequestPeopleAmount(beginTime, endTime, userDepartment, sitefloor);
             if (!l.isEmpty()) {
                 JSONArray ja = new JSONArray(new Gson().toJson(l));
                 for (int i = 0; i < ja.length(); i++) {
@@ -106,7 +106,7 @@ public class LeaveRequestService {
                     String date = obj.getString("DATE");
                     int requestPeople = (int) obj.get("amount");
                     if (requestPeople >= LIMIT_PEOPLE_PERDAY) {
-                        list = getLeaveRequestInDay(date, userDepartment, userSitefloor);
+                        list = getLeaveRequestInDay(date, userDepartment, sitefloor);
                         break;
                     }
                 }

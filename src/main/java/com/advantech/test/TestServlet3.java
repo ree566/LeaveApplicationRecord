@@ -50,7 +50,7 @@ public class TestServlet3 extends HttpServlet {
             XSSFSheet sheet = workbook.getSheetAt(0);
             Cell cell = null;
 
-            List<Map> l = BasicService.getLeaveRequestService().getTotalLeaveRequestForExeclOutput("2016-01-01", "2016-03-01", 6);
+            List<Map> l = BasicService.getLeaveRequestService().getTotalLeaveRequestForExeclOutput("2016-01-01", "2016-03-01", "6");
 
             int startRow = EXCEL_START_ROW;
             for (Map m : l) {

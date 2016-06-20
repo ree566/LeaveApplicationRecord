@@ -65,7 +65,7 @@ public class UserManage extends HttpServlet {
                     name,
                     StringParser.strToInt(department),
                     StringParser.strToInt(permission),
-                    StringParser.strToInt(sitefloor),
+                    sitefloor,
                     email
             ));
             

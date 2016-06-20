@@ -7,11 +7,6 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     
-    <context-param>
-        <param-name>pageTitle</param-name>
-        <param-value>請假申請系統</param-value>
-    </context-param>
-    
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
@@ -55,7 +50,6 @@
         <url-pattern>/LeaveRequest</url-pattern>
         <url-pattern>/OvertimeRequest</url-pattern>
         <url-pattern>/OvertimeRequestCheck</url-pattern>
-        <url-pattern>/OvertimeRequestHistory</url-pattern>
         <url-pattern>/LeaveReq</url-pattern>
         <url-pattern>/OvertimeReq</url-pattern>
     </filter-mapping>
@@ -68,23 +62,52 @@
     </resource-ref>
     
     <context-param>
+        <description>System name define space.</description> 
+        <param-name>pageTitle</param-name>
+        <param-value>請假申請系統</param-value>
+    </context-param>
+    
+    <context-param>
+        <description>Use for leaveRequest and overtimeRequest marking sign.</description> 
         <param-name>ADMIN_MODIFY_SIGN</param-name>
         <param-value>0</param-value>
     </context-param>
     
     <context-param>
+        <description>Use for leaveRequest and overtimeRequest marking sign.</description> 
         <param-name>USER_MODIFY_SIGN</param-name>
         <param-value>1</param-value>
     </context-param>
     
-     <context-param>
+    <context-param>
         <param-name>BASIC_PERMISSION</param-name>
         <param-value>0</param-value>
     </context-param>
     
     <context-param>
+        <param-name>LINE_LEADER_PERMISSION</param-name>
+        <param-value>1</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>SYTEM_MANAGER_PERMISSION</param-name>
+        <param-value>2</param-value>
+    </context-param>
+    
+    <context-param>
         <param-name>SYSOP_LIMIT_PERMISSION</param-name>
         <param-value>3</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>TEST_FIELD_ACCESS_PERMISSION</param-name>
+        <param-value>0</param-value>
+    </context-param>
+    
+    <context-param>
+        <description>Control the user apply for the leaveRequest and overtimeRequest</description> 
+        <param-name>ACCESS_CONTROL_TIME</param-name>
+        <param-value>21</param-value>
     </context-param>
     
     <context-param> 

@@ -26,7 +26,7 @@ public class OvertimeRequestService {
 
     private final double limitHourForBandon = 2;
 
-    public OvertimeRequestService() {
+    protected OvertimeRequestService() {
         overtimeRequestDAO = new OvertimeRequestDAO();
     }
 
@@ -34,16 +34,20 @@ public class OvertimeRequestService {
         return overtimeRequestDAO.getOvertimeRequest();
     }
 
-    public List<OvertimeRequest> getOvertimeBySitefloor(int sitefloor) {
-        return overtimeRequestDAO.getOvertimeBySitefloor(sitefloor);
+    public List<OvertimeRequest> getOvertimeRequest(int userNo) {
+        return overtimeRequestDAO.getOvertimeRequest(userNo);
+    }
+
+    public List<OvertimeRequest> getOvertimeRequest(String sitefloor, int department) {
+        return overtimeRequestDAO.getOvertimeRequest(sitefloor, department);
+    }
+
+    public List<OvertimeRequest> getOvertimeRequestBySitefloor(String sitefloor) {
+        return overtimeRequestDAO.getOvertimeRequestBySitefloor(sitefloor);
     }
 
     public boolean isExistOvertimeRequest(int userNo) {
-        return getPersonalOvertimeRequest(userNo).isEmpty();
-    }
-
-    public List<OvertimeRequest> getPersonalOvertimeRequest(int userNo) {
-        return overtimeRequestDAO.getPersonalOvertimeRequest(userNo);
+        return getOvertimeRequest(userNo).isEmpty();
     }
 
     public List getBandonDepartment() {
@@ -58,7 +62,7 @@ public class OvertimeRequestService {
         return overtimeRequestDAO.getAllOvertimeRequestHistory(pageSize, currentPage);
     }
 
-    public List getOvertimeHistoryBySitefloor(int sitefloor) {
+    public List getOvertimeHistoryBySitefloor(String sitefloor) {
         return overtimeRequestDAO.getOvertimeHistoryBySitefloor(sitefloor);
     }
 
@@ -81,7 +85,7 @@ public class OvertimeRequestService {
     }
 
     public boolean newOvertimeRequest(OvertimeRequest ov) {
-        List requestList = getPersonalOvertimeRequest(ov.getUserNo());
+        List requestList = getOvertimeRequest(ov.getUserNo());
 
         if (!requestList.isEmpty() || hoursNotEnoughForBandon(ov)) {
             return false;
@@ -109,12 +113,23 @@ public class OvertimeRequestService {
         return overtimeRequestDAO.updateOvertimeRequest(beanList);
     }
 
-    public boolean userCheckOvertimeRequest(int userNo) {
-        return overtimeRequestDAO.changeOvertimeRequestStatus(userNo, CHECK_SIGH);
+    public boolean userCheckOvertimeRequest(String[] id, int userNo) {
+        List l = new ArrayList();
+        for (String i : id) {
+            if (i == null || "".equals(i)) {
+                continue;
+            }
+            l.add(new OvertimeRequest(Integer.parseInt(i), CHECK_SIGH, userNo));
+        }
+        return overtimeRequestDAO.changeOvertimeRequestStatus(l);
     }
 
-    public boolean restoreCheckStatus(int userNo) {
-        return overtimeRequestDAO.changeOvertimeRequestStatus(userNo, UNCHECK_SIGH);
+    public boolean restoreCheckStatus(int[] id, int userNo) {
+        List l = new ArrayList();
+        for (int i : id) {
+            l.add(new OvertimeRequest(i, CHECK_SIGH, userNo));
+        }
+        return overtimeRequestDAO.changeOvertimeRequestStatus(l);
     }
 
     public boolean deleteOvertimeRequest(int id) {

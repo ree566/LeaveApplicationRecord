@@ -17,7 +17,7 @@ public class IdentitService {
 
     private final IdentitDAO identitDAO;
 
-    public IdentitService() {
+    protected IdentitService() {
         identitDAO = new IdentitDAO();
     }
 

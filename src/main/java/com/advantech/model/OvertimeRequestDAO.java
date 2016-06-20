@@ -6,6 +6,7 @@
 package com.advantech.model;
 
 import com.advantech.entity.OvertimeRequest;
+import com.blogspot.monstersupreme.dataaccess.ConnectionFactory;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -14,18 +15,36 @@ import java.util.Map;
  *
  * @author Wei.Cheng
  */
-public class OvertimeRequestDAO extends BasicDAO {
+public class OvertimeRequestDAO {
+
+    private final ConnectionFactory connFactory;
+
+    public OvertimeRequestDAO() {
+        connFactory = BasicDAO.getConnFactory();
+    }
 
     private Connection getConn() {
-        return getDBUtilConn();
+        return connFactory.getConnection();
     }
 
     public List<OvertimeRequest> getOvertimeRequest() {
         return queryOvertimeRequestTable("SELECT * FROM overtimeRequestDetail");
     }
 
+    public List<OvertimeRequest> getOvertimeRequest(int userNo) {
+        return queryOvertimeRequestTable("SELECT * FROM overtimeRequestDetail WHERE userNo = ?", userNo);
+    }
+
+    public List<OvertimeRequest> getOvertimeRequest(String sitefloor, int department) {
+        return queryOvertimeRequestTable("SELECT * FROM overtimeRequestDetail WHERE sitefloor = ? AND departmentId = ?", sitefloor, department);
+    }
+
+    public List<OvertimeRequest> getOvertimeRequestBySitefloor(String sitefloor) {
+        return queryOvertimeRequestTable("SELECT * FROM overtimeRequestDetail WHERE sitefloor = ?", sitefloor);
+    }
+
     private List<OvertimeRequest> getOvertimeRequestInPage(String sql, int pageSize, int currentPage) {
-        return select(
+        return BasicDAO.select(
                 getConn(),
                 "select top " + pageSize + " *"
                 + "from ("
@@ -35,14 +54,6 @@ public class OvertimeRequestDAO extends BasicDAO {
                 + ")t1 "
                 + "where t1.rownumber > ?", currentPage
         );
-    }
-
-    public List<OvertimeRequest> getOvertimeBySitefloor(int sitefloor) {
-        return queryOvertimeRequestTable("SELECT * FROM overtimeRequestDetail WHERE sitefloor = ?", sitefloor);
-    }
-
-    public List<OvertimeRequest> getPersonalOvertimeRequest(int userNo) {
-        return queryOvertimeRequestTable("SELECT * FROM overtimeRequestDetail WHERE userNo = ?", userNo);
     }
 
     public List<Map> getBandonDepartment() {
@@ -57,7 +68,7 @@ public class OvertimeRequestDAO extends BasicDAO {
         return getOvertimeRequestInPage("SELECT * FROM overtimeRequestHistoryView", pageSize, currentPage);
     }
 
-    public List<Map> getOvertimeHistoryBySitefloor(int sitefloor) {
+    public List<Map> getOvertimeHistoryBySitefloor(String sitefloor) {
         return query("SELECT * FROM overtimeRequestHistoryView WHERE sitefloor = ?", sitefloor);
     }
 
@@ -66,11 +77,11 @@ public class OvertimeRequestDAO extends BasicDAO {
     }
 
     private List<OvertimeRequest> queryOvertimeRequestTable(String sql, Object... params) {
-        return select(getConn(), sql, params);
+        return BasicDAO.select(getConn(), sql, params);
     }
 
     private List<Map> query(String sql, Object... params) {
-        return select(getConn(), sql, params);
+        return BasicDAO.select(getConn(), sql, params);
     }
 
     public boolean newOvertimeRequest(List beanList) {
@@ -101,17 +112,16 @@ public class OvertimeRequestDAO extends BasicDAO {
         );
     }
 
-    public boolean changeOvertimeRequestStatus(int userNo, int checkSign) {
-        return alterOvertimeRequest("UPDATE overtimeRequest SET checkStatus = ? WHERE userNo = ?", checkSign, userNo);
+    public boolean changeOvertimeRequestStatus(List beanList) {
+        return alterOvertimeRequestForBean("UPDATE overtimeRequest SET checkStatus = ?, checkUserNo = ? WHERE id = ?", beanList, "checkStatus", "checkUser", "id");
     }
 
     private boolean alterOvertimeRequest(String sql, Object... params) {
-        return alterTable(getConn(), sql, params);
+        return BasicDAO.alterTable(getConn(), sql, params);
     }
 
     private boolean alterOvertimeRequestForBean(String sql, List beanList, String... propertyNames) {
-        return alterTableWithBean(getConn(), sql, beanList, propertyNames);
+        return BasicDAO.alterTableWithBean(getConn(), sql, beanList, propertyNames);
     }
 
-    
 }

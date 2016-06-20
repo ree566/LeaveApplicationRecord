@@ -16,10 +16,10 @@ import javax.servlet.http.*;
  *
  * @author Wei.Cheng
  */
-@WebServlet(name = "CheckOvertimeReq", urlPatterns = {"/CheckOvertimeReq"})
-public class CheckOvertimeReq extends HttpServlet {
+@WebServlet(name = "CheckOvertimeRequested", urlPatterns = {"/CheckOvertimeRequested"})
+public class CheckOvertimeRequested extends HttpServlet {
 
-//    private static final Logger log = LoggerFactory.getLogger(CheckOvertimeReq.class);
+//    private static final Logger log = LoggerFactory.getLogger(CheckOvertimeRequested.class);
     OvertimeRequestService overtimeRequestService;
 
     @Override

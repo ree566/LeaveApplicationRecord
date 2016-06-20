@@ -6,6 +6,7 @@
 package com.advantech.model;
 
 import com.advantech.entity.Holiday;
+import com.blogspot.monstersupreme.dataaccess.ConnectionFactory;
 import java.sql.Connection;
 import java.util.List;
 
@@ -13,10 +14,16 @@ import java.util.List;
  *
  * @author Wei.Cheng
  */
-public class HolidayDAO extends BasicDAO {
-    
-    private Connection getConn(){
-        return getDBUtilConn();
+public class HolidayDAO {
+
+    private final ConnectionFactory connFactory;
+
+    public HolidayDAO() {
+        connFactory = BasicDAO.getConnFactory();
+    }
+
+    private Connection getConn() {
+        return connFactory.getConnection();
     }
 
     public List getSpecialDays() {
@@ -28,11 +35,15 @@ public class HolidayDAO extends BasicDAO {
     }
 
     public List getSpecialSaturday(int month) {
-        return queryHolidayTable("SELECT * FROM specialDaysView WHERE DATEPART(dw, dateFrom) = 7 AND dateFrom = dateTo WHERE inMonth = ?", month);
+        return queryHolidayTable("SELECT * FROM specialDaysView WHERE DATEPART(dw, dateFrom) = 7 AND dateFrom = dateTo AND inMonth = ?", month);
+    }
+
+    public boolean isSpecialDay(String date) {
+        return !queryHolidayTable("SELECT * FROM specialDaysView WHERE ? BETWEEN dateFrom AND dateTo", date).isEmpty();
     }
 
     private List queryHolidayTable(String sql, Object... params) {
-        return select(getConn(), Holiday.class, sql, params);
+        return BasicDAO.select(getConn(), Holiday.class, sql, params);
     }
 
     public boolean insertHoliday(List beanList) {
@@ -60,6 +71,6 @@ public class HolidayDAO extends BasicDAO {
     }
 
     private boolean alterHoliday(String sql, List beanList, String... propertyNames) {
-        return alterTableWithBean(getConn(), sql, beanList, propertyNames);
+        return BasicDAO.alterTableWithBean(getConn(), sql, beanList, propertyNames);
     }
 }

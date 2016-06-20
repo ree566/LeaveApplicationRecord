@@ -22,8 +22,16 @@ public class OvertimeRequest {
     private String saveTime;
     private int sitefloor;
     private int checkStatus;
+    private int checkUser;
+    private String checkTime;
 
     public OvertimeRequest() {
+    }
+
+    public OvertimeRequest(int id, int checkStatus, int checkUser) {
+        this.id = id;
+        this.checkStatus = checkStatus;
+        this.checkUser = checkUser;
     }
 
     public OvertimeRequest(int userNo, double overtimeHours, int reqByUser) {
@@ -124,4 +132,20 @@ public class OvertimeRequest {
         return getCheckStatus() == 1;
     }
 
+    public int getCheckUser() {
+        return checkUser;
+    }
+
+    public void setCheckUser(int checkUser) {
+        this.checkUser = checkUser;
+    }
+
+    public String getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(String checkTime) {
+        this.checkTime = checkTime;
+    }
+    
 }

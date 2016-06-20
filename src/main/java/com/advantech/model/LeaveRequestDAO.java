@@ -6,6 +6,7 @@
 package com.advantech.model;
 
 import com.advantech.entity.LeaveRequest;
+import com.blogspot.monstersupreme.dataaccess.ConnectionFactory;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,16 @@ import java.util.Map;
  *
  * @author Wei.Cheng
  */
-public class LeaveRequestDAO extends BasicDAO {
+public class LeaveRequestDAO {
+
+    private final ConnectionFactory connFactory;
+
+    public LeaveRequestDAO() {
+        connFactory = BasicDAO.getConnFactory();
+    }
 
     private Connection getConn() {
-        return getDBUtilConn();
+        return connFactory.getConnection();
     }
 
     public List<LeaveRequest> getLeaveRequest() {
@@ -25,7 +32,7 @@ public class LeaveRequestDAO extends BasicDAO {
     }
 
     private List<LeaveRequest> getLeaveRequestInPage(String sql, int pageSize, int currentPage) {
-        return select(
+        return BasicDAO.select(
                 getConn(),
                 "select top " + pageSize + " *"
                 + "from ("
@@ -53,11 +60,11 @@ public class LeaveRequestDAO extends BasicDAO {
         return query("SELECT * FROM department");
     }
 
-    public List<LeaveRequest> getTomorrowsLeaveRequest(int sitefloor) {
+    public List<LeaveRequest> getTomorrowsLeaveRequest(String sitefloor) {
         return queryLeaveRequestTable("SELECT * FROM tomorrowsLeaveRequest WHERE sitefloor = ?", sitefloor);
     }
 
-    public List<LeaveRequest> getLeaveRequestBySitefloor(int sitefloor) {
+    public List<LeaveRequest> getLeaveRequestBySitefloor(String sitefloor) {
         return queryLeaveRequestTable("SELECT * FROM leaveRequestDetail WHERE sitefloor = ?", sitefloor);
     }
 
@@ -65,7 +72,7 @@ public class LeaveRequestDAO extends BasicDAO {
         return queryLeaveRequestTable("SELECT * FROM leaveRequestDetail WHERE userNo = ?", userNo);
     }
 
-    public List<LeaveRequest> getTodaysLeaveRequset(int sitefloor) {
+    public List<LeaveRequest> getTodaysLeaveRequset(String sitefloor) {
         return queryLeaveRequestTable("SELECT * FROM todaysLeaveRequest WHERE sitefloor = ?", sitefloor);
     }
 
@@ -77,24 +84,24 @@ public class LeaveRequestDAO extends BasicDAO {
         return query("SELECT * FROM getTotalLeaveRequestByMonth(?,?)", startDate, endDate);
     }
 
-    public List<Map> getTotalLeaveRequestBySitefloor(String startDate, String endDate, int sitefloor) {
+    public List<Map> getTotalLeaveRequestBySitefloor(String startDate, String endDate, String sitefloor) {
         return query("SELECT * FROM getTotalLeaveRequestByMonth(?,?) where sitefloor = ?", startDate, endDate, sitefloor);
     }
 
-    public List<Map> getTotalLeaveRequestForExeclOutput(String startDate, String endDate, int sitefloor) {
+    public List<Map> getTotalLeaveRequestForExeclOutput(String startDate, String endDate, String sitefloor) {
         return query("SELECT * FROM dbo.tableViewForExcel(?,?) where sitefloor = ? ORDER BY jobnumber", startDate, endDate, sitefloor);
     }
 
     private List<Map> query(String sql, Object... params) {
-        return select(getConn(), sql, params);
+        return BasicDAO.select(getConn(), sql, params);
     }
 
-    public List<Map> getLeaveRequestPeopleAmount(String dateBegin, String dateEnd, int department, int sitefloor) {
-        return selectProc(getConn(), "{CALL leaveRequestCheck ?,?,?,?}", dateBegin, dateEnd, department, sitefloor);
+    public List<Map> getLeaveRequestPeopleAmount(String dateBegin, String dateEnd, int department, String sitefloor) {
+        return BasicDAO.selectProc(getConn(), "{CALL leaveRequestCheck ?,?,?,?}", dateBegin, dateEnd, department, sitefloor);
     }
 
-    public List<Map> getLeaveRequestInDay(String date, int department, int sitefloor) {
-        return selectProc(getConn(), "{CALL getLeaveRequestInDay ?,?,?}", date, department, sitefloor);
+    public List<Map> getLeaveRequestInDay(String date, int department, String sitefloor) {
+        return BasicDAO.selectProc(getConn(), "{CALL getLeaveRequestInDay ?,?,?}", date, department, sitefloor);
     }
 
     public boolean isPersonDataInDayExist(LeaveRequest l) {
@@ -102,7 +109,7 @@ public class LeaveRequestDAO extends BasicDAO {
     }
 
     private List<LeaveRequest> queryLeaveRequestTable(String sql, Object... params) {
-        return select(getConn(), LeaveRequest.class, sql, params);
+        return BasicDAO.select(getConn(), LeaveRequest.class, sql, params);
     }
 
     public boolean insertLeaveRequest(List beanList) {
@@ -126,10 +133,10 @@ public class LeaveRequestDAO extends BasicDAO {
     }
 
     private boolean alterLeaveRequest(String sql, Object... params) {
-        return alterTable(getConn(), sql, params);
+        return BasicDAO.alterTable(getConn(), sql, params);
     }
 
     private boolean alterLeaveRequestForBean(String sql, List beanList, String... propertyNames) {
-        return alterTableWithBean(getConn(), sql, beanList, propertyNames);
+        return BasicDAO.alterTableWithBean(getConn(), sql, beanList, propertyNames);
     }
 }

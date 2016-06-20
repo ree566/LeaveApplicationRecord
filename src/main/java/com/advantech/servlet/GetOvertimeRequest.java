@@ -23,13 +23,18 @@ import org.json.JSONObject;
 @WebServlet(name = "GetOvertimeRequest", urlPatterns = {"/GetOvertimeRequest"})
 public class GetOvertimeRequest extends HttpServlet {
 
-    private int BASIC_PERMISSION;
-    private int SYSOP_LIMIT_PERMISSION;
+    private int BASIC_PERMISSION;//0
+    private int LINE_LEADER_PERMISSION;//1
+    private int SYTEM_MANAGER_PERMISSION;//2
+    private int SYSOP_LIMIT_PERMISSION;//3
+
     OvertimeRequestService overtimeRequestService;
 
     @Override
     public void init() throws ServletException {
         BASIC_PERMISSION = StringParser.strToInt(getServletContext().getInitParameter("BASIC_PERMISSION"));
+        LINE_LEADER_PERMISSION = StringParser.strToInt(getServletContext().getInitParameter("LINE_LEADER_PERMISSION"));
+        SYTEM_MANAGER_PERMISSION = StringParser.strToInt(getServletContext().getInitParameter("SYTEM_MANAGER_PERMISSION"));
         SYSOP_LIMIT_PERMISSION = StringParser.strToInt(getServletContext().getInitParameter("SYSOP_LIMIT_PERMISSION"));
         overtimeRequestService = BasicService.getOvertimeRequestService();
     }
@@ -45,33 +50,31 @@ public class GetOvertimeRequest extends HttpServlet {
 
         res.setContentType("application/json");
         PrintWriter out = res.getWriter();
-
         HttpSession session = req.getSession(false);
-        
+
         //只獲取"當日"的加班請求，其他請查詢加班history
 
-        List l;
-        int permission = (int) session.getAttribute("permission");
-        if (permission == BASIC_PERMISSION) {
-            
-            int userNo = (int) session.getAttribute("userNo");
-            l = overtimeRequestService.getPersonalOvertimeRequest(userNo);
-            
-        } else if (permission > BASIC_PERMISSION && permission < SYSOP_LIMIT_PERMISSION) {
-            
-            int sitefloor = (int) session.getAttribute("sitefloor");
-            l = overtimeRequestService.getOvertimeBySitefloor(sitefloor);
-            
-        } else if (permission >= SYSOP_LIMIT_PERMISSION) {
-            
-            l = overtimeRequestService.getOvertimeRequest();
-            
-        } else {
-            
-            l = new ArrayList();
-            
-        }
-        out.print(new JSONObject().put("data", l));
+        out.print(new JSONObject().put("data", getOvertimeRequest(
+                (int) session.getAttribute("userNo"), 
+                (int) session.getAttribute("permission"), 
+                (String) session.getAttribute("sitefloor"), 
+                (int) session.getAttribute("department")
+        )));
+    }
 
+    private List getOvertimeRequest(int userNo, int permission, String sitefloor, int department) {
+        List l;
+        if (permission == BASIC_PERMISSION) {
+            l = overtimeRequestService.getOvertimeRequest(userNo);
+        } else if (permission == LINE_LEADER_PERMISSION) {
+            l = overtimeRequestService.getOvertimeRequest(sitefloor, department);
+        } else if (permission == SYTEM_MANAGER_PERMISSION) {
+            l = overtimeRequestService.getOvertimeRequestBySitefloor(sitefloor);
+        } else if (permission >= SYSOP_LIMIT_PERMISSION) {
+            l = overtimeRequestService.getOvertimeRequest();
+        } else {
+            l = new ArrayList();
+        }
+        return l;
     }
 }

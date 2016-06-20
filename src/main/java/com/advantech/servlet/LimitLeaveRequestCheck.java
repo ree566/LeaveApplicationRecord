@@ -56,7 +56,7 @@ public class LimitLeaveRequestCheck extends HttpServlet {
 
         HttpSession session = req.getSession(false);
 
-        int sitefloor = (int) session.getAttribute("sitefloor");
+        String sitefloor = (String) session.getAttribute("sitefloor");
         int department = (int) session.getAttribute("department");
         int permission = (int) session.getAttribute("permission");
 

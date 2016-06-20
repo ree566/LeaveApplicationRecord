@@ -19,10 +19,15 @@ import javax.servlet.http.*;
 public class ResendDailyMail extends HttpServlet {
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        doPost(req, res); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
         DailyMailSend.sendMailEverySiteFloor();
-        
+
     }
 }

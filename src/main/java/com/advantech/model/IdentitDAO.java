@@ -6,6 +6,7 @@
 package com.advantech.model;
 
 import com.advantech.entity.Identit;
+import com.blogspot.monstersupreme.dataaccess.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -18,12 +19,17 @@ import org.slf4j.LoggerFactory;
  *
  * @author Wei.Cheng
  */
-public class IdentitDAO extends BasicDAO {
+public class IdentitDAO {
 
     private static final Logger log = LoggerFactory.getLogger(BasicDAO.class);
+    private final ConnectionFactory connFactory;
+
+    public IdentitDAO() {
+        connFactory = BasicDAO.getConnFactory();
+    }
 
     private Connection getConn() {
-        return getDBUtilConn();
+        return connFactory.getConnection();
     }
 
     public List<Identit> getIdentit(int userPermission) {
@@ -43,7 +49,7 @@ public class IdentitDAO extends BasicDAO {
     }
 
     private List<Identit> queryIdentitTable(String sql, Object... params) {
-        return select(getConn(), Identit.class, sql, params);
+        return BasicDAO.select(getConn(), Identit.class, sql, params);
     }
 
     public boolean newIdentit(List beanList) {
@@ -87,10 +93,10 @@ public class IdentitDAO extends BasicDAO {
     }
 
     private boolean alterIdentit(String sql, Object... params) {
-        return alterTable(getConn(), sql, params);
+        return BasicDAO.alterTable(getConn(), sql, params);
     }
 
     private boolean alterIdentitForBean(String sql, List beanList, String... propertyNames) {
-        return alterTableWithBean(getConn(), sql, beanList, propertyNames);
+        return BasicDAO.alterTableWithBean(getConn(), sql, beanList, propertyNames);
     }
 }

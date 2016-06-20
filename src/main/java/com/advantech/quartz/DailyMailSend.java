@@ -5,9 +5,12 @@
  */
 package com.advantech.quartz;
 
+import com.advantech.entity.Holiday;
 import com.advantech.entity.Identit;
 import com.advantech.entity.LeaveRequest;
+import com.advantech.helper.MailSend;
 import com.advantech.service.BasicService;
+import com.advantech.service.HolidayService;
 import com.advantech.service.IdentitService;
 import com.advantech.service.LeaveRequestService;
 import java.text.DateFormat;
@@ -16,6 +19,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeConstants;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.quartz.Job;
@@ -43,8 +50,51 @@ public class DailyMailSend implements Job {
 
     public static void main(String[] arg0) {
 
+//        DateTime d = new DateTime();
+//        sendMailEverySiteFloor();
+        DailyMailSend d = new DailyMailSend();
+//        System.out.println("Check if today need to send mail or not...");
+//        boolean needToSendMail = !d.checkTodayIsSpecailDay();//If connection is null,there will mistaken returned "true" sign.
+//        System.out.println(needToSendMail ? "Need to send mail" : "Not need to send mail");
+//        if(needToSendMail){
         sendMailEverySiteFloor();
+//        }
+//        DateTime dateTime = new DateTime(2016, 6, 8, 0, 0).plusDays(1);
+//        while(dateTime.getDayOfWeek() != DateTimeConstants.SUNDAY && d.checkDaySpecial(dateTime)){
+//            dateTime = dateTime.plusDays(1);
+//        }
+//        System.out.println(dateTime.toString());
+    }
 
+    private DateTime getNextBusinessDay() {
+        return null;
+    }
+
+    private boolean checkTodayIsSpecailDay() {
+        DateTime today = new DateTime(2016, 6, 9, 0, 0);
+        System.out.println("Today is " + DateTimeFormat.forPattern("yyyy-MM-dd").print(today));
+        return checkDaySpecial(today);
+    }
+
+    private boolean checkDaySpecial(DateTime dateTime) {
+        HolidayService hs = BasicService.getHolidayService();
+        if (dateTime.getDayOfWeek() != DateTimeConstants.SATURDAY) {
+            System.out.println("Today is normal BusinessDay, Check is today in SpecialDays...");
+            return hs.isSpecialDay(DateTimeFormat.forPattern("yyyy-MM-dd").print(dateTime));
+        } else {
+            List<Holiday> l = hs.getSpecialSaturday(dateTime.getMonthOfYear());
+            if (l.isEmpty()) {
+                System.out.println("This Month not exist Special Saturday, so today is not special Saturday.");
+                return false;
+            } else {
+                DateTimeFormatter dtf = DateTimeFormat.forPattern("yy-MM-dd HH:mm:ss.SSS");
+                System.out.println("This month contain special Saturday, check is today special...");
+                Holiday h = l.get(0);
+                DateTime d1 = dtf.parseDateTime(h.getDateFrom());
+                System.out.println(dtf.print(d1));
+                return d1.toLocalDate().isEqual(dateTime.toLocalDate());
+            }
+        }
     }
 
     public static void sendMailEverySiteFloor() {
@@ -54,8 +104,8 @@ public class DailyMailSend implements Job {
         try {
             List l = d.getUserMailTarget();
             if (l.isEmpty()) {
-                log.error("Something wrong with database connection, can't get the user mail list.");
-//                System.out.println("Something wrong with database connection, can't get the user mail list.");
+//                log.error("Something wrong with database connection, can't get the user mail list.");
+                System.out.println("Something wrong with database connection, can't get the user mail list.");
                 return;
             }
 
@@ -80,9 +130,12 @@ public class DailyMailSend implements Job {
                 it = l.iterator();
                 while (it.hasNext()) {
                     Identit i = (Identit) it.next();
-                    if (i.getSitefloor() == mainTarget.getSitefloor()) {
-                        innerArray.put(i.getEmail());
-                        it.remove();
+                    if (i.getSitefloor().equals(mainTarget.getSitefloor())) {
+                        String mail = i.getEmail();
+                        if (mail != null || !"".equals(mail)) {
+                            innerArray.put(mail);
+                            it.remove();
+                        }
                     }
                 }
                 arr.put(innerArray);
@@ -94,14 +147,14 @@ public class DailyMailSend implements Job {
                 if (ccMailList.length() == 0) {
                     continue;
                 }
-                log.info("Begin send mail...");
-//                System.out.println("Begin send mail...");
+//                log.info("Begin send mail...");
+                System.out.println("Begin send mail...");
                 d.sendMail(identit.getSitefloor(), identit.getEmail(), ccMailList);
-                log.info("Find next floor...");
-//                System.out.println("Find next floor...");
+//                log.info("Find next floor...");
+                System.out.println("Find next floor...");
             }
-            log.info("Send mail job complete.");
-//            System.out.println("Send mail job complete.");
+//            log.info("Send mail job complete.");
+            System.out.println("Send mail job complete.");
         } catch (JSONException e) {
             log.error(e.toString());
         }
@@ -113,17 +166,17 @@ public class DailyMailSend implements Job {
         if (l.isEmpty()) {
             int timeCount = 1;
             int retryTime = 5;
-            int retrySecond = 10; 
+            int retrySecond = 10;
             try {
                 do {
-                    log.error("The maillist isEmpty, retry get maillist again after 5 second...");
-//                    System.out.println("The maillist isEmpty, retry get maillist again after " + retrySecond + " second...");
+//                    log.error("The maillist isEmpty, retry get maillist again after 5 second...");
+                    System.out.println("The maillist isEmpty, retry get maillist again after " + retrySecond + " second...");
                     Thread.sleep(retrySecond * 1000);
-                    log.error("Getting maillist...");
-//                    System.out.println("Getting maillist...");
+//                    log.error("Getting maillist...");
+                    System.out.println("Getting maillist...");
                     l = identitService.getMailList();
-                    log.error("Retry times:" + timeCount);
-//                    System.out.println("Retry times:" + timeCount);
+//                    log.error("Retry times:" + timeCount);
+                    System.out.println("Retry times:" + timeCount);
                     timeCount++;
                 } while (l.isEmpty() && timeCount <= retryTime);
             } catch (InterruptedException e) {
@@ -133,19 +186,21 @@ public class DailyMailSend implements Job {
         return l;
     }
 
-    private void sendMail(int sitefloor, String mainTarget, JSONArray ccList) {
+    private void sendMail(String sitefloor, String mainTarget, JSONArray ccList) {
         String mailBody = generateMailBody(sitefloor);
         String titleName = generateTitle(sitefloor);
-//        System.out.println("Begin sendMail for sitefloor: " + sitefloor + " F");
-//        System.out.println("The main mail target user is: " + mainTarget);
-//        System.out.println("The mail cc list users are: " + ccList);
-        log.info("Begin sendMail for sitefloor: " + sitefloor + " F");
-        log.info("The main mail target user is: " + mainTarget);
-        log.info("The mail cc list users are: " + ccList);
+        System.out.println("Begin sendMail for sitefloor: " + sitefloor + " F");
+        System.out.println("The main mail target user is: " + mainTarget);
+        System.out.println("The mail cc list users are: " + ccList);
+        System.out.println(titleName);
+        System.out.println(mailBody);
+//        log.info("Begin sendMail for sitefloor: " + sitefloor + " F");
+//        log.info("The main mail target user is: " + mainTarget);
+//        log.info("The mail cc list users are: " + ccList);
 //        MailSend.getInstance().sendMailWithoutSender(this.getClass(), mainTarget, ccList, titleName, mailBody);
     }
 
-    private String generateTitle(int sitefloor) {
+    private String generateTitle(String sitefloor) {
         StringBuilder sb = new StringBuilder();
         sb.append(subjectTitle);
         sb.append(getDate());
@@ -156,7 +211,7 @@ public class DailyMailSend implements Job {
         return sb.toString();
     }
 
-    private String generateMailBody(int sitefloor) {
+    private String generateMailBody(String sitefloor) {
 
         StringBuilder sb = new StringBuilder();
         sb.append("<h2>Dear All:</h2>");
@@ -179,12 +234,12 @@ public class DailyMailSend implements Job {
         return sb.toString();
     }
 
-    private String generateTodaysLeaveRequestTableString(int sitefloor) {
+    private String generateTodaysLeaveRequestTableString(String sitefloor) {
         LeaveRequestService leaveRequestService = BasicService.getLeaveRequestService();
         return generateTable(leaveRequestService.getTodaysLeaveRequset(sitefloor));
     }
 
-    public String getPeopleTomorrowLeaveRequestTableString(int sitefloor) {
+    public String getPeopleTomorrowLeaveRequestTableString(String sitefloor) {
         LeaveRequestService leaveRequestService = BasicService.getLeaveRequestService();
         return generateTable(leaveRequestService.getTomorrowsLeaveRequest(sitefloor));
     }
