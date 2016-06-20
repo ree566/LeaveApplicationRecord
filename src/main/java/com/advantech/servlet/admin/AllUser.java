@@ -50,13 +50,13 @@ public class AllUser extends HttpServlet {
         HttpSession session = req.getSession(false);
         int permission = (int) session.getAttribute("permission");
         List l;
-        if (permission >= SYSOP_LIMIT_PERMISSION) {
+        if (permission > SYSOP_LIMIT_PERMISSION) {
 
             l = identitService.getIdentit(permission);
 
-        } else if (permission < SYSOP_LIMIT_PERMISSION) {
+        } else if (permission <= SYSOP_LIMIT_PERMISSION) {
 
-            int sitefloor = (int) session.getAttribute("sitefloor");
+            String sitefloor = (String) session.getAttribute("sitefloor");
             l = identitService.getIdentit(permission, sitefloor);
 
         } else {

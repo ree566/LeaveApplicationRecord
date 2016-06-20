@@ -49,22 +49,21 @@ public class BasicDAO implements Serializable {
     private static ProcRunner pRunner = new ProcRunner();
 
     private static ConnectionFactory connFactory = null;
-    private static UserTransactionFactory txFactory = null;
+//            = new ConnectionFactory();
+    private final static UserTransactionFactory txFactory = new UserTransactionFactory();
+    ;
 
     private static final int RETRY_WAIT_TIME = 3000;
 
-//    private static DataSource ds;
     static {
 
-//        try {
-        connFactory = new ConnectionFactory("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord", "waychien", "m3server");
-//            connFactory.setDataSource(getDataSource());
-
-        txFactory = new UserTransactionFactory();
-        txFactory.setConnectionFactory(connFactory);
-//        } catch (NamingException ex) {
-//            log.error(ex.toString());
-//        }
+        try {
+//        connFactory = new ConnectionFactory("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord", "waychien", "m3server");
+            connFactory.setDataSource(getDataSource());
+            txFactory.setConnectionFactory(connFactory);
+        } catch (NamingException ex) {
+            log.error(ex.toString());
+        }
     }
 
     protected static void main(String arg0[]) {
@@ -164,8 +163,8 @@ public class BasicDAO implements Serializable {
 
     public static void cleanUpSource() {
         qRunner = null;
-        connFactory = null;
-        txFactory = null;
+//        connFactory = null;
+//        txFactory = null;
     }
 
 //    public List getNewsByPage(Object object, Pagenation pagenation) {

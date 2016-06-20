@@ -25,7 +25,7 @@ public class IdentitService {
         return identitDAO.getIdentit(userPermission);
     }
 
-    public List<Identit> getIdentit(int userPermission, int sitefloor) {
+    public List<Identit> getIdentit(int userPermission, String sitefloor) {
         return identitDAO.getIdentit(userPermission, sitefloor);
     }
 

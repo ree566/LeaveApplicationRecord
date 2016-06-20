@@ -36,6 +36,14 @@
     <filter-mapping>
         <filter-name>PermissionFilter</filter-name>
         <url-pattern>/admin/*</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+        <filter-name>TestFieldFilter</filter-name>
+        <filter-class>com.advantech.filter.TestFieldFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>TestFieldFilter</filter-name>
         <url-pattern>/OvertimeRequest</url-pattern>
         <url-pattern>/OvertimeRequestCheck</url-pattern>
         <url-pattern>/OvertimeRequestHistory</url-pattern>
@@ -101,7 +109,7 @@
     
     <context-param>
         <param-name>TEST_FIELD_ACCESS_PERMISSION</param-name>
-        <param-value>0</param-value>
+        <param-value>5</param-value>
     </context-param>
     
     <context-param>
@@ -234,6 +242,15 @@
     <servlet-mapping>
         <servlet-name>ErrorPermission</servlet-name>
         <url-pattern>/ErrorPermission</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>Error</servlet-name>
+        <jsp-file>/error.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Error</servlet-name>
+        <url-pattern>/Error</url-pattern>
     </servlet-mapping>
     <!--urls-->
 

@@ -22,7 +22,7 @@
     <body>
         <jsp:include page="head.jsp" />
         <div id="wigetCtrl">
-            <h3>權限不足，請聯繫管理人員。</h3>
+            <h3>此功能尚未開放。</h3>
         </div>
         <jsp:include page="footer.jsp" />
     </body>

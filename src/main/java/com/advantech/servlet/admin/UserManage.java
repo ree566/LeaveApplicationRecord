@@ -7,6 +7,7 @@ package com.advantech.servlet.admin;
 
 import com.advantech.helper.StringParser;
 import com.advantech.entity.Identit;
+import com.advantech.helper.ParamChecker;
 import com.advantech.service.BasicService;
 import com.advantech.service.IdentitService;
 import java.io.*;
@@ -24,12 +25,12 @@ import javax.servlet.http.*;
 public class UserManage extends HttpServlet {
 
     private IdentitService identitService = null;
-//    private ParamChecker pChecker;
+    private ParamChecker pChecker;
 
     @Override
     public void init() throws ServletException {
         identitService = BasicService.getIdentitService();
-//        pChecker = new ParamChecker();
+        pChecker = new ParamChecker();
     }
 
     @Override
@@ -66,7 +67,7 @@ public class UserManage extends HttpServlet {
                     StringParser.strToInt(department),
                     StringParser.strToInt(permission),
                     sitefloor,
-                    email
+                    pChecker.checkInputVal(email) ? email : null
             ));
             
             switch (action) {

@@ -36,7 +36,7 @@ public class IdentitDAO {
         return queryIdentitTable("SELECT * FROM identit where permission <= ?", userPermission);
     }
 
-    public List<Identit> getIdentit(int userPermission, int sitefloor) {
+    public List<Identit> getIdentit(int userPermission, String sitefloor) {
         return queryIdentitTable("SELECT * FROM identit where permission <= ? and sitefloor = ?", userPermission, sitefloor);
     }
 

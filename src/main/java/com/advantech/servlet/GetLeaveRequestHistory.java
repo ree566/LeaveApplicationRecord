@@ -59,9 +59,9 @@ public class GetLeaveRequestHistory extends HttpServlet {
         List l;
         if (permission == BASIC_PERMISSION) {
             l = leaveRequestService.getPersonalRequest(userNo);
-        } else if (permission > BASIC_PERMISSION && permission < SYSOP_LIMIT_PERMISSION) {
+        } else if (permission > BASIC_PERMISSION && permission <= SYSOP_LIMIT_PERMISSION) {
             l = leaveRequestService.getLeaveRequestBySitefloor(sitefloor);
-        } else if (permission >= SYSOP_LIMIT_PERMISSION) {
+        } else if (permission > SYSOP_LIMIT_PERMISSION) {
             l = leaveRequestService.getLeaveRequest();
         } else {
             l = new ArrayList();

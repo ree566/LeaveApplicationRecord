@@ -21,14 +21,14 @@ import javax.servlet.http.HttpSession;
  *
  * @author Wei.Cheng
  */
-public class PermissionFilter implements Filter {
+public class TestFieldFilter implements Filter {
 
-    private int SYTEM_MANAGER_PERMISSION;
+    private int TEST_FIELD_ACCESS_PERMISSION;
 
     @Override
     public void init(FilterConfig filterConfig) {
-        String contextParam = filterConfig.getServletContext().getInitParameter("SYTEM_MANAGER_PERMISSION");
-        SYTEM_MANAGER_PERMISSION = StringParser.strToInt(contextParam);
+        String contextParam = filterConfig.getServletContext().getInitParameter("TEST_FIELD_ACCESS_PERMISSION");
+        TEST_FIELD_ACCESS_PERMISSION = StringParser.strToInt(contextParam);
     }
 
     @Override
@@ -42,10 +42,10 @@ public class PermissionFilter implements Filter {
 
         int userPermission = (int) session.getAttribute("permission");
 
-        if (userPermission >= SYTEM_MANAGER_PERMISSION) {
+        if (userPermission >= TEST_FIELD_ACCESS_PERMISSION) {
             chain.doFilter(request, response);
         } else {
-            response.sendRedirect("../ErrorPermission");
+            response.sendRedirect("Error");
         }
 
     }

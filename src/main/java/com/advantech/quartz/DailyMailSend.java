@@ -192,12 +192,10 @@ public class DailyMailSend implements Job {
         System.out.println("Begin sendMail for sitefloor: " + sitefloor + " F");
         System.out.println("The main mail target user is: " + mainTarget);
         System.out.println("The mail cc list users are: " + ccList);
-        System.out.println(titleName);
-        System.out.println(mailBody);
 //        log.info("Begin sendMail for sitefloor: " + sitefloor + " F");
 //        log.info("The main mail target user is: " + mainTarget);
 //        log.info("The mail cc list users are: " + ccList);
-//        MailSend.getInstance().sendMailWithoutSender(this.getClass(), mainTarget, ccList, titleName, mailBody);
+        MailSend.getInstance().sendMailWithoutSender(this.getClass(), mainTarget, ccList, titleName, mailBody);
     }
 
     private String generateTitle(String sitefloor) {
@@ -211,7 +209,7 @@ public class DailyMailSend implements Job {
         return sb.toString();
     }
 
-    private String generateMailBody(String sitefloor) {
+    public String generateMailBody(String sitefloor) {
 
         StringBuilder sb = new StringBuilder();
         sb.append("<h2>Dear All:</h2>");

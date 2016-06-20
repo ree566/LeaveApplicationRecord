@@ -6,6 +6,7 @@
 package com.advantech.servlet;
 
 import com.advantech.quartz.DailyMailSend;
+import com.google.gson.Gson;
 import java.io.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,7 +28,11 @@ public class ResendDailyMail extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
 
-        DailyMailSend.sendMailEverySiteFloor();
+        res.setContentType("text/html");
+        PrintWriter out = res.getWriter();
+        String sitefloor = req.getParameter("sitefloor");
+//        out.print("this is test servlet");
+        out.print(new DailyMailSend().generateMailBody(sitefloor));
 
     }
 }
