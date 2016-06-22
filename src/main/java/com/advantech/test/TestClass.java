@@ -6,6 +6,7 @@
 package com.advantech.test;
 
 import com.advantech.entity.Identit;
+import com.advantech.service.BasicService;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,21 +23,7 @@ public class TestClass {
     private static final Logger log = LoggerFactory.getLogger(TestClass.class);
 
     public static void main(String arg0[]) {
-        List<Identit> l = new ArrayList();
-        for (int i = 0; i <= 10; i++) {
-            Identit identit = new Identit();
-            identit.setId(i);
-            l.add(identit);
-        }
-        System.out.println(new Gson().toJson(l));
-        
-        Iterator it = l.iterator();
-        while(it.hasNext()){
-            Identit i = (Identit) it.next();
-            if(i.getId() == 5 || i.getId() == 7){
-                it.remove();
-            }
-        }
+        List l = BasicService.getLeaveRequestService().getLeaveRequestInDay("2016-06-21", 1, "6");
         System.out.println(new Gson().toJson(l));
     }
 }

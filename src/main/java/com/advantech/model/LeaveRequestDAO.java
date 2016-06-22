@@ -6,7 +6,6 @@
 package com.advantech.model;
 
 import com.advantech.entity.LeaveRequest;
-import com.blogspot.monstersupreme.dataaccess.ConnectionFactory;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -17,14 +16,8 @@ import java.util.Map;
  */
 public class LeaveRequestDAO {
 
-    private final ConnectionFactory connFactory;
-
-    public LeaveRequestDAO() {
-        connFactory = BasicDAO.getConnFactory();
-    }
-
     private Connection getConn() {
-        return connFactory.getConnection();
+        return BasicDAO.getConn();
     }
 
     public List<LeaveRequest> getLeaveRequest() {
@@ -40,7 +33,7 @@ public class LeaveRequestDAO {
                 + sql
                 + ")t"
                 + ")t1 "
-                + "where t1.rownumber > ?", currentPage
+                + "WHERE t1.rownumber > ?", currentPage
         );
     }
 
@@ -77,7 +70,7 @@ public class LeaveRequestDAO {
     }
 
     public List<Map> getPersonalTotalLeaveRequest(String startDate, String endDate, int userNo) {
-        return query("SELECT * FROM getTotalLeaveRequestByMonth(?,?) where userNo = ?", startDate, endDate, userNo);
+        return query("SELECT * FROM getTotalLeaveRequestByMonth(?,?) WHERE userNo = ?", startDate, endDate, userNo);
     }
 
     public List<Map> getAllTotalLeaveRequest(String startDate, String endDate) {
@@ -85,11 +78,11 @@ public class LeaveRequestDAO {
     }
 
     public List<Map> getTotalLeaveRequestBySitefloor(String startDate, String endDate, String sitefloor) {
-        return query("SELECT * FROM getTotalLeaveRequestByMonth(?,?) where sitefloor = ?", startDate, endDate, sitefloor);
+        return query("SELECT * FROM getTotalLeaveRequestByMonth(?,?) WHERE sitefloor = ?", startDate, endDate, sitefloor);
     }
 
     public List<Map> getTotalLeaveRequestForExeclOutput(String startDate, String endDate, String sitefloor) {
-        return query("SELECT * FROM dbo.tableViewForExcel(?,?) where sitefloor = ? ORDER BY jobnumber", startDate, endDate, sitefloor);
+        return query("SELECT * FROM dbo.tableViewForExcel(?,?) WHERE sitefloor = ? ORDER BY jobnumber", startDate, endDate, sitefloor);
     }
 
     private List<Map> query(String sql, Object... params) {

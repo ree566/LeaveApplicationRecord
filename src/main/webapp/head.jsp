@@ -46,15 +46,15 @@
             <ul class="nav navbar-nav">
                 <li><a href="LeaveRequest">請假申請</a></li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">加班申請<span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">加班申請<span class="caret" /></a>
                     <ul class="dropdown-menu">
                         <li><a href="OvertimeRequest">${isLeader? "" : "個人"}加班申請</a></li>
-                        <li><a href="OvertimeRequestHistory">${isLeader? "" : "個人"}加班歷史查詢</a></li>
                         <li><a href="OvertimeRequestCheck">${isLeader? "" : "個人"}加班確認</a></li>
+                        <li><a href="OvertimeRequestHistory">${isLeader? "" : "個人"}加班歷史查詢</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">歷史查詢<span class="caret"></span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">歷史查詢<span class="caret" /></a>
                     <ul class="dropdown-menu">
                         <li><a href="LeaveRequestHistory">${isLeader? "" : "個人"}請假紀錄(明細)</a></li>
                         <li><a href="TotalLeaveRequest">${isLeader? "" : "個人"}請假紀錄(統計)</a></li>
@@ -62,7 +62,7 @@
                 </li>
                 <c:if test="${isAdmin}">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">管理人員功能<span class="caret"></span></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">管理人員功能<span class="caret" /></a>
                         <ul class="dropdown-menu">
                             <li class="admin"><a href="admin/LeaveRequestBatchInsert">休假批次新增</a></li>
                             <li class="admin"><a href="admin/LeaveRequestManage">休假批次修改</a></li>
@@ -77,7 +77,7 @@
                     <c:choose>
                         <c:when test="${sessionScope.user == null}">
                             <a href="Login">
-                                <span class="glyphicon glyphicon-log-in"></span> 人員登入
+                                <span class="glyphicon glyphicon-log-in" /> 人員登入
                             </a>
                         </c:when>
                         <c:otherwise>

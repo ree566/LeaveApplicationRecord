@@ -6,7 +6,6 @@
 package com.advantech.model;
 
 import com.advantech.entity.Identit;
-import com.blogspot.monstersupreme.dataaccess.ConnectionFactory;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
@@ -22,22 +21,17 @@ import org.slf4j.LoggerFactory;
 public class IdentitDAO {
 
     private static final Logger log = LoggerFactory.getLogger(BasicDAO.class);
-    private final ConnectionFactory connFactory;
-
-    public IdentitDAO() {
-        connFactory = BasicDAO.getConnFactory();
-    }
 
     private Connection getConn() {
-        return connFactory.getConnection();
+        return BasicDAO.getConn();
     }
 
     public List<Identit> getIdentit(int userPermission) {
-        return queryIdentitTable("SELECT * FROM identit where permission <= ?", userPermission);
+        return queryIdentitTable("SELECT * FROM identit WHERE permission <= ?", userPermission);
     }
 
     public List<Identit> getIdentit(int userPermission, String sitefloor) {
-        return queryIdentitTable("SELECT * FROM identit where permission <= ? and sitefloor = ?", userPermission, sitefloor);
+        return queryIdentitTable("SELECT * FROM identit WHERE permission <= ? and sitefloor = ?", userPermission, sitefloor);
     }
 
     public List<Identit> getMailList() {
@@ -67,7 +61,7 @@ public class IdentitDAO {
     }
 
     public boolean updateUsersPassword(int userNo, String password) {
-        return alterIdentit("UPDATE identit SET password = ? WHERE id = ?", userNo, password);
+        return alterIdentit("UPDATE identit SET password = ? WHERE id = ?", password, userNo);
     }
 
     public boolean deleteIdentit(int userNo) {

@@ -33,7 +33,7 @@
         <script>
             $(document).ready(function () {
                 var now = moment();
-                console.log(now.hour());
+//                console.log(now.hour());
                 if (now.hour() >= 22) {
                     $("input,select").attr("disabled", true);
                     $("#serverMsg").html("已經超過申請時間，請明天再試。");

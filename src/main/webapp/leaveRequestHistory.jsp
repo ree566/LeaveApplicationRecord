@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
         <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.1/css/fixedHeader.dataTables.min.css">
+        <link rel="stylesheet" href="css/fixedHeader.dataTables.min.css">
         <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
         <style>
             #wigetCtrl{
@@ -24,13 +24,12 @@
         </style>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/fixedheader/3.1.1/js/dataTables.fixedHeader.min.js"></script>
+        <script src="js/dataTables.fixedHeader.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="js/datepicker-zh-TW.js"></script>
         <script src="js/moment.js"></script>
         <script src="js/bootstrap-datetimepicker.min.js"></script>
         <script src="js/zh-tw.js"></script>
-
         <script>
             $.fn.dataTableExt.afnFiltering.push(
                     function (oSettings, aData, iDataIndex) {
@@ -54,12 +53,12 @@
                         } else if (iFfin >= datoffin && iFini === "")
                         {
                             return true;
-                        } 
+                        }
 //                        else if (iFini <= datofini && iFfin >= datoffin)
 //                        {
 //                            return true;
 //                        }
-                        else if((datofini <= iFini && iFini <= datoffin) || (iFini <= datofini && datofini <= iFfin)){
+                        else if ((datofini <= iFini && iFini <= datoffin) || (iFini <= datofini && datofini <= iFfin)) {
                             return true;
                         }
                         return false;
@@ -155,39 +154,39 @@
     </head>
     <body>
         <jsp:include page="head.jsp" />
-            <div id="wigetCtrl">
-                <div class="container">
-                    <div class="row">
-                        <div class="form-group form-inline">
-                            Search time key: between
-                            <div class='input-group date' id='beginTime'>
-                                <input type="text" id="fini" class="form-control" placeholder="請選擇起始時間"> 
-                            </div> to 
-                            <div class='input-group date' id='beginTime'>
-                                <input type="text" id="ffin" class="form-control" placeholder="請選擇結束時間">
-                            </div>
+        <div id="wigetCtrl">
+            <div class="container">
+                <div class="row">
+                    <div class="form-group form-inline">
+                        Search time key: between
+                        <div class='input-group date' id='beginTime'>
+                            <input type="text" id="fini" class="form-control" placeholder="請選擇起始時間"> 
+                        </div> to 
+                        <div class='input-group date' id='beginTime'>
+                            <input type="text" id="ffin" class="form-control" placeholder="請選擇結束時間">
                         </div>
                     </div>
                 </div>
-                <table id="data" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>工號</th>
-                            <th>名稱</th>
-                            <th>時數(小時)</th>
-                            <th>請假開始時間</th>
-                            <th>請假結束時間</th>
-                            <th>假種</th>
-                            <th>事由</th>
-                            <th>申請時間</th>
-                            <th>人員種類</th>
-                            <th>自己申請</th>
-                        </tr>
-                    </thead>
-                </table>
-                <div id="serverMsg"></div>
             </div>
+            <table id="data" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>工號</th>
+                        <th>名稱</th>
+                        <th>時數(小時)</th>
+                        <th>請假開始時間</th>
+                        <th>請假結束時間</th>
+                        <th>假種</th>
+                        <th>事由</th>
+                        <th>申請時間</th>
+                        <th>人員種類</th>
+                        <th>自己申請</th>
+                    </tr>
+                </thead>
+            </table>
+            <div id="serverMsg"></div>
+        </div>
         <jsp:include page="footer.jsp" />
     </body>
 </html>

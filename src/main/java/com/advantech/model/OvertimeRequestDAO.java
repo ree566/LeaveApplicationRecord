@@ -6,7 +6,6 @@
 package com.advantech.model;
 
 import com.advantech.entity.OvertimeRequest;
-import com.blogspot.monstersupreme.dataaccess.ConnectionFactory;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Map;
@@ -17,14 +16,8 @@ import java.util.Map;
  */
 public class OvertimeRequestDAO {
 
-    private final ConnectionFactory connFactory;
-
-    public OvertimeRequestDAO() {
-        connFactory = BasicDAO.getConnFactory();
-    }
-
     private Connection getConn() {
-        return connFactory.getConnection();
+        return BasicDAO.getConn();
     }
 
     public List<OvertimeRequest> getOvertimeRequest() {

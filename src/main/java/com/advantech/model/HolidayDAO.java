@@ -6,7 +6,6 @@
 package com.advantech.model;
 
 import com.advantech.entity.Holiday;
-import com.blogspot.monstersupreme.dataaccess.ConnectionFactory;
 import java.sql.Connection;
 import java.util.List;
 
@@ -16,14 +15,8 @@ import java.util.List;
  */
 public class HolidayDAO {
 
-    private final ConnectionFactory connFactory;
-
-    public HolidayDAO() {
-        connFactory = BasicDAO.getConnFactory();
-    }
-
     private Connection getConn() {
-        return connFactory.getConnection();
+        return BasicDAO.getConn();
     }
 
     public List getSpecialDays() {

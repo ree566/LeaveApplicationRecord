@@ -45,25 +45,27 @@ public class BasicDAO implements Serializable {
      QueryRunner負責CRUD, ProcedureRunner只負責Read
      */
     private static final Logger log = LoggerFactory.getLogger(BasicDAO.class);
-    private static QueryRunner qRunner = new QueryRunner();
-    private static ProcRunner pRunner = new ProcRunner();
+    
+    private static QueryRunner qRunner = null;
+    private static ProcRunner pRunner = null;
 
     private static ConnectionFactory connFactory = null;
-//            = new ConnectionFactory();
-    private final static UserTransactionFactory txFactory = new UserTransactionFactory();
-    ;
+    private static UserTransactionFactory txFactory = null;
 
     private static final int RETRY_WAIT_TIME = 3000;
 
     static {
+        qRunner = new QueryRunner();
+        pRunner = new ProcRunner();
 
-        try {
-//        connFactory = new ConnectionFactory("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord", "waychien", "m3server");
-            connFactory.setDataSource(getDataSource());
-            txFactory.setConnectionFactory(connFactory);
-        } catch (NamingException ex) {
-            log.error(ex.toString());
-        }
+//        try {
+        connFactory = new ConnectionFactory("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord", "waychien", "m3server");
+//            connFactory.setDataSource(getDataSource());
+        txFactory = new UserTransactionFactory();
+        txFactory.setConnectionFactory(connFactory);
+//        } catch (NamingException ex) {
+//            log.error(ex.toString());
+//        }
     }
 
     protected static void main(String arg0[]) {
@@ -76,7 +78,7 @@ public class BasicDAO implements Serializable {
         return dataSource;
     }
 
-    protected static Connection getDBUtilConn() {
+    protected static Connection getConn() {
         return connFactory.getConnection();
     }
 
@@ -114,10 +116,14 @@ public class BasicDAO implements Serializable {
 
     private static List queryProc(Connection conn, ResultSetHandler rsh, String sql, Object... params) {
         List<?> data = null;
+        XUserTransaction tx = txFactory.getUserTransaction();
         try {
+            tx.begin();
             data = (List) pRunner.queryProc(conn, sql, rsh, params);
+            tx.commit();
         } catch (SQLException e) {
             log.error(e.toString());
+            tx.rollback();
         } finally {
             DbUtils.closeQuietly(conn);
         }
@@ -126,25 +132,29 @@ public class BasicDAO implements Serializable {
 
     protected static boolean alterTable(Connection conn, String sql, Object... params) {
         boolean flag = false;
+        XUserTransaction tx = txFactory.getUserTransaction();
         try {
-            conn.setAutoCommit(false);
+            tx.begin();
             qRunner.update(conn, sql, params);
-            DbUtils.commitAndClose(conn);
+            tx.commit();
             flag = true;
         } catch (SQLException e) {
             // do not retry if we get any other error
-            DbUtils.rollbackAndCloseQuietly(conn);
             log.error("Error has occured - Error Code: "
                     + e.getErrorCode() + " SQL STATE :"
                     + e.getSQLState() + " Message : " + e.getMessage());
+            tx.rollback();
+        } finally {
+            DbUtils.closeQuietly(conn);
         }
         return flag;
     }
 
     protected static boolean alterTableWithBean(Connection conn, String sql, List<Object> beanList, String... propertyNames) {
         boolean flag = false;
+        XUserTransaction tx = txFactory.getUserTransaction();
         try {
-            conn.setAutoCommit(false);
+            tx.begin();
             PreparedStatement ps = conn.prepareStatement(sql);
             for (Object o : beanList) {
                 qRunner.fillStatementWithBean(ps, o, propertyNames);
@@ -152,17 +162,19 @@ public class BasicDAO implements Serializable {
             }
             ps.executeBatch();
             ps.close();
-            DbUtils.commitAndClose(conn);
             flag = true;
+            tx.commit();
         } catch (SQLException e) {
             log.error(e.toString());
-            DbUtils.rollbackAndCloseQuietly(conn);
+            tx.rollback();
+        } finally {
+            DbUtils.closeQuietly(conn);
         }
         return flag;
     }
 
     public static void cleanUpSource() {
-        qRunner = null;
+//        qRunner = null;
 //        connFactory = null;
 //        txFactory = null;
     }
@@ -177,12 +189,4 @@ public class BasicDAO implements Serializable {
 //        session.close();
 //        return list;
 //    }
-    public static ConnectionFactory getConnFactory() {
-        return connFactory;
-    }
-
-    public static UserTransactionFactory getTxFactory() {
-        return txFactory;
-    }
-
 }

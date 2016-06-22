@@ -47,8 +47,8 @@
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">加班申請<span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="../OvertimeRequest">加班申請</a></li>
-                        <li><a href="../OvertimeRequestHistory">加班歷史查詢</a></li>
                         <li><a href="../OvertimeRequestCheck">加班確認</a></li>
+                        <li><a href="../OvertimeRequestHistory">加班歷史查詢</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">

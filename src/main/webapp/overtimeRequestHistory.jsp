@@ -29,6 +29,15 @@
         <script>
             $(document).ready(function () {
 
+// <th>id</th>
+//                        <th>工號</th>
+//                        <th>名稱</th>
+//                        <th>時數(小時)</th>
+//                        <th>人員種類</th>
+//                        <th>儲存時間</th>
+//                        <th>自己申請</th>
+//                        <th>加班確認者</th>
+//                        <th>加班確認時間</th>
                 var table = $("#data").DataTable({
                     "bProcessing": true,
                     "fixedHeader": true,
@@ -40,7 +49,9 @@
                         {data: "overtimeHours"},
                         {data: "department"},
                         {data: "saveTime"},
-                        {}
+                        {data: "reqByUser"},
+                        {data: "checkUserName"},
+                        {data: "checkTime"}
                     ],
                     "oLanguage": {
                         "sLengthMenu": "顯示 _MENU_ 筆記錄",
@@ -61,7 +72,7 @@
                             "targets": [6],
                             "data": "checkStatus",
                             "render": function (data, type, full) {
-                                return (data == 1 ? "已" : "未") + "確認";
+                                return (data == 1 ? "是" : "否");
                             }
                         }
                     ]
@@ -90,7 +101,9 @@
                         <th>時數(小時)</th>
                         <th>人員種類</th>
                         <th>儲存時間</th>
-                        <th>狀態</th>
+                        <th>自己申請</th>
+                        <th>加班確認者</th>
+                        <th>加班確認時間</th>
                     </tr>
                 </thead>
             </table>
