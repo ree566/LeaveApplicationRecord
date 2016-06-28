@@ -33,6 +33,12 @@ public class LeaveRequest {
 
     }
 
+    public LeaveRequest(int userNo, String leaveFrom, String leaveTo) {
+        this.userNo = userNo;
+        this.leaveFrom = leaveFrom;
+        this.leaveTo = leaveTo;
+    }
+
     public LeaveRequest(int userNo, String leaveFrom, String leaveTo, int typeNo, int reasonNo, int reqByUser) {
         this.userNo = userNo;
         this.leaveFrom = leaveFrom;

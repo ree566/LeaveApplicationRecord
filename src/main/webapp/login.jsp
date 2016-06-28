@@ -4,7 +4,7 @@
 <html>
     <head>
         <title>${initParam.pageTitle}</title>
-        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
         <style>
             fieldset {
                 width: 400px;
@@ -46,9 +46,9 @@
                 border: 1px groove #ddd;
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="http://cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script> 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script> 
+        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
         <script>
             var isCommitted = false;//表单是否已经提交标识，默认为false
             function dosubmit() {
@@ -132,7 +132,7 @@
                                 </tr>
                                 <tr>
                                     <td></td>
-                                    <td><input type="submit" id="submit" value="提交" /><input type="reset" value="取消"/></td>
+                                    <td><input type="submit" id="btnSubmit" value="提交" /><input type="reset" value="取消"/></td>
                                     <td></td> 
                                 </tr>
                             </table>

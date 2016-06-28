@@ -34,7 +34,11 @@ public class HolidayService {
     }
 
     public boolean isSpecialDay(String date) {
-        return holidayDAO.isSpecialDay(date);
+        return !holidayDAO.getSpecialDays(date).isEmpty();
+    }
+
+    public List<Holiday> getSpecialDay(String date) {
+        return holidayDAO.getSpecialDays(date);
     }
 
     public boolean newHoliday(List beanList) {

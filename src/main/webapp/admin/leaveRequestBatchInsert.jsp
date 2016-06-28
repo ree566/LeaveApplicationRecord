@@ -29,7 +29,7 @@
                 font-size: 20px;
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="../js/jquery.dataTables.min.js"></script>
         <script src="../js/datepicker-zh-TW.js"></script>
@@ -48,7 +48,7 @@
                 var timepickerObj;
 
                 var table = $("#data").dataTable({
-                    "processing": false,
+                    "processing": true,
                     "serverSide": false,
                     "bLengthChange": false,
                     "bPaginate": false,
@@ -121,10 +121,21 @@
                         timepickerObj.on("dp.change", function () {
                             var col = $(this).parents("tr");
                             appendNameWhenChange(col);
-//                            var userNo = col.find(".userNo").val();
-//                            var beginTime = col.find(".startDate").val();
-//                            var endTime = col.find(".endDate").val();
-//                            checkRequestDate(col, userNo, beginTime, endTime);
+                            var userNo = col.find(".userNo").val();
+                            var beginTime = col.find(".startDate").val();
+                            var endTime = col.find(".endDate").val();
+                            checkRequestDate(col, userNo, beginTime, endTime);
+                            console.log($(this));
+                        });
+
+                        $(".leaveType").change(function () {
+                            var sel = $(this).val();
+                            console.log(sel);
+                            if (sel == -1) {
+                                $(this).parents("tr").removeClass("danger");
+                            } else {
+//                                $(this).parents("tr").find(".datepicker").trigger("dp.change");
+                            }
                         });
                     }
                 });
@@ -146,78 +157,79 @@
                     col.find(".leaveReason").attr("name", "leaveReason");
                 }
 
-//                function checkRequestDate(object, userNo, beginTime, endTime) {
-//                    if (userNo == null || beginTime == "" || endTime == "") {
-//                        object.removeClass("danger");
-//                        return;
-//                    }
-//                    $.ajax({
-//                        type: "Post",
-//                        url: "../TimeCheck",
-//                        dataType: 'json',
-//                        data: {
-//                            userNo: userNo,
-//                            beginTime: beginTime,
-//                            endTime: endTime
-//                        },
-//                        success: function (response) {
-//                            if (response.length == 0) {
-//                                object.addClass("danger");
-//                            } else {
-//                                object.removeClass("danger");
-//                            }
-//                        }
-//                    });
-//                }
+                function checkRequestDate(object, userNo, beginTime, endTime) {
+                    if (userNo == null || beginTime == "" || endTime == "") {
+                        object.removeClass("danger");
+                        return;
+                    }
+                    $.ajax({
+                        type: "Post",
+                        url: "../LeaveRequestDulpCheck",
+                        dataType: 'json',
+                        data: {
+                            userNo: userNo,
+                            beginTime: beginTime,
+                            endTime: endTime
+                        },
+                        success: function (response) {
+                            console.log(response);
+                            if (response == true) {
+                                object.addClass("danger");
+                            } else {
+                                object.removeClass("danger");
+                            }
+                        }
+                    });
+                }
             });
         </script>
     </head>
     <body>
         <jsp:include page="head.jsp" />
 
-            <div id="selectObj" hidden>
-                <select class="form-control leaveType">
-                    <option value="-1">請選擇假種</option>
-                </select>
-                <select class="form-control leaveReason">
-                    <option value="-1">請選擇事由</option>
-                </select>
-            </div>
-            <div id="wigetCtrl">
-                <form id="requestList" action="../InsertLeaveReq" method="post">
-                    <div>
-                        <table id="data" class="table table-striped table-hover table-condensed form-inline">
-                            <thead>
-                                <tr>
-                                    <th>id</th>
-                                    <th>工號</th>
-                                    <th>名稱</th>
-                                    <th>請假開始時間</th>
-                                    <th>請假結束時間</th>
-                                    <th>假種</th>
-                                    <th>事由</th>
-                                </tr>
-                            </thead>
-                            <tfoot>
-                                <tr>
-                                    <th>id</th>
-                                    <th>工號</th>
-                                    <th>名稱</th>
-                                    <th>請假開始時間</th>
-                                    <th>請假結束時間</th>
-                                    <th>假種</th>
-                                    <th>事由</th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <hr />
-                    <div id="floatWiget">
-                        <div id="serverMsg"></div>
-                        <input type="submit" id="saveAll" class="btn btn-primary" value="儲存" onclick="return(confirm('確定儲存?'))">
-                    </div>
-                </form>
-            </div>
+        <div id="selectObj" hidden>
+            <select class="form-control leaveType">
+                <option value="-1">請選擇假種</option>
+            </select>
+            <select class="form-control leaveReason">
+                <option value="-1">請選擇事由</option>
+            </select>
+        </div>
+        <div id="wigetCtrl">
+            <form id="requestList" action="../InsertLeaveReq" method="post">
+                <div>
+                    <table id="data" class="table table-striped table-hover table-condensed form-inline">
+                        <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>工號</th>
+                                <th>名稱</th>
+                                <th>請假開始時間</th>
+                                <th>請假結束時間</th>
+                                <th>假種</th>
+                                <th>事由</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th>id</th>
+                                <th>工號</th>
+                                <th>名稱</th>
+                                <th>請假開始時間</th>
+                                <th>請假結束時間</th>
+                                <th>假種</th>
+                                <th>事由</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <hr />
+                <div id="floatWiget">
+                    <div id="serverMsg"></div>
+                    <input type="submit" id="saveAll" class="btn btn-primary" value="儲存" onclick="return(confirm('確定儲存?'))">
+                </div>
+            </form>
+        </div>
         <jsp:include page="footer.jsp" />
     </body>
 </html>

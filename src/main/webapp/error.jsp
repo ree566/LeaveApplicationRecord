@@ -17,7 +17,7 @@
                 text-align: center;
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     </head>
     <body>
         <jsp:include page="head.jsp" />

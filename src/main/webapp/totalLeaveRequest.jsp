@@ -11,8 +11,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
         <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.1/css/fixedHeader.dataTables.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css">
+        <link rel="stylesheet" href="css/fixedHeader.dataTables.min.css">
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css">
         <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
         <style>
             #form-wiget{
@@ -34,9 +34,9 @@
                 background-color: wheat;
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/fixedheader/3.1.1/js/dataTables.fixedHeader.min.js"></script>
+        <script src="js/dataTables.fixedHeader.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="js/datepicker-zh-TW.js"></script>
         <script src="js/moment.js"></script>
@@ -57,7 +57,7 @@
                     var startDate = $("#startDate").val();
                     var endDate = $("#endDate").val();
                     table = $("#data").DataTable({
-                        "processing": false,
+                        "processing": true,
                         "serverSide": false,
                         "fixedHeader": true,
                         "ajax": {

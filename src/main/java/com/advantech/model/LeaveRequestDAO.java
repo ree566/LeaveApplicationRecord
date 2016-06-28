@@ -93,6 +93,10 @@ public class LeaveRequestDAO {
         return BasicDAO.selectProc(getConn(), "{CALL leaveRequestCheck ?,?,?,?}", dateBegin, dateEnd, department, sitefloor);
     }
 
+    public List<LeaveRequest> getLeaveRequestByDay(String date, String sitefloor) {
+        return BasicDAO.selectProc(getConn(), LeaveRequest.class, "{CALL getLeaveRequestByDate ?,?}", date, sitefloor);
+    }
+
     public List<Map> getLeaveRequestInDay(String date, int department, String sitefloor) {
         return BasicDAO.selectProc(getConn(), "{CALL getLeaveRequestInDay ?,?,?}", date, department, sitefloor);
     }

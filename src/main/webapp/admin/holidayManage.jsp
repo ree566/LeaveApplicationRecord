@@ -22,7 +22,7 @@
                 color: red;
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="../js/jquery.dataTables.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="../js/datepicker-zh-TW.js"></script>
@@ -37,7 +37,7 @@
         <script>
             $(document).ready(function () {
                 var table = $("#data").DataTable({
-                    "processing": false,
+                    "processing": true,
                     "serverSide": false,
                     "bLengthChange": false,
                     "bPaginate": false,

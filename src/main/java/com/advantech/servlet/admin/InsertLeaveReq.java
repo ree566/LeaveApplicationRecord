@@ -5,7 +5,7 @@
  */
 package com.advantech.servlet.admin;
 
-import com.advantech.helper.DateParser;
+import com.advantech.helper.DateUtils;
 import com.advantech.helper.StringParser;
 import com.advantech.entity.LeaveRequest;
 import com.advantech.helper.ParamChecker;
@@ -66,7 +66,7 @@ public class InsertLeaveReq extends HttpServlet {
 
             String start = startDate[i];
             String end = endDate[i];
-            if (!DateParser.checkDate(start, end)) {
+            if (!DateUtils.checkDate(start, end)) {
                 String str = start;
                 start = end;
                 end = str;

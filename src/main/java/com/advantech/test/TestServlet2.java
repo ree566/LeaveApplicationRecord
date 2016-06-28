@@ -45,11 +45,11 @@ public class TestServlet2 extends HttpServlet {
             throws ServletException, IOException {
 
         res.setContentType("application/json");
-        int size = StringParser.strToInt(req.getParameter("size"));
-        int page = StringParser.strToInt(req.getParameter("page"));
+//        int size = StringParser.strToInt(req.getParameter("size"));
+//        int page = StringParser.strToInt(req.getParameter("page"));
         PrintWriter out = res.getWriter();
-        List l = BasicService.getLeaveRequestService().getLeaveRequestDetailInPage(size, page);
-        out.print(new Gson().toJson(l));
+//        List l = BasicService.getLeaveRequestService().getLeaveRequestDetailInPage(size, page);
+        out.print(req.getRemoteAddr());
 //        DailyMailSend.sendMailEverySiteFloor();
     }
 

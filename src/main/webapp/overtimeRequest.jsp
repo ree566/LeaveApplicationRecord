@@ -28,7 +28,7 @@
                 color: red;
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/serverMessage.js"></script>
         <script src="js/moment.js"></script>
         <script src="js/jquery.blockUI.js"></script>

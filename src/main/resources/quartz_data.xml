@@ -15,7 +15,8 @@
             <cron>
                 <name>DailyJobWorker</name>
                 <job-name>DailyJobWorker</job-name>
-                <cron-expression>0 0 21 ? * MON-FRI *</cron-expression>
+                <cron-expression>0 0 21 ? * MON-SAT *</cron-expression>
+                <!--<cron-expression>0 0 21 ? * MON-FRI *</cron-expression>-->
             </cron>
         </trigger>
     </schedule>

@@ -27,12 +27,12 @@ public class HolidayDAO {
         return queryHolidayTable("SELECT * FROM specialDaysView where inMonth = ?", month);
     }
 
-    public List getSpecialSaturday(int month) {
-        return queryHolidayTable("SELECT * FROM specialDaysView WHERE DATEPART(dw, dateFrom) = 7 AND dateFrom = dateTo AND inMonth = ?", month);
+    public List<Holiday> getSpecialDays(String date) {
+        return queryHolidayTable("SELECT * FROM specialDaysView WHERE ? BETWEEN dateFrom AND dateTo", date);
     }
 
-    public boolean isSpecialDay(String date) {
-        return !queryHolidayTable("SELECT * FROM specialDaysView WHERE ? BETWEEN dateFrom AND dateTo", date).isEmpty();
+    public List getSpecialSaturday(int month) {
+        return queryHolidayTable("SELECT * FROM specialDaysView WHERE DATEPART(dw, dateFrom) = 7 AND dateFrom = dateTo AND inMonth = ?", month);
     }
 
     private List queryHolidayTable(String sql, Object... params) {

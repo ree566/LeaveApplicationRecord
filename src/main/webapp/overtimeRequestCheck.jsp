@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
         <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/3.1.1/css/fixedHeader.dataTables.min.css">
+        <link rel="stylesheet" href="css/fixedHeader.dataTables.min.css">
         <link rel="stylesheet" href="css/serverMessage.css">
         <style>
             #wigetCtrl{
@@ -22,9 +22,9 @@
                 color: red;
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/fixedheader/3.1.1/js/dataTables.fixedHeader.min.js"></script>
+        <script src="js/dataTables.fixedHeader.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="js/serverMessage.js"></script>
 
@@ -33,7 +33,7 @@
                 $("input").addClass("form-control");
 
                 var table = $("#data").DataTable({
-                    "processing": false,
+                    "processing": true,
                     "serverSide": false,
                     "fixedHeader": true,
                     "ajax": {

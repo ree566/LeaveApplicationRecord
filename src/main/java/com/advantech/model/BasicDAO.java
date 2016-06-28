@@ -45,7 +45,7 @@ public class BasicDAO implements Serializable {
      QueryRunner負責CRUD, ProcedureRunner只負責Read
      */
     private static final Logger log = LoggerFactory.getLogger(BasicDAO.class);
-    
+
     private static QueryRunner qRunner = null;
     private static ProcRunner pRunner = null;
 
@@ -58,14 +58,15 @@ public class BasicDAO implements Serializable {
         qRunner = new QueryRunner();
         pRunner = new ProcRunner();
 
-//        try {
-        connFactory = new ConnectionFactory("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord", "waychien", "m3server");
-//            connFactory.setDataSource(getDataSource());
-        txFactory = new UserTransactionFactory();
-        txFactory.setConnectionFactory(connFactory);
-//        } catch (NamingException ex) {
-//            log.error(ex.toString());
-//        }
+        try {
+//        connFactory = new ConnectionFactory("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord", "waychien", "m3server");
+            connFactory = new ConnectionFactory();
+            connFactory.setDataSource(getDataSource());
+            txFactory = new UserTransactionFactory();
+            txFactory.setConnectionFactory(connFactory);
+        } catch (NamingException ex) {
+            log.error(ex.toString());
+        }
     }
 
     protected static void main(String arg0[]) {

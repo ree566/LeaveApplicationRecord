@@ -5,7 +5,7 @@
  */
 package com.advantech.servlet.admin;
 
-import com.advantech.helper.DateParser;
+import com.advantech.helper.DateUtils;
 import com.advantech.helper.StringParser;
 import com.advantech.entity.LeaveRequest;
 import com.advantech.service.BasicService;
@@ -60,7 +60,7 @@ public class UpdateLeaveReq extends HttpServlet {
 
         List l = new ArrayList();
 
-        if (!DateParser.checkDate(startDate, endDate)) {
+        if (!DateUtils.checkDate(startDate, endDate)) {
             String str = startDate;
             startDate = endDate;
             endDate = str;

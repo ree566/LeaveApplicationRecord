@@ -6,7 +6,7 @@
 package com.advantech.service;
 
 import com.advantech.entity.LeaveRequest;
-import com.advantech.helper.DateParser;
+import com.advantech.helper.DateUtils;
 import com.advantech.model.LeaveRequestDAO;
 import com.google.gson.Gson;
 import java.util.ArrayList;
@@ -87,6 +87,10 @@ public class LeaveRequestService {
         return leaveRequestDAO.getLeaveRequestPeopleAmount(dateBegin, dateEnd, department, sitefloor);
     }
 
+    public List<LeaveRequest> getLeaveRequestByDay(String date, String sitefloor) {
+        return leaveRequestDAO.getLeaveRequestByDay(date, sitefloor);
+    }
+
     public List<Map> getLeaveRequestInDay(String date, int department, String sitefloor) {
         return leaveRequestDAO.getLeaveRequestInDay(date, department, sitefloor);
     }
@@ -97,7 +101,7 @@ public class LeaveRequestService {
 
     public List peopleLimitCheck(String beginTime, String endTime, int userDepartment, String sitefloor) throws JSONException {
         List list = new ArrayList();
-        if (DateParser.dateDiff(beginTime, endTime) >= WORK_HOURS_PERDAY) {
+        if (DateUtils.dateDiff(beginTime, endTime) >= WORK_HOURS_PERDAY) {
             List l = getLeaveRequestPeopleAmount(beginTime, endTime, userDepartment, sitefloor);
             if (!l.isEmpty()) {
                 JSONArray ja = new JSONArray(new Gson().toJson(l));
@@ -114,7 +118,7 @@ public class LeaveRequestService {
         }
         return list;
     }
-
+    
     public String newLeaveRequest(LeaveRequest l) {
         boolean isRequestDateDuplicate = isPersonDataInDayExist(l);
         if (isRequestDateDuplicate) {

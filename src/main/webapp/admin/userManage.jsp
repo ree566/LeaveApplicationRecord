@@ -24,7 +24,7 @@
                 color: red;
             }
         </style>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="../js/jquery.dataTables.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="../js/jquery.blockUI.js"></script>
@@ -40,7 +40,7 @@
                 var permission = $(".permission:first").clone();
 
                 var userTable = $("#userInfo").DataTable({
-                    "processing": false,
+                    "processing": true,
                     "serverSide": false,
                     "bLengthChange": false,
                     "bPaginate": false,
