@@ -45,7 +45,7 @@ public class TestFieldFilter implements Filter {
         if (userPermission >= TEST_FIELD_ACCESS_PERMISSION) {
             chain.doFilter(request, response);
         } else {
-            response.sendRedirect("Error");
+            response.sendRedirect("../error/Error");
         }
 
     }

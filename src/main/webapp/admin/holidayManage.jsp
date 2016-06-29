@@ -205,7 +205,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
         <div id="wigetCtrl">
             <table id="data" class="table table-condensed">
                 <thead>
@@ -230,6 +230,6 @@
             </div>
         </div>
         <div id="floatWiget" hidden="hidden"></div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

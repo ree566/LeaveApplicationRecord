@@ -40,34 +40,34 @@
 <nav class="navbar navbar-default navbar-custom">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="index.jsp"><b>請假申請紀錄系統</b></a>
+            <a class="navbar-brand" href="../"><b>請假申請紀錄系統</b></a>
         </div>
         <div>
             <ul class="nav navbar-nav">
-                <li><a href="LeaveRequest">請假申請</a></li>
+                <li><a href="../pages/LeaveRequest">請假申請</a></li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">加班申請<span class="caret" /></a>
                     <ul class="dropdown-menu">
-                        <li><a href="OvertimeRequest">${isLeader? "" : "個人"}加班申請</a></li>
-                        <li><a href="OvertimeRequestCheck">${isLeader? "" : "個人"}加班確認</a></li>
-                        <li><a href="OvertimeRequestHistory">${isLeader? "" : "個人"}加班歷史查詢</a></li>
+                        <li><a href="../pages/OvertimeRequest">${isLeader? "" : "個人"}加班申請</a></li>
+                        <li><a href="../pages/OvertimeRequestCheck">${isLeader? "" : "個人"}加班確認</a></li>
+                        <li><a href="../pages/OvertimeRequestHistory">${isLeader? "" : "個人"}加班歷史查詢</a></li>
                     </ul>
                 </li>
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">歷史查詢<span class="caret" /></a>
                     <ul class="dropdown-menu">
-                        <li><a href="LeaveRequestHistory">${isLeader? "" : "個人"}請假紀錄(明細)</a></li>
-                        <li><a href="TotalLeaveRequest">${isLeader? "" : "個人"}請假紀錄(統計)</a></li>
+                        <li><a href="../pages/LeaveRequestHistory">${isLeader? "" : "個人"}請假紀錄(明細)</a></li>
+                        <li><a href="../pages/TotalLeaveRequest">${isLeader? "" : "個人"}請假紀錄(統計)</a></li>
                     </ul>
                 </li>
                 <c:if test="${isAdmin}">
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown" href="#">管理人員功能<span class="caret" /></a>
                         <ul class="dropdown-menu">
-                            <li class="admin"><a href="admin/LeaveRequestBatchInsert">休假批次新增</a></li>
-                            <li class="admin"><a href="admin/LeaveRequestManage">休假批次修改</a></li>
-                            <li class="admin"><a href="admin/HolidayManage">特殊假期管理</a></li>
-                            <li class="admin"><a href="admin/UserManage">${sessionScope.sitefloor}F人員管理</a></li>
+                            <li class="admin"><a href="../admin/LeaveRequestBatchInsert">休假批次新增</a></li>
+                            <li class="admin"><a href="../admin/LeaveRequestManage">休假批次修改</a></li>
+                            <li class="admin"><a href="../admin/HolidayManage">特殊假期管理</a></li>
+                            <li class="admin"><a href="../admin/UserManage">${sessionScope.sitefloor}F人員管理</a></li>
                         </ul>
                     </li>
                 </c:if>
@@ -76,7 +76,7 @@
                 <li id="login">   
                     <c:choose>
                         <c:when test="${sessionScope.user == null}">
-                            <a href="Login">
+                            <a href="../Login">
                                 <span class="glyphicon glyphicon-log-in" /> 人員登入
                             </a>
                         </c:when>
@@ -85,7 +85,7 @@
                         </c:otherwise>
                     </c:choose>
                 </li>
-                <li id="logout"><a href="Logout">登出</a></li>
+                <li id="logout"><a href="../Logout">登出</a></li>
             </ul>
         </div>
     </div>

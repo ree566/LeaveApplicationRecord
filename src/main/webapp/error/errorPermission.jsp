@@ -20,10 +20,10 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
         <div id="wigetCtrl">
-            <h3>權限不足，請聯繫管理人員。</h3>
+            <h3>權限不足，若有問題請聯繫管理人員。</h3>
         </div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

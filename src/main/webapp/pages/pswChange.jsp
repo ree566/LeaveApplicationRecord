@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
         <style>
             #wigetCtrl{
                 margin: 0 auto;
@@ -23,12 +23,12 @@
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <script src="js/datepicker-zh-TW.js"></script>
-        <script src="js/moment.js"></script>
-        <script src="js/bootstrap-datetimepicker.min.js"></script>
-        <script src="js/jquery.blockUI.js"></script>
-        <script src="js/jquery.blockUI.Default.js"></script>
-        <script src="js/zh-tw.js"></script>
+        <script src="../js/datepicker-zh-TW.js"></script>
+        <script src="../js/moment.js"></script>
+        <script src="../js/bootstrap-datetimepicker.min.js"></script>
+        <script src="../js/jquery.blockUI.js"></script>
+        <script src="../js/jquery.blockUI.Default.js"></script>
+        <script src="../js/zh-tw.js"></script>
         <script>
             $(function () {
                 $("#change").click(function () {
@@ -49,7 +49,7 @@
                     }
                     $.ajax({
                         type: "Post",
-                        url: "ChangePassword",
+                        url: "../ChangePassword",
                         dataType: 'html',
                         data: {
                             oldpassword: oldpsw,
@@ -71,7 +71,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
             <div id="wigetCtrl">
                 <h3>Please change your password.</h3>
                 <input type="password" id="oldpassword" placeholder="請輸入舊密碼">
@@ -80,6 +80,6 @@
                 <input type="button" id="change" value="確定">
                 <div id="serverMsg"></div>
             </div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

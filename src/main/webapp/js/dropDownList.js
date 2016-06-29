@@ -7,13 +7,13 @@
 function initDropdownList() {
     $.ajax({
         type: "Post",
-        url: "LeaveRequestOption",
+        url: "../LeaveRequestOption",
         dataType: 'json',
         success: function (response) {
             var leaveReason = response.leaveReason;
             var leaveType = response.leaveType;
-            dropDownListInit(leaveType, "#leaveType");
-            dropDownListInit(leaveReason, "#leaveReason");
+            dropDownListInit(leaveType, ".leaveType");
+            dropDownListInit(leaveReason, ".leaveReason");
         }
     });
 }
@@ -26,7 +26,7 @@ function dropDownListInit(array, target) {
 }
 
 function dulpicateDropDownList(obj, selection) {
-    var object = obj.clone();
+    var object = obj.clone(false);
     object.find("option[value='" + selection + "']").attr("selected", "selected");
     return object.prop('outerHTML');
 }

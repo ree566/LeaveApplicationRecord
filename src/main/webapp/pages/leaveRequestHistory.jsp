@@ -10,9 +10,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
-        <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="css/fixedHeader.dataTables.min.css">
-        <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="../css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="../css/fixedHeader.dataTables.min.css">
+        <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
         <style>
             #wigetCtrl{
                 width: 95%;
@@ -23,13 +23,13 @@
             }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="js/jquery.dataTables.min.js"></script>
-        <script src="js/dataTables.fixedHeader.min.js"></script>
+        <script src="../js/jquery.dataTables.min.js"></script>
+        <script src="../js/dataTables.fixedHeader.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <script src="js/datepicker-zh-TW.js"></script>
-        <script src="js/moment.js"></script>
-        <script src="js/bootstrap-datetimepicker.min.js"></script>
-        <script src="js/zh-tw.js"></script>
+        <script src="../js/datepicker-zh-TW.js"></script>
+        <script src="../js/moment.js"></script>
+        <script src="../js/bootstrap-datetimepicker.min.js"></script>
+        <script src="../js/zh-tw.js"></script>
         <script>
             $.fn.dataTableExt.afnFiltering.push(
                     function (oSettings, aData, iDataIndex) {
@@ -81,7 +81,7 @@
                     "serverSide": false,
                     "fixedHeader": true,
                     "ajax": {
-                        "url": "GetLeaveRequestHistory",
+                        "url": "../GetLeaveRequestHistory",
                         "type": "Post",
                         "dataType": "json"
                     },
@@ -153,7 +153,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
         <div id="wigetCtrl">
             <div class="container">
                 <div class="row">
@@ -187,6 +187,6 @@
             </table>
             <div id="serverMsg"></div>
         </div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

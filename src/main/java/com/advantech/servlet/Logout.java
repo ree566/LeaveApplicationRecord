@@ -12,7 +12,7 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(urlPatterns = {"/Logout"},
         initParams = {
-            @WebInitParam(name = "LOGOUT_VIEW", value = "login.jsp")}
+            @WebInitParam(name = "LOGOUT_VIEW", value = "Login")}
 )
 
 public class Logout extends HttpServlet {

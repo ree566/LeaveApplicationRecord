@@ -10,9 +10,9 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
-        <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="css/fixedHeader.dataTables.min.css">
-        <link rel="stylesheet" href="css/serverMessage.css">
+        <link rel="stylesheet" href="../css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="../css/fixedHeader.dataTables.min.css">
+        <link rel="stylesheet" href="../css/serverMessage.css">
         <style>
             #wigetCtrl{
                 width: 95%;
@@ -23,10 +23,10 @@
             }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="js/jquery.dataTables.min.js"></script>
-        <script src="js/dataTables.fixedHeader.min.js"></script>
+        <script src="../js/jquery.dataTables.min.js"></script>
+        <script src="../js/dataTables.fixedHeader.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <script src="js/serverMessage.js"></script>
+        <script src="../js/serverMessage.js"></script>
 
         <script>
             $(document).ready(function () {
@@ -37,7 +37,7 @@
                     "serverSide": false,
                     "fixedHeader": true,
                     "ajax": {
-                        "url": "GetOvertimeRequest",
+                        "url": "../GetOvertimeRequest",
                         "type": "Post",
                         "dataType": "json"
                     },
@@ -95,7 +95,7 @@
                         console.log(checkId);
                         $.ajax({
                             type: "Post",
-                            url: "CheckOvertimeRequest",
+                            url: "../CheckOvertimeRequest",
                             dataType: 'json',
                             data: {
                                 id: checkId
@@ -113,7 +113,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
         <div id="wigetCtrl">
             <table id="data" class="table table-striped">
                 <thead>
@@ -141,6 +141,6 @@
             </table>
         </div>
         <div id="floatWiget" hidden="hidden"></div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

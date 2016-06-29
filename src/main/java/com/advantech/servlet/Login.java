@@ -17,9 +17,9 @@ import javax.servlet.http.HttpSession;
 
 @WebServlet(urlPatterns = {"/Login"},
         initParams = {
-            @WebInitParam(name = "SUCCESS", value = "LeaveRequest"),
+            @WebInitParam(name = "SUCCESS", value = "pages/LeaveRequest"),
             @WebInitParam(name = "FAIL", value = "login.jsp"),
-            @WebInitParam(name = "ALARM", value = "ChangePSW")}
+            @WebInitParam(name = "ALARM", value = "pages/ChangePSW")}
 )
 public class Login extends HttpServlet {
 
@@ -65,11 +65,8 @@ public class Login extends HttpServlet {
         String jobnumber = req.getParameter("jobnumber");
         String password = req.getParameter("password");
 
-        boolean isParamVaild = pChecker.checkInputVals(jobnumber, password);
-
-        List<Identit> l = identitService.userLogin(jobnumber, password);
-        if (isParamVaild && !l.isEmpty()) {
-            Identit i = l.get(0);
+        Identit i = checkInputValAndLogin(jobnumber, password);
+        if (i != null) {
             session.setAttribute("jobnumber", i.getJobnumber());
             session.setAttribute("userNo", i.getId());
             session.setAttribute("user", i.getName());
@@ -84,6 +81,19 @@ public class Login extends HttpServlet {
         } else {
             req.setAttribute("errormsg", "錯誤的帳號或密碼");
             req.getRequestDispatcher(FAIL).forward(req, res);
+        }
+    }
+
+    private Identit checkInputValAndLogin(String jobnumber, String password) {
+        boolean isParamVaild = pChecker.checkInputVals(jobnumber, password);
+        if (!isParamVaild) {
+            return null;
+        }
+        List<Identit> l = identitService.userLogin(jobnumber, password);
+        if(l.isEmpty()){
+            return null;
+        }else{
+            return l.get(0);
         }
     }
 

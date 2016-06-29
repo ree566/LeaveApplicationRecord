@@ -38,14 +38,14 @@ public class PermissionFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) res;
         HttpSession session = request.getSession(false);
-        String loginURI = request.getContextPath() + "/";
+        //String loginURI = request.getContextPath() + "/";
 
         int userPermission = (int) session.getAttribute("permission");
 
         if (userPermission >= SYTEM_MANAGER_PERMISSION) {
             chain.doFilter(request, response);
         } else {
-            response.sendRedirect("../ErrorPermission");
+            response.sendRedirect("../error/ErrorPermission");
         }
 
     }

@@ -45,10 +45,14 @@
                 border-bottom:none;
                 border: 1px groove #ddd;
             }
+            .system-environment-checkMsg{
+                text-align:center; 
+                color: red;
+            }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="//cdn.jsdelivr.net/jquery.validation/1.15.0/jquery.validate.min.js"></script> 
-        <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+        <script src="js/jquery.validation.min.js"></script> 
+        <script src="js/jquery.blockUI.js"></script>
         <script>
             var isCommitted = false;//表单是否已经提交标识，默认为false
             function dosubmit() {
@@ -111,9 +115,13 @@
     </head>
 
     <body>
-        <c:if test="${sessionScope.Jobnumber != null}">
-            <c:redirect url="Home"/>
+        <c:if test="${sessionScope.jobnumber != null}">
+            <c:redirect url="/"/>
         </c:if>
+        <div class="system-environment-checkMsg">
+            <noscript>For full functionality of this page it is necessary to enable JavaScript. Here are the <a href="http://www.enable-javascript.com" target="_blank"> instructions how to enable JavaScript in your web browser</a></noscript>
+        </div>
+        <div id="not_detect_jquery" class="system-environment-checkMsg"></div>
         <center>
             <div class="divctrl">
                 <fieldset class="scheduler-border">
@@ -136,7 +144,7 @@
                                     <td></td> 
                                 </tr>
                             </table>
-                            <!--<img src="images/logo.jpg" />-->
+                            <img src="images/logo.jpg" />
                             <div id="errormsg" style="color:red;float:left">
                                 <c:out value="${errormsg}" default=""></c:out>
                             </div>
@@ -145,5 +153,16 @@
                 </fieldset>
             </div>
         </center>
+        <script>
+            if (!window.jQuery) {
+                document.getElementById("not_detect_jquery").innerHTML =
+                        "Sorry, this page require jquery plugin\
+, please check your system environment or contact system administrator";
+                inputs = document.querySelectorAll('input, select, button, a');
+                for (index = 0; index < inputs.length; ++index) {
+                    inputs[index].disabled = true;
+                }
+            }
+        </script>
     </body>
 </html>

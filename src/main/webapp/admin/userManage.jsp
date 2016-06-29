@@ -260,7 +260,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
         <div id="wigetCtrl">
             <input type="hidden" id="userSitefloor" value="${sessionScope.sitefloor}">
             <input type="hidden" id="userPermission" value="${sessionScope.permission}">
@@ -309,6 +309,6 @@
             </div>
         </div>
         <div id="floatWiget" hidden="hidden"></div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

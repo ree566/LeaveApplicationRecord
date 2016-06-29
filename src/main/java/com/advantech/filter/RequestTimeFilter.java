@@ -44,7 +44,7 @@ public class RequestTimeFilter implements Filter {
         if (currentHour < ACCESS_CONTROL_TIME) {
             chain.doFilter(request, response);
         } else {
-            response.sendRedirect("Errortime");
+            response.sendRedirect("../error/Errortime");
         }
     }
 

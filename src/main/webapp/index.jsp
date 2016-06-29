@@ -18,7 +18,7 @@
             <c:set var="jobnumber" value="${sessionScope.jobnumber}"/>
             ${jobnumber == null ? "N/A" : jobnumber}，
             ${username == null ? "Guest" : username}您好。
-            <c:redirect url="LeaveRequest" />
+            <c:redirect url="pages/LeaveRequest" />
         </div>
     </body>
 </html>

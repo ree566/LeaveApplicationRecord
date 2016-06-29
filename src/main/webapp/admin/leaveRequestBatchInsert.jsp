@@ -39,7 +39,7 @@
         <script src="../js/jquery.blockUI.js"></script>
         <script src="../js/jquery.blockUI.Default.js"></script>
         <script src="../js/jquery.dataTable.domSort.js"></script>
-        <script src="dropDownList.js"></script>
+        <script src="../js/dropDownList.js"></script>
         <script>
 
             $(document).ready(function () {
@@ -185,7 +185,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
 
         <div id="selectObj" hidden>
             <select class="form-control leaveType">
@@ -230,6 +230,6 @@
                 </div>
             </form>
         </div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

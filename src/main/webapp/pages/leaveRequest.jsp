@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
         <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-        <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
         <style>
             #wigetCtrl{
                 width: 95%;
@@ -23,13 +23,13 @@
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <script src="js/datepicker-zh-TW.js"></script>
-        <script src="js/moment.js"></script>
-        <script src="js/bootstrap-datetimepicker.min.js"></script>
-        <script src="js/jquery.blockUI.js"></script>
-        <script src="js/jquery.blockUI.Default.js"></script>
-        <script src="js/zh-tw.js"></script>
-        <script src="js/dropDownList.js"></script>
+        <script src="../js/datepicker-zh-TW.js"></script>
+        <script src="../js/moment.js"></script>
+        <script src="../js/bootstrap-datetimepicker.min.js"></script>
+        <script src="../js/jquery.blockUI.js"></script>
+        <script src="../js/jquery.blockUI.Default.js"></script>
+        <script src="../js/zh-tw.js"></script>
+        <script src="../js/dropDownList.js"></script>
         <script>
             $(document).ready(function () {
                 var now = moment();
@@ -145,7 +145,7 @@
                 function checkPeopleAmountAndSaveLeaveRequest(obj) {
                     $.ajax({
                         type: "Post",
-                        url: "LimitLeaveRequestCheck",
+                        url: "../LimitLeaveRequestCheck",
                         dataType: 'json',
                         data: obj,
                         success: function (response) {
@@ -174,7 +174,7 @@
                 function saveLeaveRequest(obj) {
                     $.ajax({
                         type: "Post",
-                        url: "LeaveReq",
+                        url: "../LeaveReq",
                         dataType: 'html',
                         data: obj,
                         success: function (response) {
@@ -212,7 +212,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
         <input type="hidden" value="${sessionScope.department}" id="userDepartment">
         <div id="wigetCtrl">
             <h3>請在下方選擇各項資訊後，送出完成請假申請。</h3>
@@ -230,7 +230,7 @@
                                 <div class='input-group date' id='endTime'>
                                     <input type="text" id="ffin" placeholder="請選擇結束時間"> 
                                 </div>
-                                <select id="leaveType">
+                                <select id="leaveType" class="leaveType">
                                     <option value="-1">請選擇假種</option>
                                 </select>
                                 <input type="button" id="send" value="確定(Ok)">
@@ -243,7 +243,7 @@
                         <td>備註</td>
                         <td>
                             <div class="form-inline">
-                                <select id="leaveReason">
+                                <select id="leaveReason" class="leaveReason">
                                     <option value="-1">請選擇事由</option>
                                 </select>
                             </div>
@@ -253,6 +253,6 @@
             </div>
             <hr />
         </div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

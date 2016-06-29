@@ -86,6 +86,6 @@ public class InsertLeaveReq extends HttpServlet {
         } else {
             out.print(leaveRequestService.insertLeaveRequest(l) ? "新增成功" : "新增失敗");
         }
-        res.setHeader("Refresh", "3;url=LeaveRequestHistory");
+        res.setHeader("Refresh", "3;url=pages/LeaveRequestHistory");
     }
 }

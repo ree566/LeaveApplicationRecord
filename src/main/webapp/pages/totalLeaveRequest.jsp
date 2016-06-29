@@ -10,10 +10,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
-        <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="css/fixedHeader.dataTables.min.css">
+        <link rel="stylesheet" href="../css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="../css/fixedHeader.dataTables.min.css">
         <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css">
-        <link rel="stylesheet" href="css/bootstrap-datetimepicker.min.css">
+        <link rel="stylesheet" href="../css/bootstrap-datetimepicker.min.css">
         <style>
             #form-wiget{
                 margin: 0 auto;
@@ -35,13 +35,13 @@
             }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="js/jquery.dataTables.min.js"></script>
-        <script src="js/dataTables.fixedHeader.min.js"></script>
+        <script src="../js/jquery.dataTables.min.js"></script>
+        <script src="../js/dataTables.fixedHeader.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-        <script src="js/datepicker-zh-TW.js"></script>
-        <script src="js/moment.js"></script>
-        <script src="js/zh-tw.js"></script>
-        <script src="js/bootstrap-datetimepicker.min.js"></script>
+        <script src="../js/datepicker-zh-TW.js"></script>
+        <script src="../js/moment.js"></script>
+        <script src="../js/zh-tw.js"></script>
+        <script src="../js/bootstrap-datetimepicker.min.js"></script>
         <script>
             $(function () {
                 $(":text,input[type='number']").addClass("form-control");
@@ -62,7 +62,7 @@
                         "fixedHeader": true,
                         "ajax": {
                             "type": "Post",
-                            "url": "GetLeaveRequest",
+                            "url": "../GetLeaveRequest",
                             "dataType": "json",
                             data: {
                                 "startDate": startDate,
@@ -149,7 +149,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
             <div id="form-wiget">
 
                 <label for="showHide">顯示特別假:</label>
@@ -211,6 +211,6 @@
                     </tfoot>
                 </table>
             </div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

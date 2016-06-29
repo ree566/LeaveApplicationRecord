@@ -7,10 +7,19 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     
+    <!--system setting-->
     <session-config>
         <session-timeout>60</session-timeout>
     </session-config>
     
+    <resource-ref>
+        <description>MFG-SEVER</description>
+        <res-ref-name>jdbc/leaveApp</res-ref-name>
+        <res-type>javax.sql.DataSource</res-type>
+        <res-auth>Container</res-auth>
+    </resource-ref>
+    
+    <!--filter setting-->
     <filter>
         <filter-name>EncodingFilter</filter-name>
         <filter-class>com.advantech.filter.EncodingFilter</filter-class>
@@ -26,7 +35,10 @@
     </filter>
     <filter-mapping>
         <filter-name>LogFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/pages/*</url-pattern>
+        <url-pattern>/admin/*</url-pattern>
+        <url-pattern>/error/*</url-pattern>
+        <url-pattern>/temp/*</url-pattern>
     </filter-mapping>
     
     <filter>
@@ -44,9 +56,9 @@
     </filter>
     <filter-mapping>
         <filter-name>TestFieldFilter</filter-name>
-        <url-pattern>/OvertimeRequest</url-pattern>
-        <url-pattern>/OvertimeRequestCheck</url-pattern>
-        <url-pattern>/OvertimeRequestHistory</url-pattern>
+        <url-pattern>/pages/OvertimeRequest</url-pattern>
+        <url-pattern>/pages/OvertimeRequestCheck</url-pattern>
+        <url-pattern>/pages/OvertimeRequestHistory</url-pattern>
     </filter-mapping>
     
     <filter>
@@ -55,20 +67,14 @@
     </filter>
     <filter-mapping>
         <filter-name>RequestTimeFilter</filter-name>
-        <url-pattern>/LeaveRequest</url-pattern>
-        <url-pattern>/OvertimeRequest</url-pattern>
-        <url-pattern>/OvertimeRequestCheck</url-pattern>
-        <url-pattern>/LeaveReq</url-pattern>
-        <url-pattern>/OvertimeReq</url-pattern>
+        <url-pattern>/pages/LeaveRequest</url-pattern>
+        <url-pattern>/pages/OvertimeRequest</url-pattern>
+        <url-pattern>/pages/OvertimeRequestCheck</url-pattern>
+        <url-pattern>/pages/LeaveReq</url-pattern>
+        <url-pattern>/pages/OvertimeReq</url-pattern>
     </filter-mapping>
-
-    <resource-ref>
-        <description>MFG-SEVER</description>
-        <res-ref-name>jdbc/leaveApp</res-ref-name>
-        <res-type>javax.sql.DataSource</res-type>
-        <res-auth>Container</res-auth>
-    </resource-ref>
     
+    <!--global context setting-->    
     <context-param>
         <description>System name define space.</description> 
         <param-name>pageTitle</param-name>
@@ -126,50 +132,50 @@
         </param-value> 
     </context-param>
     
-    <!--urls-->
+    <!--servlet url setting-->
     <servlet>
         <servlet-name>LeaveRequestHistory</servlet-name>
-        <jsp-file>/leaveRequestHistory.jsp</jsp-file>
+        <jsp-file>/pages/leaveRequestHistory.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>LeaveRequestHistory</servlet-name>
-        <url-pattern>/LeaveRequestHistory</url-pattern>
+        <url-pattern>/pages/LeaveRequestHistory</url-pattern>
     </servlet-mapping>
     
     <servlet>
         <servlet-name>OvertimeRequestCheck</servlet-name>
-        <jsp-file>/overtimeRequestCheck.jsp</jsp-file>
+        <jsp-file>/pages/overtimeRequestCheck.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>OvertimeRequestCheck</servlet-name>
-        <url-pattern>/OvertimeRequestCheck</url-pattern>
+        <url-pattern>/pages/OvertimeRequestCheck</url-pattern>
     </servlet-mapping>
     
     <servlet>
         <servlet-name>OvertimeRequestHistory</servlet-name>
-        <jsp-file>/overtimeRequestHistory.jsp</jsp-file>
+        <jsp-file>/pages/overtimeRequestHistory.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>OvertimeRequestHistory</servlet-name>
-        <url-pattern>/OvertimeRequestHistory</url-pattern>
+        <url-pattern>/pages/OvertimeRequestHistory</url-pattern>
     </servlet-mapping>
     
     <servlet>
         <servlet-name>leaveRequest</servlet-name>
-        <jsp-file>/leaveRequest.jsp</jsp-file>
+        <jsp-file>/pages/leaveRequest.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>leaveRequest</servlet-name>
-        <url-pattern>/LeaveRequest</url-pattern>
+        <url-pattern>/pages/LeaveRequest</url-pattern>
     </servlet-mapping>
     
     <servlet>
         <servlet-name>overtimeRequest</servlet-name>
-        <jsp-file>/overtimeRequest.jsp</jsp-file>
+        <jsp-file>/pages/overtimeRequest.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>overtimeRequest</servlet-name>
-        <url-pattern>/OvertimeRequest</url-pattern>
+        <url-pattern>/pages/OvertimeRequest</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -183,20 +189,20 @@
     
     <servlet>
         <servlet-name>changePSW</servlet-name>
-        <jsp-file>/pswChange.jsp</jsp-file>
+        <jsp-file>/pages/pswChange.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>changePSW</servlet-name>
-        <url-pattern>/ChangePSW</url-pattern>
+        <url-pattern>/pages/ChangePSW</url-pattern>
     </servlet-mapping>
     
     <servlet>
         <servlet-name>totalLeaveRequest</servlet-name>
-        <jsp-file>/totalLeaveRequest.jsp</jsp-file>
+        <jsp-file>/pages/totalLeaveRequest.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>totalLeaveRequest</servlet-name>
-        <url-pattern>/TotalLeaveRequest</url-pattern>
+        <url-pattern>/pages/TotalLeaveRequest</url-pattern>
     </servlet-mapping>
     
     <servlet>
@@ -228,33 +234,33 @@
     
     <servlet>
         <servlet-name>Errortime</servlet-name>
-        <jsp-file>/errorTime.jsp</jsp-file>
+        <jsp-file>/error/errorTime.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>Errortime</servlet-name>
-        <url-pattern>/Errortime</url-pattern>
+        <url-pattern>/error/Errortime</url-pattern>
     </servlet-mapping>
     
     <servlet>
         <servlet-name>ErrorPermission</servlet-name>
-        <jsp-file>/errorPermission.jsp</jsp-file>
+        <jsp-file>/error/errorPermission.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>ErrorPermission</servlet-name>
-        <url-pattern>/ErrorPermission</url-pattern>
+        <url-pattern>/error/ErrorPermission</url-pattern>
     </servlet-mapping>
     
     <servlet>
         <servlet-name>Error</servlet-name>
-        <jsp-file>/error.jsp</jsp-file>
+        <jsp-file>/error/error.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>Error</servlet-name>
-        <url-pattern>/Error</url-pattern>
+        <url-pattern>/error/Error</url-pattern>
     </servlet-mapping>
-    <!--urls-->
 
-    <servlet>
+    <!--quartz setting-->
+<!--    <servlet>
         <servlet-name>QuartzInitializer</servlet-name>
         <servlet-class>
             org.quartz.ee.servlet.QuartzInitializerServlet
@@ -272,7 +278,7 @@
             <param-value>true</param-value>
         </init-param>
         <load-on-startup>2</load-on-startup>
-    </servlet>
+    </servlet>-->
 
     <context-param>
         <param-name>quartz:shutdown-on-unload</param-name>

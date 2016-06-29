@@ -10,8 +10,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
-        <link rel="stylesheet" href="css/jquery.dataTables.min.css">
-        <link rel="stylesheet" href="css/fixedHeader.dataTables.min.css">
+        <link rel="stylesheet" href="../css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="../css/fixedHeader.dataTables.min.css">
         <style>
             #wigetCtrl{
                 width: 95%;
@@ -22,8 +22,8 @@
             }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="js/jquery.dataTables.min.js"></script>
-        <script src="js/dataTables.fixedHeader.min.js"></script>
+        <script src="../js/jquery.dataTables.min.js"></script>
+        <script src="../js/dataTables.fixedHeader.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
         <script>
@@ -41,7 +41,7 @@
                 var table = $("#data").DataTable({
                     "bProcessing": true,
                     "fixedHeader": true,
-                    "sAjaxSource": "GetOvertimeRequestHistory",
+                    "sAjaxSource": "../GetOvertimeRequestHistory",
                     "columns": [
                         {data: "id", visible: false},
                         {data: "jobnumber"},
@@ -90,7 +90,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
         <div id="wigetCtrl">
             <table id="data" class="table table-striped">
                 <thead>
@@ -108,6 +108,6 @@
                 </thead>
             </table>
         </div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
-        <link rel="stylesheet" href="css/serverMessage.css">
+        <link rel="stylesheet" href="../css/serverMessage.css">
         <style>
             #wigetCtrl{
                 margin: 0 auto;
@@ -29,10 +29,10 @@
             }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-        <script src="js/serverMessage.js"></script>
-        <script src="js/moment.js"></script>
-        <script src="js/jquery.blockUI.js"></script>
-        <script src="js/jquery.blockUI.Default.js"></script>
+        <script src="../js/serverMessage.js"></script>
+        <script src="../js/moment.js"></script>
+        <script src="../js/jquery.blockUI.js"></script>
+        <script src="../js/jquery.blockUI.Default.js"></script>
         <script>
             var minHourForBandon = 2;
 
@@ -47,7 +47,7 @@
                 }
                 $.ajax({
                     type: "Post",
-                    url: "GetBandon",
+                    url: "../GetBandon",
                     dataType: 'json',
                     success: function (response) {
                         var arr = response;
@@ -75,7 +75,7 @@
             function checkUserRequested() {
                 $.ajax({
                     type: "Post",
-                    url: "CheckOvertimeRequested",
+                    url: "../CheckOvertimeRequested",
                     dataType: 'json',
                     data: {
                         overtimeHours: $("#overtime").val(),
@@ -108,7 +108,7 @@
 
                 $.ajax({
                     type: "Post",
-                    url: "OvertimeReq",
+                    url: "../OvertimeReq",
                     dataType: 'json',
                     data: {
                         overtimeHours: hour,
@@ -145,7 +145,7 @@
         </script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
         <input type="hidden" id="userPermission" value="${sessionScope.permission}">
         <div id="wigetCtrl">
             <h3>請選擇今日加班時數，大於2小時者請選擇便當。</h3>
@@ -164,6 +164,6 @@
             </div>
         </div>
         <div id="floatWiget" hidden="hidden"></div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

@@ -20,10 +20,10 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     </head>
     <body>
-        <jsp:include page="head.jsp" />
+        <jsp:include page="../temp/header.jsp" />
         <div id="wigetCtrl">
-            <h3>此功能尚未開放。</h3>
+            <h3>很抱歉，目前時間已經超過可申請時間範圍，請明天再試。</h3>
         </div>
-        <jsp:include page="footer.jsp" />
+        <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>
