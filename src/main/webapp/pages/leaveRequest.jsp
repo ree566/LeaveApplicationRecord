@@ -127,7 +127,10 @@
                 }
 
                 function checkRequestTime(beginDate, endDate) {
-                    return moment(beginDate, momentFormatString).isBefore(moment(endDate, momentFormatString));
+                    var sunday = 0;
+                    var d1 = moment(beginDate, momentFormatString);
+                    var d2 = moment(endDate, momentFormatString);
+                    return d1.isBefore(d2) && d1.day() != sunday && d2.day() != sunday;
                 }
 
                 function checkRequestDate(obj) {

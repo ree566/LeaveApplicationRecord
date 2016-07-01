@@ -93,14 +93,15 @@ public class BasicDAO implements Serializable {
 
     private static List query(Connection conn, ResultSetHandler rsh, String sql, Object... params) {
         List<?> data = null;
-        XUserTransaction tx = txFactory.getUserTransaction();
+        XUserTransaction tx;
         try {
+            tx = txFactory.getUserTransaction();
             tx.begin();
             data = (List) qRunner.query(conn, sql, rsh, params);
             tx.commit();
         } catch (SQLException e) {
             log.error(e.toString());
-            tx.rollback();
+            DbUtils.rollbackAndCloseQuietly(conn);
         } finally {
             DbUtils.closeQuietly(conn);
         }
@@ -117,14 +118,15 @@ public class BasicDAO implements Serializable {
 
     private static List queryProc(Connection conn, ResultSetHandler rsh, String sql, Object... params) {
         List<?> data = null;
-        XUserTransaction tx = txFactory.getUserTransaction();
+        XUserTransaction tx;
         try {
+            tx = txFactory.getUserTransaction();
             tx.begin();
             data = (List) pRunner.queryProc(conn, sql, rsh, params);
             tx.commit();
         } catch (SQLException e) {
             log.error(e.toString());
-            tx.rollback();
+            DbUtils.rollbackAndCloseQuietly(conn);
         } finally {
             DbUtils.closeQuietly(conn);
         }
@@ -133,8 +135,9 @@ public class BasicDAO implements Serializable {
 
     protected static boolean alterTable(Connection conn, String sql, Object... params) {
         boolean flag = false;
-        XUserTransaction tx = txFactory.getUserTransaction();
+        XUserTransaction tx;
         try {
+            tx = txFactory.getUserTransaction();
             tx.begin();
             qRunner.update(conn, sql, params);
             tx.commit();
@@ -144,7 +147,7 @@ public class BasicDAO implements Serializable {
             log.error("Error has occured - Error Code: "
                     + e.getErrorCode() + " SQL STATE :"
                     + e.getSQLState() + " Message : " + e.getMessage());
-            tx.rollback();
+            DbUtils.rollbackAndCloseQuietly(conn);
         } finally {
             DbUtils.closeQuietly(conn);
         }
@@ -153,8 +156,9 @@ public class BasicDAO implements Serializable {
 
     protected static boolean alterTableWithBean(Connection conn, String sql, List<Object> beanList, String... propertyNames) {
         boolean flag = false;
-        XUserTransaction tx = txFactory.getUserTransaction();
+        XUserTransaction tx;
         try {
+            tx = txFactory.getUserTransaction();
             tx.begin();
             PreparedStatement ps = conn.prepareStatement(sql);
             for (Object o : beanList) {
@@ -167,7 +171,7 @@ public class BasicDAO implements Serializable {
             tx.commit();
         } catch (SQLException e) {
             log.error(e.toString());
-            tx.rollback();
+            DbUtils.rollbackAndCloseQuietly(conn);
         } finally {
             DbUtils.closeQuietly(conn);
         }
@@ -180,14 +184,4 @@ public class BasicDAO implements Serializable {
 //        txFactory = null;
     }
 
-//    public List getNewsByPage(Object object, Pagenation pagenation) {
-//        
-//        //初始值
-//        query.setFirstResult(pagenation.getStartRow());
-//        //每页显示的值
-//        query.setMaxResults(pagenation.getPageSize());
-//        List list = query.list();
-//        session.close();
-//        return list;
-//    }
 }

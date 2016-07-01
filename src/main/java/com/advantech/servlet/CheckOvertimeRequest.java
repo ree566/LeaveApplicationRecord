@@ -41,7 +41,7 @@ public class CheckOvertimeRequest extends HttpServlet {
         PrintWriter out = res.getWriter();
         HttpSession session = req.getSession(false);
 
-        int userNo = (int) session.getAttribute("userNo");//加上紀錄確定是哪個人確認的 (Maybe checked time?)
+        int userNo = (int) session.getAttribute("userNo");//加上紀錄確定是哪個人確認的 
         String[] id = req.getParameterValues("id[]");
 
         out.print(overtimeRequestService.userCheckOvertimeRequest(id, userNo));

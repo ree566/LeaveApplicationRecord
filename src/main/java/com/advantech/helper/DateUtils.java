@@ -36,11 +36,11 @@ public class DateUtils {
         boolean isTodaySpecialDay = dms.checkTodayIsSpecailDay();
         System.out.println((isTodaySpecialDay ? "Not " : "") + "Need to send mail");
         if (!isTodaySpecialDay) {
-            String today = dms.toFullDateTime(dms.getToday());
+            String today = dms.toFullDateString(dms.getToday());
             System.out.println("Today is : " + today);
             System.out.println("leaveRequest are :");
             System.out.println(service.getTodaysLeaveRequset("6"));
-            String nextBusinessDay = dms.toFullDateTime(dms.findNextBusinessDay());
+            String nextBusinessDay = dms.toFullDateString(dms.findNextBusinessDay());
             System.out.println("Next businessDay is : " + nextBusinessDay);
             System.out.println("leaveRequest are :");
             System.out.println(service.getLeaveRequestByDay(nextBusinessDay, "6"));
@@ -62,15 +62,15 @@ public class DateUtils {
         return toDateString(DATE_WITHOUT_SECOND, d);
     }
 
-    private String toFullDateTime(DateTime d) {
+    public static String toFullDateString(DateTime d) {
         return toDateString(FULL_DATE_INFO, d);
     }
 
-    private DateTime toFullDateString(String d) {
+    public static DateTime toFullDateTime(String d) {
         return toDateTime(FULL_DATE_INFO, d);
     }
 
-    private String toDateStringOnlyDay(DateTime d) {
+    private static String toDateStringOnlyDay(DateTime d) {
         return toDateString(DATE_WITH_DAYONLY, d);
     }
 
@@ -108,7 +108,7 @@ public class DateUtils {
             log.info("The next date is " + d.toString() + ", begin checking...");
 //            System.out.println("The next date is " + d.toString() + ", begin checking...");
         } while (checkDaySpecial(d));
-        log.info("Next businessDay is " + toFullDateTime(d));
+        log.info("Next businessDay is " + toFullDateString(d));
 //        System.out.println("Next businessDay is " + toFullDateTime(d));
         return d;
     }
@@ -117,7 +117,7 @@ public class DateUtils {
     public boolean checkTodayIsSpecailDay() {
         DateTime today = getToday();
         boolean checkStatus = checkDaySpecial(today);
-        log.info("Today is " + toFullDateTime(today) + " ,is today a special day ? -- " + checkStatus);
+        log.info("Today is " + toFullDateString(today) + " ,is today a special day ? -- " + checkStatus);
 //        System.out.println("Today is " + toFullDateTime(today) + " ,is today a special day ? -- " + checkStatus);
         return checkStatus;
     }
@@ -138,8 +138,8 @@ public class DateUtils {
                     log.info("This month contain special Saturday, check is today special...");
 //                    System.out.println("This month contain special Saturday, check is today special...");
                     Holiday h = l.get(0);
-                    DateTime d1 = toFullDateString(h.getDateFrom());
-                    log.info(toFullDateTime(d1));
+                    DateTime d1 = DateUtils.toFullDateTime(h.getDateFrom());
+                    log.info(toFullDateString(d1));
 //                    System.out.println(toFullDateTime(d1));
                     boolean isSpecialSaturday = d1.toLocalDate().isEqual(d.toLocalDate());
                     log.info("Is today special Saturday? -- " + isSpecialSaturday);
@@ -147,7 +147,7 @@ public class DateUtils {
                     return !isSpecialSaturday; //Return false to send mail on saturday.
                 }
             default:
-                boolean checkStatus = hs.isSpecialDay(toFullDateTime(d.withTimeAtStartOfDay()));
+                boolean checkStatus = hs.isSpecialDay(toFullDateString(d.withTimeAtStartOfDay()));
                 log.info("Today is normal BusinessDay, Check is today in SpecialDays -- " + checkStatus);
                 System.out.println("Today is normal BusinessDay, Check is today in SpecialDays -- " + checkStatus);
                 return checkStatus;

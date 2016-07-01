@@ -121,21 +121,6 @@
                         timepickerObj.on("dp.change", function () {
                             var col = $(this).parents("tr");
                             appendNameWhenChange(col);
-                            var userNo = col.find(".userNo").val();
-                            var beginTime = col.find(".startDate").val();
-                            var endTime = col.find(".endDate").val();
-                            checkRequestDate(col, userNo, beginTime, endTime);
-                            console.log($(this));
-                        });
-
-                        $(".leaveType").change(function () {
-                            var sel = $(this).val();
-                            console.log(sel);
-                            if (sel == -1) {
-                                $(this).parents("tr").removeClass("danger");
-                            } else {
-//                                $(this).parents("tr").find(".datepicker").trigger("dp.change");
-                            }
                         });
                     }
                 });
@@ -144,7 +129,21 @@
                     block();
                     if ($(".danger").length != 0) {
                         $.unblockUI();
+                        alert("請假日期重疊，請重新再次確認(列的背景為紅色的欄位)。");
                         return false;
+                    }
+                });
+
+                $("body").on("change", ".leaveType", function () {
+                    var sel = $(this).val();
+                    if (sel == -1) {
+                        $(this).parents("tr").removeClass("danger");
+                    } else {
+                        var col = $(this).parents("tr");
+                        var userNo = col.find(".userNo").val();
+                        var beginTime = col.find(".startDate").val();
+                        var endTime = col.find(".endDate").val();
+                        checkRequestDate(col, userNo, beginTime, endTime);
                     }
                 });
 

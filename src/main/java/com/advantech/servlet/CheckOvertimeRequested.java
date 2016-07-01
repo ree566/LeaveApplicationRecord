@@ -13,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 
 /**
+ * 查看加班是否重複申請(by日)
  *
  * @author Wei.Cheng
  */
@@ -42,6 +43,8 @@ public class CheckOvertimeRequested extends HttpServlet {
         HttpSession session = req.getSession(false);
 
         int userNo = (int) session.getAttribute("userNo");
+
+        String date = req.getParameter("date");
 
         out.print(overtimeRequestService.isExistOvertimeRequest(userNo));
     }

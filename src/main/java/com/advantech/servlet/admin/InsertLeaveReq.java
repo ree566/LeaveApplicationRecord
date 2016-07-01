@@ -60,7 +60,7 @@ public class InsertLeaveReq extends HttpServlet {
         for (int i = 0, j = userNo.length; i < j; i++) {
 
             boolean isParamVaild = pChecker.checkInputVals(userNo[i], leaveType[i], startDate[i], endDate[i]);
-            if (!isParamVaild) {
+            if (!isParamVaild || StringParser.strToInt(leaveType[i]) == -1) {
                 continue;
             }
 

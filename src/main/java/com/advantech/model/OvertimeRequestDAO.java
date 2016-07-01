@@ -23,9 +23,13 @@ public class OvertimeRequestDAO {
     public List<OvertimeRequest> getOvertimeRequest() {
         return queryOvertimeRequestTable("SELECT * FROM overtimeRequestDetail");
     }
-
+    
     public List<OvertimeRequest> getOvertimeRequest(int userNo) {
-        return queryOvertimeRequestTable("SELECT * FROM overtimeRequestDetail WHERE userNo = ?", userNo);
+        return queryOvertimeRequestTable("SELECT * FROM overtimeRequestDetail WHERE userNO = ?", userNo);
+    }
+
+    public List<Map> getOvertimeRequest(int userNo, String date) {
+        return BasicDAO.selectProc(getConn(), "{CALL overtimeRequestCheck(?,?)}", userNo, date);
     }
 
     public List<OvertimeRequest> getOvertimeRequest(String sitefloor, int department) {
@@ -57,16 +61,13 @@ public class OvertimeRequestDAO {
         return query("SELECT * FROM bandonView WHERE department = ?", departmentId);
     }
 
+    public List<Map> getAllOvertimeRequestHistory() {
+        return query("SELECT * FROM overtimeRequestHistoryView");
+    }
+
+    //分頁測試
     public List<OvertimeRequest> getAllOvertimeRequestHistory(int pageSize, int currentPage) {
-        return getOvertimeRequestInPage("SELECT * FROM overtimeRequestHistoryView", pageSize, currentPage);
-    }
-
-    public List<Map> getOvertimeHistoryBySitefloor(String sitefloor) {
-        return query("SELECT * FROM overtimeRequestHistoryView WHERE sitefloor = ?", sitefloor);
-    }
-
-    public List<Map> getPersonalOvertimeRequestHistory(int userNo) {
-        return query("SELECT * FROM overtimeRequestHistoryView WHERE userNo = ?", userNo);
+        return getOvertimeRequestInPage("SELECT * FROM overtimeRequestDetail", pageSize, currentPage);
     }
 
     private List<OvertimeRequest> queryOvertimeRequestTable(String sql, Object... params) {

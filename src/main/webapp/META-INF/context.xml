@@ -14,7 +14,7 @@
             removeAbandoned="true" 
             removeAbandonedTimeout="180" 
             type="javax.sql.DataSource" 
-            url="jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord" 
+            url="jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord;loginTimeout=10;socketTimeout=10" 
             username="waychien"
   />
 </Context>

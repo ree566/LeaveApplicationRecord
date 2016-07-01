@@ -6,10 +6,12 @@
 package com.advantech.service;
 
 import com.advantech.entity.OvertimeRequest;
+import com.advantech.helper.DateUtils;
 import com.advantech.model.OvertimeRequestDAO;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -38,6 +40,10 @@ public class OvertimeRequestService {
         return overtimeRequestDAO.getOvertimeRequest(userNo);
     }
 
+    public List<Map> getOvertimeRequest(int userNo, String date) {
+        return overtimeRequestDAO.getOvertimeRequest(userNo, date);
+    }
+
     public List<OvertimeRequest> getOvertimeRequest(String sitefloor, int department) {
         return overtimeRequestDAO.getOvertimeRequest(sitefloor, department);
     }
@@ -47,7 +53,11 @@ public class OvertimeRequestService {
     }
 
     public boolean isExistOvertimeRequest(int userNo) {
-        return getOvertimeRequest(userNo).isEmpty();
+        return isExistOvertimeRequest(userNo, DateUtils.toFullDateString(new DateTime()));
+    }
+
+    public boolean isExistOvertimeRequest(int userNo, String date) {
+        return getOvertimeRequest(userNo, date).isEmpty();
     }
 
     public List getBandonDepartment() {
@@ -58,16 +68,12 @@ public class OvertimeRequestService {
         return overtimeRequestDAO.getBandon(departmentId);
     }
 
+    public List getAllOvertimeRequestHistory() {
+        return overtimeRequestDAO.getAllOvertimeRequestHistory();
+    }
+
     public List getAllOvertimeRequestHistory(int pageSize, int currentPage) {
         return overtimeRequestDAO.getAllOvertimeRequestHistory(pageSize, currentPage);
-    }
-
-    public List getOvertimeHistoryBySitefloor(String sitefloor) {
-        return overtimeRequestDAO.getOvertimeHistoryBySitefloor(sitefloor);
-    }
-
-    public List getPersonalOvertimeRequestHistory(int userNo) {
-        return overtimeRequestDAO.getPersonalOvertimeRequestHistory(userNo);
     }
 
     public JSONArray getBandon() {
@@ -85,9 +91,8 @@ public class OvertimeRequestService {
     }
 
     public boolean newOvertimeRequest(OvertimeRequest ov) {
-        List requestList = getOvertimeRequest(ov.getUserNo());
 
-        if (!requestList.isEmpty() || hoursNotEnoughForBandon(ov)) {
+        if (isExistOvertimeRequest(ov.getUserNo()) || hoursNotEnoughForBandon(ov)) {
             return false;
         }
 

@@ -48,6 +48,7 @@
                         {data: "overtimeHours"},
                         {data: "department"},
                         {data: "saveTime"},
+                        {},
                         {}
                     ],
                     "oLanguage": {
@@ -63,12 +64,21 @@
                     "columnDefs": [
                         {
                             "targets": [6],
-                            "data": "checkStatus",
+                            "render": function (data, type, full) {
+                                var checkStatus = full.checkStatus;
+                                return "<input type='button' class='dataEdit btn-primary btn-xs' value='編輯'" + (checkStatus == 1 ? "disabled" : "") + " />"
+                                 +" / <input type='button' class='dataEdit btn-danger btn-xs' value='刪除'" + (checkStatus == 1 ? "disabled" : "") + " />";
+                            },
+                            "orderable": false
+                        },
+                        {
+                            "targets": [7],
                             "render": function (data, type, full) {
                                 var id = full.id;
-                                return "<input type='checkbox' class='memberCheck' value=" + id + " /><font class='checkText'>" +
-                                        (data == 1 ? "已" : "未") + "確認" +
-                                        "</font>";
+                                var checkStatus = full.checkStatus;
+                                return "<div class='checkbox'><label><input type='checkbox' class='memberCheck' value='" + id + "'" + (checkStatus == 1 ? "disabled" : "") + " /><font class='checkText'>" +
+                                        (checkStatus == 1 ? "已" : "未") + "確認" +
+                                        "</font></label></div>";
                             },
                             "orderable": false
                         }
@@ -102,7 +112,7 @@
                             },
                             success: function (response) {
                                 showServerMsg(response);
-                            }, 
+                            },
                             complete: function (d) {
                                 table.ajax.reload();//reload因為非同步只有在這裡會有作用
                             }
@@ -124,7 +134,14 @@
                         <th>時數(小時)</th>
                         <th>人員種類</th>
                         <th>儲存時間</th>
-                        <th class="form-inline"><input type='checkbox' id="checkAll" /><label for="checkAll">狀態</label></th>
+                        <th>動作</th>
+                        <th class="form-inline">
+                            <div class="checkbox">
+                                <label for="checkAll">
+                                    <input type='checkbox' id="checkAll" />狀態
+                                </label>
+                            </div>
+                        </th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -135,6 +152,7 @@
                         <th>時數(小時)</th>
                         <th>人員種類</th>
                         <th>儲存時間</th>
+                        <th>動作</th>
                         <th><input type='button' id="confirm" value="儲存" /></th>
                     </tr>
                 </tfoot>

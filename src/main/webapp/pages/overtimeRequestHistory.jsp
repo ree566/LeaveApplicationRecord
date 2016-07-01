@@ -41,7 +41,7 @@
                 var table = $("#data").DataTable({
                     "bProcessing": true,
                     "fixedHeader": true,
-                    "sAjaxSource": "../GetOvertimeRequestHistory",
+                    "sAjaxSource": "../GetOvertimeRequest",
                     "columns": [
                         {data: "id", visible: false},
                         {data: "jobnumber"},
@@ -66,13 +66,20 @@
 //                    iDisplayLength: 30,
 //                    "aLengthMenu": [[5, 10, 30, 50, -1], [5, 10, 30, 50, 'All']],
 
-                    "bServerSide": true,
+//                    "bServerSide": true,
                     "columnDefs": [
                         {
                             "targets": [6],
                             "data": "checkStatus",
                             "render": function (data, type, full) {
                                 return (data == 1 ? "是" : "否");
+                            }
+                        },
+                        {
+                            "targets": [7,8],
+                            "data": "checkStatus",
+                            "render": function (data, type, full) {
+                                return (data == null ? "無" : data);
                             }
                         }
                     ]
