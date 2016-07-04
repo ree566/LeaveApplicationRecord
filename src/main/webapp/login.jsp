@@ -49,6 +49,9 @@
                 text-align:center; 
                 color: red;
             }
+            .noscript input{
+                display: none;
+            }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="js/jquery.validation.min.js"></script> 
@@ -114,7 +117,10 @@
         </script>
     </head>
 
-    <body>
+    <body class="noscript">
+        <script>
+            $('body').removeClass('noscript');
+        </script>
         <c:if test="${sessionScope.jobnumber != null}">
             <c:redirect url="/"/>
         </c:if>
@@ -153,16 +159,6 @@
                 </fieldset>
             </div>
         </center>
-        <script>
-            if (!window.jQuery) {
-                document.getElementById("not_detect_jquery").innerHTML =
-                        "Sorry, this page require jquery plugin\
-, please check your system environment or contact system administrator";
-                inputs = document.querySelectorAll('input, select, button, a');
-                for (index = 0; index < inputs.length; ++index) {
-                    inputs[index].disabled = true;
-                }
-            }
-        </script>
+        <script src="js/jquery.detector.js"></script>
     </body>
 </html>
