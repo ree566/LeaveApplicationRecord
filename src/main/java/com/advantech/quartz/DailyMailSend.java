@@ -36,6 +36,9 @@ public class DailyMailSend implements Job {
     private static final int MAIN_MAILTARGET_PERMISSION = 3;
     private final DateUtils dateUtils = new DateUtils();
 
+    private String today;
+    private String nextBusinessDay;
+
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
 
@@ -139,39 +142,44 @@ public class DailyMailSend implements Job {
     }
 
     private void sendMail(String sitefloor, String mainTarget, JSONArray ccList) {
+
+        today = dateUtils.getTodaysString();
+        nextBusinessDay = dateUtils.nextBusinessDay();
+
+        String mailTitle = generateTitle(sitefloor);
         String mailBody = generateMailBody(sitefloor);
-        String titleName = generateTitle(sitefloor);
+
 //        System.out.println("Begin sendMail for sitefloor: " + sitefloor + " F");
 //        System.out.println("The main mail target user is: " + mainTarget);
 //        System.out.println("The mail cc list users are: " + ccList);
         log.info("Begin sendMail for sitefloor: " + sitefloor + " F");
         log.info("The main mail target user is: " + mainTarget);
         log.info("The mail cc list users are: " + ccList);
-        MailSend.getInstance().sendMailWithoutSender(this.getClass(), mainTarget, ccList, titleName, mailBody);
+
+        MailSend.getInstance().sendMailWithoutSender(this.getClass(), mainTarget, ccList, mailTitle, mailBody);
     }
 
     private String generateTitle(String sitefloor) {
         StringBuilder sb = new StringBuilder();
-        sb.append(subjectTitle);
-        sb.append(dateUtils.getTodaysString());
-        sb.append(" ");
-        sb.append(sitefloor);
-        sb.append("F");
-        sb.append(subject);
+        sb.append(subjectTitle)
+                .append(today)
+                .append(" ")
+                .append(sitefloor)
+                .append("F")
+                .append(subject);
         return sb.toString();
     }
 
     public String generateMailBody(String sitefloor) {
 
         StringBuilder sb = new StringBuilder();
-        sb.append("<h2>Dear All:</h2>");
-        sb.append("<h5>以下是下次上班日請假人員，以及今日申請請假人員列表。</h5>");
-        sb.append("<h5 style='color:red'>※申請時間紅色，代表管理員代理申請。</h5>");
+        sb.append("<h2>Dear All:</h2>")
+                .append("<h5>以下是下次上班日請假人員，以及今日申請請假人員列表。</h5>")
+                .append("<h5 style='color:red'>※申請時間紅色，代表管理員代理申請。</h5>");
 
         String table1 = getTodaysLeaveRequest(sitefloor);
-        table1 = "<h3>今日(" + dateUtils.getTodaysString() + ")申請人員</h3>" + ("".equals(table1) ? "無" : table1);
+        table1 = "<h3>今日(" + today + ")申請人員</h3>" + ("".equals(table1) ? "無" : table1);
 
-        String nextBusinessDay = dateUtils.nextBusinessDay();
 //        "<h3>明日請假人員</h3>"
         String table2 = getNextBussinessDayLeaveRequest(nextBusinessDay, sitefloor);
         table2 = "<h3>下次上班日(" + nextBusinessDay + ")請假人員</h3>" + ("".equals(table2) ? "無" : table2);
@@ -179,9 +187,9 @@ public class DailyMailSend implements Job {
         if ("".equals(table1) && "".equals(table2)) {
             sb.append("<h3>今日無申請請假人員，以及明日無請假人員。</h3>");
         } else {
-            sb.append(table2);
-            sb.append("<hr/>");
-            sb.append(table1);
+            sb.append(table2)
+                    .append("<hr/>")
+                    .append(table1);
         }
         return sb.toString();
     }
@@ -201,34 +209,34 @@ public class DailyMailSend implements Job {
             return "";
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("<table style=\" border:3px #FFAC55 solid; padding:5px; \" rules=\"all\" cellpadding=\"5\">");
-        sb.append("<tr>");
+        sb.append("<table style=\" border:3px #FFAC55 solid; padding:5px; \" rules=\"all\" cellpadding=\"5\">")
+                .append("<tr>");
         for (String str : tableHead) {
-            sb.append("<th>");
-            sb.append(str);
-            sb.append("</th>");
+            sb.append("<th>")
+                    .append(str)
+                    .append("</th>");
         }
         sb.append("</tr>");
         for (LeaveRequest lr : l) {
-            sb.append("<tr><td>");
-            sb.append(lr.getJobnumber());
-            sb.append("</td><td>");
-            sb.append(lr.getName());
-            sb.append("</td><td>");
-            sb.append(lr.getLeaveType());
-            sb.append("</td><td>");
-            sb.append(lr.getRemark());
-            sb.append("</td><td>");
-            sb.append(lr.getLeaveHours());
-            sb.append("</td><td>");
-            sb.append(lr.getLeaveFrom());
-            sb.append("</td><td>");
-            sb.append(lr.getLeaveTo());
-            sb.append("</td><td");
-            sb.append(lr.getReqByUser() == 1 ? "" : " style='color:red'");
-            sb.append(">");
-            sb.append(lr.getSaveTime());
-            sb.append("</td></tr>");
+            sb.append("<tr><td>")
+                    .append(lr.getJobnumber())
+                    .append("</td><td>")
+                    .append(lr.getName())
+                    .append("</td><td>")
+                    .append(lr.getLeaveType())
+                    .append("</td><td>")
+                    .append(lr.getRemark())
+                    .append("</td><td>")
+                    .append(lr.getLeaveHours())
+                    .append("</td><td>")
+                    .append(lr.getLeaveFrom())
+                    .append("</td><td>")
+                    .append(lr.getLeaveTo())
+                    .append("</td><td")
+                    .append(lr.getReqByUser() == 1 ? "" : " style='color:red'")
+                    .append(">")
+                    .append(lr.getSaveTime())
+                    .append("</td></tr>");
         }
         sb.append("</table>");
         return sb.toString();

@@ -30,3 +30,9 @@ function dulpicateDropDownList(obj, selection) {
     object.find("option[value='" + selection + "']").attr("selected", "selected");
     return object.prop('outerHTML');
 }
+
+function dulpicateDropDownListByVal(obj, selection) {
+    var object = obj.clone(false);
+    object.val(selection);
+    return object.prop('outerHTML');
+}

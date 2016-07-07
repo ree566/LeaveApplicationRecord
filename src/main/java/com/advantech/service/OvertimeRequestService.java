@@ -53,11 +53,11 @@ public class OvertimeRequestService {
     }
 
     public boolean isExistOvertimeRequest(int userNo) {
-        return isExistOvertimeRequest(userNo, DateUtils.toFullDateString(new DateTime()));
+        return isExistOvertimeRequest(userNo, DateUtils.toDateStringOnlyDay(new DateTime()));
     }
 
     public boolean isExistOvertimeRequest(int userNo, String date) {
-        return getOvertimeRequest(userNo, date).isEmpty();
+        return !getOvertimeRequest(userNo, date).isEmpty();
     }
 
     public List getBandonDepartment() {

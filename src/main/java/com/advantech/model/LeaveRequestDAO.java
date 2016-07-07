@@ -49,10 +49,6 @@ public class LeaveRequestDAO {
         return query("SELECT * FROM leaveReason");
     }
 
-    public List<Map> getAllDepartment() {
-        return query("SELECT * FROM department");
-    }
-
     public List<LeaveRequest> getTomorrowsLeaveRequest(String sitefloor) {
         return queryLeaveRequestTable("SELECT * FROM tomorrowsLeaveRequest WHERE sitefloor = ?", sitefloor);
     }

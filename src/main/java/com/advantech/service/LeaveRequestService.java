@@ -47,10 +47,6 @@ public class LeaveRequestService {
         return leaveRequestDAO.getLeaveReason();
     }
 
-    public List<Map> getAllDepartment() {
-        return leaveRequestDAO.getAllDepartment();
-    }
-
     public List<LeaveRequest> getTomorrowsLeaveRequest(String sitefloor) {
         return leaveRequestDAO.getTomorrowsLeaveRequest(sitefloor);
     }

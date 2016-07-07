@@ -53,13 +53,24 @@ public class GetOvertimeRequest extends HttpServlet {
         HttpSession session = req.getSession(false);
 
         //只獲取"當日"的加班請求，其他請查詢加班history
+        String action = req.getParameter("action");
 
-        out.print(new JSONObject().put("data", getOvertimeRequest(
-                (int) session.getAttribute("userNo"), 
-                (int) session.getAttribute("permission"), 
-                (String) session.getAttribute("sitefloor"), 
-                (int) session.getAttribute("department")
-        )));
+        if ("checkOvertimeRequest".equals(action)) {
+            out.print(new JSONObject().put("data", getNeedToCheckOvertimeRequest(
+                    (int) session.getAttribute("userNo"),
+                    (int) session.getAttribute("permission"),
+                    (String) session.getAttribute("sitefloor"),
+                    (int) session.getAttribute("department")
+            )));
+            //當日的未確認當日就會確認完
+        } else {
+            out.print(new JSONObject().put("data", getOvertimeRequest(
+                    (int) session.getAttribute("userNo"),
+                    (int) session.getAttribute("permission"),
+                    (String) session.getAttribute("sitefloor"),
+                    (int) session.getAttribute("department")
+            )));
+        }
     }
 
     private List getOvertimeRequest(int userNo, int permission, String sitefloor, int department) {
@@ -76,5 +87,22 @@ public class GetOvertimeRequest extends HttpServlet {
             l = new ArrayList();
         }
         return l;
+    }
+
+    private List getNeedToCheckOvertimeRequest(int userNo, int permission, String sitefloor, int department) {
+//        "Get different type of overtime request that line leader need to check."
+        List l;
+        if (permission == BASIC_PERMISSION) { //Basic permission people not need to check(hide the check page in permission 0)
+//            l = overtimeRequestService.getOvertimeRequest(userNo); 
+        } else if (permission == LINE_LEADER_PERMISSION) { //Get the people who is under this permission & match department(including it own) & CRUD
+//            l = overtimeRequestService.getOvertimeRequest(sitefloor, department); 
+        } else if (permission == SYTEM_MANAGER_PERMISSION) { //Get the user all under this permission(including permission 3) & CRUD
+//            l = overtimeRequestService.getOvertimeRequestBySitefloor(sitefloor);
+        } else if (permission >= SYSOP_LIMIT_PERMISSION) { // Get all the overtimeRequest & can CRUD.
+//            l = overtimeRequestService.getOvertimeRequest(); 
+        } else {
+//            l = new ArrayList();
+        }
+        return null;
     }
 }

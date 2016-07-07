@@ -7,6 +7,8 @@ package com.advantech.service;
 
 import com.advantech.entity.Identit;
 import com.advantech.model.IdentitDAO;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,6 +18,8 @@ import java.util.List;
 public class IdentitService {
 
     private final IdentitDAO identitDAO;
+    private final int servingSign = 1;
+    private final int leaveSign = 0;
 
     protected IdentitService() {
         identitDAO = new IdentitDAO();
@@ -23,6 +27,10 @@ public class IdentitService {
 
     public List<Identit> getIdentit(int userPermission) {
         return identitDAO.getIdentit(userPermission);
+    }
+    
+    public boolean isUserExist(String jobnumber){
+        return !identitDAO.getIdentit(jobnumber).isEmpty();
     }
 
     public List<Identit> getIdentit(int userPermission, String sitefloor) {
@@ -37,12 +45,19 @@ public class IdentitService {
         return identitDAO.userLogin(jobnumber, password);
     }
 
-    public boolean newIdentit(List beanList) {
-        return identitDAO.newIdentit(beanList);
+    public boolean newIdentit(Identit i) {
+        i.setServing(servingSign);
+        return identitDAO.newIdentit(packageObjectToList(i));
     }
 
-    public boolean updateIdentit(List beanList) {
-        return identitDAO.updateIdentit(beanList);
+    public boolean updateIdentit(Identit i) {
+        return identitDAO.updateIdentit(packageObjectToList(i));
+    }
+
+    private List packageObjectToList(Object... o) {
+        List l = new ArrayList();
+        l.addAll(Arrays.asList(o));
+        return l;
     }
 
     public boolean updatePassword(int userNo, String password) {
@@ -50,6 +65,6 @@ public class IdentitService {
     }
 
     public boolean deleteIdentit(int userNo) {
-        return identitDAO.deleteIdentit(userNo);
+        return identitDAO.updateIdentitServingStatus(leaveSign, userNo);
     }
 }

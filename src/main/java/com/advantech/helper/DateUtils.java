@@ -70,7 +70,7 @@ public class DateUtils {
         return toDateTime(FULL_DATE_INFO, d);
     }
 
-    private static String toDateStringOnlyDay(DateTime d) {
+    public static String toDateStringOnlyDay(DateTime d) {
         return toDateString(DATE_WITH_DAYONLY, d);
     }
 

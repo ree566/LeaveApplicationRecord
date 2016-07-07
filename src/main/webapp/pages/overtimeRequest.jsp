@@ -148,7 +148,7 @@
         <jsp:include page="../temp/header.jsp" />
         <input type="hidden" id="userPermission" value="${sessionScope.permission}">
         <div id="wigetCtrl">
-            <h3>請選擇今日加班時數，大於2小時者請選擇便當。</h3>
+            <h3>請選擇今日欲加班時數，大於2小時者請選擇便當。</h3>
             <div id="form-wiget" class="form-inline">
                 <!--加班時數>2小時候出現-->
                 <input type="number" id="overtime" min="0.5" max="4" step="0.5" value="0.5" />

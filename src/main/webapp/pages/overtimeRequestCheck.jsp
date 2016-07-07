@@ -67,7 +67,7 @@
                             "render": function (data, type, full) {
                                 var checkStatus = full.checkStatus;
                                 return "<input type='button' class='dataEdit btn-primary btn-xs' value='編輯'" + (checkStatus == 1 ? "disabled" : "") + " />"
-                                 +" / <input type='button' class='dataEdit btn-danger btn-xs' value='刪除'" + (checkStatus == 1 ? "disabled" : "") + " />";
+                                        + " / <input type='button' class='dataEdit btn-danger btn-xs' value='刪除'" + (checkStatus == 1 ? "disabled" : "") + " />";
                             },
                             "orderable": false
                         },

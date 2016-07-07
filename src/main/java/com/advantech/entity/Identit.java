@@ -19,6 +19,8 @@ public class Identit {
     private int permission;
     private String sitefloor;
     private String email;
+    private int serving;
+    private int lineType;
 
     public Identit() {
 
@@ -29,11 +31,12 @@ public class Identit {
         this.password = password;
     }
 
-    public Identit(int id, String jobnumber, String password, String name, int department, int permission, String sitefloor, String email) {
+    public Identit(int id, String jobnumber, String password, String name, int lineType, int department, int permission, String sitefloor, String email) {
         this.id = id;
         this.jobnumber = jobnumber;
         this.password = password;
         this.name = name;
+        this.lineType = lineType;
         this.department = department;
         this.permission = permission;
         this.sitefloor = sitefloor;
@@ -102,6 +105,22 @@ public class Identit {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public int getServing() {
+        return serving;
+    }
+
+    public void setServing(int serving) {
+        this.serving = serving;
+    }
+
+    public int getLineType() {
+        return lineType;
+    }
+
+    public void setLineType(int lineType) {
+        this.lineType = lineType;
     }
 
     @Override
