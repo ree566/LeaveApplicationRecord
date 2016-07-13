@@ -17,7 +17,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import org.apache.commons.dbutils.DbUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -80,6 +79,10 @@ public class BasicDAO implements Serializable {
     }
 
     protected static Connection getConn() {
+        return openConn();
+    }
+    
+    private synchronized static Connection openConn(){
         return connFactory.getConnection();
     }
 

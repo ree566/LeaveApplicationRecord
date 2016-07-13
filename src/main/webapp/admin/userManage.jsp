@@ -32,6 +32,7 @@
         <script src="../js/jquery.validation.min.js"></script> 
         <script src="../js/jquery.dataTables.min.js"></script>
         <script src="../js/dataTables.fixedHeader.min.js"></script>
+        <script src="../js/jquery.dataTables.columnFilter.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
         <script src="../js/jquery.blockUI.js"></script>
         <script src="../js/jquery.blockUI.Default.js"></script>
@@ -56,14 +57,15 @@
                         {data: "id"},
                         {data: "jobnumber", width: "80px"},
                         {width: "100px"},
+                        {width: "100px", type: "text"},
+                        {type: "select"},
                         {width: "100px"},
-                        {},
                         {width: "100px"},
-                        {width: "100px"},
-                        {width: "100px"},
+                        {width: "100px", type: "text"},
                         {}
                     ],
                     "columnDefs": [
+                        {"searchable": false, "targets": [2]},
                         {
                             "targets": [0],
                             "orderable": false,
@@ -182,6 +184,14 @@
                             var sitefloor = parents.find(".sitefloor").val();
                             var email = parents.find(".email").val();
 
+                            var jobnumber = parents.children().eq(1).html();
+
+                            if ($("#userJobnumber").val() == jobnumber && permission < $("#userPermission").val()) {
+                                if (!confirm("修改自己的權限到較低權限，確定?")) {
+                                    return false;
+                                }
+                            }
+
                             if (checkVal(psw, name, department, permission, sitefloor)) {
                                 $.ajax({
                                     url: "../UserManage",
@@ -299,11 +309,11 @@
                         }
                     });
                 });
-                
-                $("#addTestVal").click(function(){
+
+                $("#addTestVal").click(function () {
                     $("#newUser").find(":text,:password").val("test6");
                     $("#newUser").find(".email").val("test6@advantech.com.tw");
-                    $("#newUser select").each(function(){
+                    $("#newUser select").each(function () {
                         $(this).find("option").eq(3).prop('selected', true);
                     });
                 });
@@ -338,61 +348,69 @@
     <body>
         <jsp:include page="../temp/header.jsp" />
         <div id="wigetCtrl">
+            <input type="hidden" id="userJobnumber" value="${sessionScope.jobnumber}">
             <input type="hidden" id="userSitefloor" value="${sessionScope.sitefloor}">
             <input type="hidden" id="userPermission" value="${sessionScope.permission}">
-            <table id="userInfo" class="table table-condensed">
-                <thead>
-                    <tr>
-                        <th>id</th>
-                        <th>工號</th>
-                        <th>密碼</th>
-                        <th>名稱</th>
-                        <th>線別</th>
-                        <th>人員種類</th>
-                        <th>權限</th>
-                        <th>樓層</th>
-                        <th>email</th>
-                        <th>動作</th>
-                    </tr>
-                </thead>
-            </table>
-            <div>
-                <!-- Trigger the modal with a button -->
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">人員新增</button>
+            <h5 class="alarm">
+                權限0(基本使用者)，權限1(幹部)，權限2(管理者)<c:if test="${sessionScope.permission >=3}">，權限3(最高管理人員)</c:if>
+                    ，其中權限1與2的使用者，每日會收到系統所寄出的請假通知信件(附加在CC中)
+                </h5>
+                <h5 class="alarm">
+                    ※所有的修改將在使用者"下次登入"時生效。
+                </h5>
+                <table id="userInfo" class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>工號</th>
+                            <th>密碼</th>
+                            <th>名稱</th>
+                            <th>線別</th>
+                            <th>人員種類</th>
+                            <th>權限</th>
+                            <th>樓層</th>
+                            <th>email</th>
+                            <th>動作</th>
+                        </tr>
+                    </thead>
+                </table>
+                <div>
+                    <!-- Trigger the modal with a button -->
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">人員新增</button><--欲新增人員請按
 
-                <!-- Modal -->
-                <div id="myModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
 
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">人員新增</h4>
-                            </div>
-                            <div class="modal-body">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">人員新增</h4>
+                                </div>
+                                <div class="modal-body">
 
-                                <div id="" class="">
-                                    <form id="newUser">
-                                        <input type="hidden" name="action" value="insert">
-                                        <table class="table">
-                                            <tr>
-                                                <td>姓名:</td>
-                                                <td><input type="text" name="name" placeholder="請輸入姓名" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td>工號:</td>
-                                                <td><input type="text" name="jobnumber" placeholder="請輸入工號" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td>密碼:</td>
-                                                <td><input type="password" name="password" placeholder="請輸入密碼" /></td>
-                                            </tr>
-                                            <tr>
-                                                <td>線別:</td>
-                                                <td>
-                                                    <select name="lineType" class="lineType">
-                                                        <option value="">請輸入線別</option>
+                                    <div id="" class="">
+                                        <form id="newUser">
+                                            <input type="hidden" name="action" value="insert">
+                                            <table class="table">
+                                                <tr>
+                                                    <td>姓名:</td>
+                                                    <td><input type="text" name="name" placeholder="請輸入姓名" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>工號:</td>
+                                                    <td><input type="text" name="jobnumber" placeholder="請輸入工號" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>密碼:</td>
+                                                    <td><input type="password" name="password" placeholder="請輸入密碼" /></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>線別:</td>
+                                                    <td>
+                                                        <select name="lineType" class="lineType">
+                                                            <option value="">請輸入線別</option>
                                                         <c:forEach var="lineType" items="${identit.allUserLineType}">
                                                             <option value="${lineType.id}">${lineType.name}</option>
                                                         </c:forEach>
