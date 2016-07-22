@@ -30,21 +30,10 @@ public class DateUtils {
     private static final String FULL_DATE_INFO = "yyyy-MM-dd HH:mm:ss.SSS";
 
     public static void main(String[] arg0) {
-        LeaveRequestService service = BasicService.getLeaveRequestService();
+ 
 
         DateUtils dms = new DateUtils();
-        boolean isTodaySpecialDay = dms.checkTodayIsSpecailDay();
-        System.out.println((isTodaySpecialDay ? "Not " : "") + "Need to send mail");
-        if (!isTodaySpecialDay) {
-            String today = dms.toFullDateString(dms.getToday());
-            System.out.println("Today is : " + today);
-            System.out.println("leaveRequest are :");
-            System.out.println(service.getTodaysLeaveRequset("6"));
-            String nextBusinessDay = dms.toFullDateString(dms.findNextBusinessDay());
-            System.out.println("Next businessDay is : " + nextBusinessDay);
-            System.out.println("leaveRequest are :");
-            System.out.println(service.getLeaveRequestByDay(nextBusinessDay, "6"));
-        }
+        System.out.println(dms.getToday().toString());
 
     }
 

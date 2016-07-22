@@ -67,13 +67,14 @@ public class UserManage extends HttpServlet {
             String sitefloor = req.getParameter("sitefloor");
             String email = req.getParameter("email");
 
+            log.info("users lineType is " + lineType);
 //            if (pChecker.checkInputVals(id, jobnumber, password, name, department, permission, sitefloor)) {
             Identit i = new Identit(
                     StringParser.strToInt(id),
                     jobnumber,
                     password,
                     name,
-                    StringParser.strToInt(lineType),
+                    "".equals(lineType) ? null : StringParser.strToInt(lineType),
                     StringParser.strToInt(department),
                     StringParser.strToInt(permission),
                     sitefloor,

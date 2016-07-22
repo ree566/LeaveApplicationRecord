@@ -270,9 +270,6 @@
                                 required: true,
                                 minlength: 5
                             },
-                            "lineType": {
-                                required: true
-                            },
                             "permission": {
                                 required: true
                             },
@@ -281,9 +278,6 @@
                             }
                         },
                         messages: {
-                            "lineType": {
-                                valueNotEquals: "Please select an item!"
-                            },
                             "permission": {
                                 valueNotEquals: "Please select an item!"
                             },
@@ -348,8 +342,10 @@
     <body>
         <jsp:include page="../temp/header.jsp" />
         <div id="wigetCtrl">
+            <c:set var="userSitefloor" value="${sessionScope.sitefloor}"/>
+            <c:set var="userPermission" value="${sessionScope.permission}"/>
             <input type="hidden" id="userJobnumber" value="${sessionScope.jobnumber}">
-            <input type="hidden" id="userSitefloor" value="${sessionScope.sitefloor}">
+            <input type="hidden" id="userSitefloor" value="${userSitefloor}">
             <input type="hidden" id="userPermission" value="${sessionScope.permission}">
             <h5 class="alarm">
                 權限0(基本使用者)，權限1(幹部)，權限2(管理者)<c:if test="${sessionScope.permission >=3}">，權限3(最高管理人員)</c:if>
@@ -411,7 +407,7 @@
                                                     <td>
                                                         <select name="lineType" class="lineType">
                                                             <option value="">請輸入線別</option>
-                                                        <c:forEach var="lineType" items="${identit.allUserLineType}">
+                                                        <c:forEach var="lineType" items="${userPermission <= initParam.TEST_FIELD_ACCESS_PERMISSION ? identit.getAllUserLineType(userSitefloor) : identit.allUserLineType}">
                                                             <option value="${lineType.id}">${lineType.name}</option>
                                                         </c:forEach>
                                                     </select>
@@ -459,7 +455,7 @@
                                                     <input type="submit" id="addUser" value="確定" />
                                                     <input type="reset" id="reset" value="重設" />
                                                     <c:if test="${sessionScope.permission > initParam.TEST_FIELD_ACCESS_PERMISSION}">
-                                                        <input type="button" id="addTestVal" value="測試" />
+                                                        <input type="button" id="addTestVal" name="addTestVal" value="測試" />
                                                     </c:if>
                                                 </td>
                                             </tr>  

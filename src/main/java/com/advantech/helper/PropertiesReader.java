@@ -18,16 +18,16 @@ public class PropertiesReader {
 
     private static final Logger log = LoggerFactory.getLogger(PropertiesReader.class);
     private static PropertiesReader p;
-    private String mailList;
-    private String ccList;
+
+    private String mailServerUsername, mailServerPassword, mailServerLocation, mailServerPort;
 
     private PropertiesReader() throws Exception {
-            dataInit();
+        dataInit();
     }
 
     public static PropertiesReader getInstance() {
         if (p == null) {
-            
+
             try {
                 p = new PropertiesReader();
             } catch (Exception ex) {
@@ -42,29 +42,39 @@ public class PropertiesReader {
         Properties properties = new Properties();
         InputStream is = this.getClass().getResourceAsStream(configFile);
         properties.load(is);
-        
+
         loadParams(properties);
-        
+
         is.close();
         properties.clear();
     }
-    
+
     private void loadParams(Properties properties) {
-        mailList = properties.getProperty("mailList");
-        ccList = properties.getProperty("ccList");
+        mailServerUsername = properties.getProperty("mail.server.username");
+        mailServerPassword = properties.getProperty("mail.server.password");
+        mailServerLocation = properties.getProperty("mail.server.location");
+        mailServerPort = properties.getProperty("mail.server.port");
     }
 
-    public String getMailList() {
-        return mailList;
+    public String getMailServerUsername() {
+        return mailServerUsername;
     }
 
-    public String getCcList() {
-        return ccList;
+    public String getMailServerPassword() {
+        return mailServerPassword;
     }
 
-    public static void main(String arg0[]){
+    public String getMailServerLocation() {
+        return mailServerLocation;
+    }
+
+    public String getMailServerPort() {
+        return mailServerPort;
+    }
+
+    public static void main(String arg0[]) {
         PropertiesReader p = PropertiesReader.getInstance();
-        System.out.println(p.ccList);
-        System.out.println(p.mailList);
+        System.out.println(p.mailServerLocation);
+        System.out.println(p.mailServerPassword);
     }
 }

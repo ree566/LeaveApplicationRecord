@@ -20,7 +20,7 @@ public class Identit {
     private String sitefloor;
     private String email;
     private int serving;
-    private int lineType;
+    private Integer lineType;
 
     public Identit() {
 
@@ -31,7 +31,7 @@ public class Identit {
         this.password = password;
     }
 
-    public Identit(int id, String jobnumber, String password, String name, int lineType, int department, int permission, String sitefloor, String email) {
+    public Identit(int id, String jobnumber, String password, String name, Integer lineType, int department, int permission, String sitefloor, String email) {
         this.id = id;
         this.jobnumber = jobnumber;
         this.password = password;
@@ -115,11 +115,11 @@ public class Identit {
         this.serving = serving;
     }
 
-    public int getLineType() {
+    public Integer getLineType() {
         return lineType;
     }
 
-    public void setLineType(int lineType) {
+    public void setLineType(Integer lineType) {
         this.lineType = lineType;
     }
 
@@ -146,5 +146,7 @@ public class Identit {
     }
 
     public static void main(String[] arg0) {
+        Identit i = new Identit();
+        System.out.println(i.getLineType());
     }
 }

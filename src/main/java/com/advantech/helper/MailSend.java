@@ -11,7 +11,6 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Properties;
-import java.util.logging.Level;
 import javax.mail.*;
 import javax.mail.internet.*;
 import org.json.JSONArray;
@@ -36,16 +35,20 @@ public class MailSend {
     private static final Logger log = LoggerFactory.getLogger(MailSend.class);
 
     private MailSend() {
+        PropertiesReader properties = PropertiesReader.getInstance();
+
         String hostaddr = null;
         try {
-            hostaddr = getHostAddr();
-        } catch (UnknownHostException | SocketException | JSONException ex) {
+            String hostSetting = properties.getMailServerLocation();
+            hostaddr = new ParamChecker().checkInputVal(hostSetting) ? hostSetting : getHostAddr();
+        } catch (UnknownHostException | SocketException ex) {
             log.error(ex.toString());
         }
         mailHost = hostaddr;
-        mailPort = "25";
-        mailServerAddress = "kevin@" + hostaddr;
-        password = "kevin";
+        mailPort = properties.getMailServerPort();
+        mailServerAddress = properties.getMailServerUsername() + "@" + hostaddr;
+        password = properties.getMailServerPassword();
+
         props = new Properties();
         props.setProperty("mail.smtp.host", mailHost);
         props.setProperty("mail.smtp.auth", "true");
@@ -110,15 +113,12 @@ public class MailSend {
 
     //測試main
     public static void main(String[] arg0) {
-     
-        try {
-            System.out.println(new MailSend().getHostAddr());
-        } catch (UnknownHostException ex) {
-            java.util.logging.Logger.getLogger(MailSend.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SocketException ex) {
-            java.util.logging.Logger.getLogger(MailSend.class.getName()).log(Level.SEVERE, null, ex);
-        }
- 
+
+        MailSend m = MailSend.getInstance();
+        System.out.println(m.mailServerAddress);
+        System.out.println(m.mailPort);
+        System.out.println(m.mailHost);
+        System.out.println(m.password);
     }
 
     //Get the Host address.

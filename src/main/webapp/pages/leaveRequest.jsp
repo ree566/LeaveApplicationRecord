@@ -20,6 +20,9 @@
             #serverMsg{
                 color:red;
             }
+            #fini,#ffin{
+                background-color:white;
+            }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -55,9 +58,16 @@
                     sideBySide: true,
                     format: momentFormatString,
                     extraFormats: [momentFormatString],
+                    ignoreReadonly: true,
+                    daysOfWeekDisabled: [0, 6],
                     disabledHours: [0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 21, 22, 23, 24]
                 };
+
+
+                options.disabledTimeIntervals = [[moment().hour(11).minutes(30), moment().hour(12).minutes(30)]];
                 var beginTimeObj = $('#fini').datetimepicker(options);
+
+//                options.disabledTimeIntervals = [[moment().hour(12).minutes(30), moment().hour(13).minutes(0)]];
                 var endTimeObj = $('#ffin').datetimepicker(options);
 
                 beginTimeObj.on("dp.change", function (e) {
@@ -228,10 +238,10 @@
                             <div class="form-group form-inline">
                                 日期 
                                 <div class='input-group date' id='beginTime'>
-                                    <input type="text" id="fini" placeholder="請選擇起始時間"> 
+                                    <input type="text" id="fini" placeholder="請選擇起始時間" readonly> 
                                 </div> 
                                 <div class='input-group date' id='endTime'>
-                                    <input type="text" id="ffin" placeholder="請選擇結束時間"> 
+                                    <input type="text" id="ffin" placeholder="請選擇結束時間" readonly> 
                                 </div>
                                 <select id="leaveType" class="leaveType">
                                     <option value="-1">請選擇假種</option>

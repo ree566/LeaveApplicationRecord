@@ -22,7 +22,7 @@ public class LeaveRequest {
     private String saveTime;//db auto getTime
     private String remark;
     private int typeNo;
-    private int reasonNo;
+    private Integer reasonNo;
 
     private String name; //userName
     private String jobnumber;
@@ -39,7 +39,7 @@ public class LeaveRequest {
         this.leaveTo = leaveTo;
     }
 
-    public LeaveRequest(int userNo, String leaveFrom, String leaveTo, int typeNo, int reasonNo, int reqByUser) {
+    public LeaveRequest(int userNo, String leaveFrom, String leaveTo, int typeNo, Integer reasonNo, int reqByUser) {
         this.userNo = userNo;
         this.leaveFrom = leaveFrom;
         this.leaveTo = leaveTo;
@@ -128,11 +128,11 @@ public class LeaveRequest {
         this.remark = remark;
     }
 
-    public int getReasonNo() {
+    public Integer getReasonNo() {
         return reasonNo;
     }
 
-    public void setReasonNo(int reasonNo) {
+    public void setReasonNo(Integer reasonNo) {
         this.reasonNo = reasonNo;
     }
 

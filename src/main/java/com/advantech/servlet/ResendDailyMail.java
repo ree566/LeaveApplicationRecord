@@ -32,7 +32,7 @@ public class ResendDailyMail extends HttpServlet {
         PrintWriter out = res.getWriter();
         String sitefloor = req.getParameter("sitefloor");
 //        out.print("this is test servlet");
-        out.print(new DailyMailSend().generateMailBody(sitefloor));
+        out.print(new DailyMailSend().mailTest(sitefloor));
 
     }
 }

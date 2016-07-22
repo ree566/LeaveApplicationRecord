@@ -140,6 +140,12 @@ public class DailyMailSend implements Job {
         }
         return l;
     }
+    
+    public String mailTest(String sitefloor){
+        today = dateUtils.getTodaysString();
+        nextBusinessDay = dateUtils.nextBusinessDay();
+        return this.generateMailBody(sitefloor);
+    }
 
     private void sendMail(String sitefloor, String mainTarget, JSONArray ccList) {
 

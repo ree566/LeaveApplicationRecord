@@ -25,7 +25,7 @@ public class IdentitDAO {
     }
 
     public List<Identit> getIdentit(String jobnumber) {
-        return queryIdentitTable("SELECT * FROM identit WHERE jobnumber = ?", jobnumber);
+        return queryIdentitTable("SELECT * FROM identitView WHERE jobnumber = ?", jobnumber);
     }
 
     public List<Identit> getIdentit(int userPermission) {
@@ -46,6 +46,10 @@ public class IdentitDAO {
 
     public List<Map> getAllUserLineType() {
         return query("SELECT * FROM userLineType");
+    }
+
+    public List<Map> getAllUserLineType(String sitefloor) {
+        return query("SELECT * FROM userLineType where sitefloor = ?", sitefloor);
     }
 
     public List<Identit> userLogin(String jobnumber, String password) {
