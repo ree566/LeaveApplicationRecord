@@ -53,17 +53,16 @@ public class BasicDAO implements Serializable {
 
     private static final int RETRY_WAIT_TIME = 3000;
 
-    static {
-        qRunner = new QueryRunner();
-        pRunner = new ProcRunner();
-
+    public static void init() {
         try {
+            qRunner = new QueryRunner();
+            pRunner = new ProcRunner();
 //        connFactory = new ConnectionFactory("net.sourceforge.jtds.jdbc.Driver", "jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord", "waychien", "m3server");
             connFactory = new ConnectionFactory();
             connFactory.setDataSource(getDataSource());
             txFactory = new UserTransactionFactory();
             txFactory.setConnectionFactory(connFactory);
-        } catch (NamingException ex) {
+        } catch (Exception ex) {
             log.error(ex.toString());
         }
     }
@@ -81,8 +80,9 @@ public class BasicDAO implements Serializable {
     protected static Connection getConn() {
         return openConn();
     }
-    
-    private synchronized static Connection openConn(){
+
+//    synchronized　
+    private synchronized static Connection openConn() {
         return connFactory.getConnection();
     }
 
@@ -104,7 +104,7 @@ public class BasicDAO implements Serializable {
         } catch (SQLException e) {
             log.error(e.toString());
             tx.rollback();
-        } 
+        }
         return data == null ? new ArrayList() : data;
     }
 
@@ -126,7 +126,7 @@ public class BasicDAO implements Serializable {
         } catch (SQLException e) {
             log.error(e.toString());
             tx.rollback();
-        } 
+        }
         return data == null ? new ArrayList() : data;
     }
 
@@ -134,7 +134,7 @@ public class BasicDAO implements Serializable {
         boolean flag = false;
         XUserTransaction tx = txFactory.getUserTransaction();
         try {
-            
+
             tx.begin();
             qRunner.update(conn, sql, params);
             tx.commit();
@@ -145,7 +145,7 @@ public class BasicDAO implements Serializable {
                     + e.getErrorCode() + " SQL STATE :"
                     + e.getSQLState() + " Message : " + e.getMessage());
             tx.rollback();
-        } 
+        }
         return flag;
     }
 
@@ -166,7 +166,7 @@ public class BasicDAO implements Serializable {
         } catch (SQLException e) {
             log.error(e.toString());
             tx.rollback();
-        } 
+        }
         return flag;
     }
 

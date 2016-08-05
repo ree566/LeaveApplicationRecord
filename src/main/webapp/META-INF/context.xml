@@ -1,20 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context antiJARLocking="true" path="/LeaveApplicationRecord">
-  <Resource auth="Container" 
-            driverClassName="net.sourceforge.jtds.jdbc.Driver"
-            name="jdbc/leaveApp" 
-            password="m3server" 
-            initialSize="10" 
-            maxActive="100" 
-            maxIdle="30" 
-            maxWait="1000" 
-            testOnBorrow="true"
-            validationQuery="SELECT 1"
-            logAbandoned="true" 
-            removeAbandoned="true" 
-            removeAbandonedTimeout="180" 
-            type="javax.sql.DataSource" 
-            url="jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord;loginTimeout=20" 
-            username="waychien"
-  />
+    <!--  <Resource auth="Container" 
+              driverClassName="net.sourceforge.jtds.jdbc.Driver"
+              name="jdbc/leaveApp" 
+              password="m3server" 
+              initialSize="10" 
+              maxActive="100" 
+              maxIdle="30" 
+              maxWait="1000" 
+              testOnBorrow="true"
+              validationQuery="SELECT 1"
+              logAbandoned="true" 
+              removeAbandoned="true" 
+              removeAbandonedTimeout="180" 
+              type="javax.sql.DataSource" 
+              url="jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord;loginTimeout=20" 
+              username="waychien"
+    />-->
+  
+    <Resource auth="Container" 
+              factory="org.apache.naming.factory.BeanFactory" 
+              type="com.mchange.v2.c3p0.ComboPooledDataSource"
+            
+              driverClass="net.sourceforge.jtds.jdbc.Driver"
+              name="jdbc/leaveApp" 
+              user="waychien"
+              password="m3server" 
+            
+              idleConnectionTestPeriod="60"
+              maxPoolSize="50" 
+              minPoolSize="2"
+              acquireIncrement="2" 
+              jdbcUrl="jdbc:jtds:sqlserver://M3-SERVER/LeaveApplicationRecord;loginTimeout=20" 
+              
+              testConnectionOnCheckout="false"
+              testConnectionOnCheckin="true"
+              preferredTestQuery="SELECT 1"
+    />
 </Context>

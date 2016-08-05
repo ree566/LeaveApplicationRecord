@@ -22,7 +22,7 @@ public class QuartzContextListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-
+        BasicDAO.init();
     }
 
     @Override
@@ -34,7 +34,6 @@ public class QuartzContextListener implements ServletContextListener {
             e.printStackTrace();
         }
         ThreadLocalCleanUtil.clearThreadLocals();
-
 
     }
 }
