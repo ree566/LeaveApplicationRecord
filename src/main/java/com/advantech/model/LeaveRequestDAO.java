@@ -86,7 +86,7 @@ public class LeaveRequestDAO {
     }
 
     public List<Map> getLeaveRequestPeopleAmount(String dateBegin, String dateEnd, int department, String sitefloor) {
-        return BasicDAO.selectProc(getConn(), "{CALL leaveRequestCheck ?,?,?,?}", dateBegin, dateEnd, department, sitefloor);
+        return BasicDAO.selectProc(getConn(), "{CALL leaveRequestCheck_1 ?,?,?,?}", dateBegin, dateEnd, department, sitefloor);
     }
 
     public List<LeaveRequest> getLeaveRequestByDay(String date, String sitefloor) {
@@ -94,7 +94,7 @@ public class LeaveRequestDAO {
     }
 
     public List<Map> getLeaveRequestInDay(String date, int department, String sitefloor) {
-        return BasicDAO.selectProc(getConn(), "{CALL getLeaveRequestInDay ?,?,?}", date, department, sitefloor);
+        return BasicDAO.selectProc(getConn(), "{CALL getLeaveRequestInDay_1 ?,?,?}", date, department, sitefloor);
     }
 
     public boolean isPersonDataInDayExist(LeaveRequest l) {

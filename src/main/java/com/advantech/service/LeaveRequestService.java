@@ -24,7 +24,7 @@ public class LeaveRequestService {
 
     private final LeaveRequestDAO leaveRequestDAO;
 
-    private final int WORK_HOURS_PERDAY = 9;
+    private final int LIMIT_CHECK_HOURS = 0;
     private final int LIMIT_PEOPLE_PERDAY = 2;
 
     protected LeaveRequestService() {
@@ -97,7 +97,7 @@ public class LeaveRequestService {
 
     public List peopleLimitCheck(String beginTime, String endTime, int userDepartment, String sitefloor) throws JSONException {
         List list = new ArrayList();
-        if (DateUtils.dateDiff(beginTime, endTime) >= WORK_HOURS_PERDAY) {
+        if (DateUtils.dateDiff(beginTime, endTime) >= LIMIT_CHECK_HOURS) {
             List l = getLeaveRequestPeopleAmount(beginTime, endTime, userDepartment, sitefloor);
             if (!l.isEmpty()) {
                 JSONArray ja = new JSONArray(new Gson().toJson(l));

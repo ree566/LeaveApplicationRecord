@@ -172,10 +172,10 @@
                                     $("#serverMsg").append("<p>" +
                                             jsonObj.name + " " +
                                             jsonObj.leaveType + " " +
-                                            jsonObj.remark + " " +
-                                            jsonObj.leaveFrom + " - " +
+                                            jsonObj.remark + " ( 從 " +
+                                            jsonObj.leaveFrom + " 到 " +
                                             jsonObj.leaveTo +
-                                            "</p>");
+                                            " )</p>");
                                 }
                             } else {
                                 saveLeaveRequest(obj);
@@ -185,6 +185,7 @@
                 }
 
                 function saveLeaveRequest(obj) {
+//                    console.log("Begin saving");
                     $.ajax({
                         type: "Post",
                         url: "../LeaveReq",
