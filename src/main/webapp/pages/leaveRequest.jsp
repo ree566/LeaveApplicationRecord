@@ -23,6 +23,9 @@
             #fini,#ffin{
                 background-color:white;
             }
+            .alarm{
+                color: red;
+            }
         </style>
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
         <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -232,6 +235,7 @@
             <h3>請在下方選擇各項資訊後，送出完成請假申請。</h3>
             <hr />
             <div>
+                <h5 class="alarm">※欲請包含明日的假期請於今日${initParam.REQUEST_DENY_TIME}時完成申請，超過時間不予受理</h5>
                 <table id="leaveRequest" class="table">
                     <tr>
                         <td class="title">申請時間</td>

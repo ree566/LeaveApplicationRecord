@@ -24,6 +24,10 @@ public class LeaveRequestDAO {
         return queryLeaveRequestTable("SELECT * FROM leaveRequestDetail");
     }
 
+    public List<LeaveRequest> getLeaveRequest(String startDate, String endDate) {
+        return queryLeaveRequestTable("SELECT * FROM leaveRequestIn(?,?)", startDate, endDate);
+    }
+
     private List<LeaveRequest> getLeaveRequestInPage(String sql, int pageSize, int currentPage) {
         return BasicDAO.select(
                 getConn(),
@@ -53,12 +57,12 @@ public class LeaveRequestDAO {
         return queryLeaveRequestTable("SELECT * FROM tomorrowsLeaveRequest WHERE sitefloor = ?", sitefloor);
     }
 
-    public List<LeaveRequest> getLeaveRequestBySitefloor(String sitefloor) {
-        return queryLeaveRequestTable("SELECT * FROM leaveRequestDetail WHERE sitefloor = ?", sitefloor);
+    public List<LeaveRequest> getLeaveRequestBySitefloor(String startDate, String endDate, String sitefloor) {
+        return queryLeaveRequestTable("SELECT * FROM leaveRequestIn(?,?) WHERE sitefloor = ?", startDate, endDate, sitefloor);
     }
 
-    public List<LeaveRequest> getPersonalRequest(int userNo) {
-        return queryLeaveRequestTable("SELECT * FROM leaveRequestDetail WHERE userNo = ?", userNo);
+    public List<LeaveRequest> getPersonalRequest(String startDate, String endDate, int userNo) {
+        return queryLeaveRequestTable("SELECT * FROM leaveRequestIn(?,?) WHERE userNo = ?", startDate, endDate, userNo);
     }
 
     public List<LeaveRequest> getTodaysLeaveRequset(String sitefloor) {
@@ -98,7 +102,7 @@ public class LeaveRequestDAO {
     }
 
     public boolean isPersonDataInDayExist(LeaveRequest l) {
-        return !queryLeaveRequestTable("SELECT * FROM findTimeOverlap(?,?,?)", l.getUserNo(), l.getLeaveFrom(), l.getLeaveTo()).isEmpty();
+        return !queryLeaveRequestTable("SELECT * FROM leaveRequestIn(?,?) WHERE userNo = ?", l.getLeaveFrom(), l.getLeaveTo(), l.getUserNo()).isEmpty();
     }
 
     private List<LeaveRequest> queryLeaveRequestTable(String sql, Object... params) {

@@ -31,6 +31,7 @@
         <script src="../js/bootstrap-datetimepicker.min.js"></script>
         <script src="../js/zh-tw.js"></script>
         <script>
+            var table;
             $.fn.dataTableExt.afnFiltering.push(
                     function (oSettings, aData, iDataIndex) {
                         //日期data目前統一
@@ -53,16 +54,10 @@
                         } else if (iFfin >= datoffin && iFini === "")
                         {
                             return true;
-                        }
-//                        else if (iFini <= datofini && iFfin >= datoffin)
-//                        {
-//                            return true;
-//                        }
-                        else if ((datofini <= iFini && iFini <= datoffin) || (iFini <= datofini && datofini <= iFfin)) {
+                        } else if ((datofini <= iFini && iFini <= datoffin) || (iFini <= datofini && datofini <= iFfin)) {
                             return true;
                         }
                         return false;
-//                        :dt1 = datofini, :td2 = datoffin, dt1 = iFini,dt2 = iFfin
                     }
             );
 
@@ -74,16 +69,19 @@
                 return parsedDate;
             }
 
-            $(document).ready(function () {
-
-                var table = $("#data").DataTable({
+            function getHistory() {
+                table = $("#data").DataTable({
                     "processing": true,
                     "serverSide": false,
                     "fixedHeader": true,
                     "ajax": {
                         "url": "../GetLeaveRequestHistory",
                         "type": "Post",
-                        "dataType": "json"
+                        "dataType": "json",
+                        data: {
+                            startDate: $('#fini').val(),
+                            endDate: $('#ffin').val()
+                        }
                     },
                     "columns": [
                         {data: "id", visible: false},
@@ -106,6 +104,7 @@
                     "bLengthChange": true,
                     "order": [[8, "desc"]],
                     iDisplayLength: 30,
+                    bDestroy: true,
                     "aLengthMenu": [[5, 10, 30, 50, -1], [5, 10, 30, 50, 'All']],
                     "columnDefs": [
                         {
@@ -117,28 +116,35 @@
                         }
                     ]
                 });
+            }
+
+            $(document).ready(function () {
 
                 var fini = $('#fini').datetimepicker({
-                    defaultDate: moment('01-01', 'MM-DD'),
+                    defaultDate: moment().startOf('isoWeek'),
                     locale: "zh-tw",
                     stepping: 30,
                     format: 'YYYY-MM-DD',
                     extraFormats: ['YYYY-MM-DD']
                 });
                 var ffin = $('#ffin').datetimepicker({
-                    defaultDate: moment('12-31', 'MM-DD'),
+                    defaultDate: moment().endOf('isoWeek'),
                     locale: "zh-tw",
                     stepping: 30,
                     format: 'YYYY-MM-DD',
                     extraFormats: ['YYYY-MM-DD']
                 });
 
+                getHistory();
+
                 $("#checkAll").on("change", function () {
                     checkBoxGearing($(this));
                 });
 
+                $("#research").hide();
+
                 $("body").on("dp.change", "#fini, #ffin", function () {
-                    table.draw();
+                    $("#research").show();
                 });
 
                 $('#data tbody').on('click', 'tr', function () {
@@ -149,22 +155,31 @@
                         $(this).addClass('selected');
                     }
                 });
+
+                $("#research").click(function () {
+                    getHistory();
+                });
             });
         </script>
     </head>
     <body>
         <jsp:include page="../temp/header.jsp" />
+        <div>
+            <h5 class="alarm">※僅會顯示一周內請假紀錄，如搜尋結果為空時請擴大搜尋時間範圍</h5>
+        </div>
         <div id="wigetCtrl">
             <div class="container">
                 <div class="row">
                     <div class="form-group form-inline">
-                        Search time key: between
+                        <label>Search time key: between</label>
                         <div class='input-group date' id='beginTime'>
                             <input type="text" id="fini" class="form-control" placeholder="請選擇起始時間"> 
-                        </div> to 
+                        </div> 
+                        <label>to</label>
                         <div class='input-group date' id='beginTime'>
                             <input type="text" id="ffin" class="form-control" placeholder="請選擇結束時間">
                         </div>
+                        <button class="form-control" id="research"><span class="glyphicon glyphicon-refresh"></span>重新查詢</button>
                     </div>
                 </div>
             </div>
@@ -187,6 +202,7 @@
             </table>
             <div id="serverMsg"></div>
         </div>
+
         <jsp:include page="../temp/footer.jsp" />
     </body>
 </html>

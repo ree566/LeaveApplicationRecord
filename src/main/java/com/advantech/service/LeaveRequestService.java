@@ -35,6 +35,10 @@ public class LeaveRequestService {
         return leaveRequestDAO.getLeaveRequest();
     }
 
+    public List<LeaveRequest> getLeaveRequest(String startDate, String endDate) {
+        return leaveRequestDAO.getLeaveRequest(startDate, endDate);
+    }
+
     public List<LeaveRequest> getLeaveRequestDetailInPage(int pageSize, int currentPage) {
         return leaveRequestDAO.getLeaveRequestDetailInPage(pageSize, currentPage);
     }
@@ -51,12 +55,12 @@ public class LeaveRequestService {
         return leaveRequestDAO.getTomorrowsLeaveRequest(sitefloor);
     }
 
-    public List<LeaveRequest> getLeaveRequestBySitefloor(String sitefloor) {
-        return leaveRequestDAO.getLeaveRequestBySitefloor(sitefloor);
+    public List<LeaveRequest> getLeaveRequestBySitefloor(String startDate, String endDate, String sitefloor) {
+        return leaveRequestDAO.getLeaveRequestBySitefloor(startDate, endDate, sitefloor);
     }
 
-    public List<LeaveRequest> getPersonalRequest(int userNo) {
-        return leaveRequestDAO.getPersonalRequest(userNo);
+    public List<LeaveRequest> getPersonalRequest(String startDate, String endDate, int userNo) {
+        return leaveRequestDAO.getPersonalRequest(startDate, endDate, userNo);
     }
 
     public List<LeaveRequest> getTodaysLeaveRequset(String sitefloor) {
@@ -114,7 +118,7 @@ public class LeaveRequestService {
         }
         return list;
     }
-    
+
     public String newLeaveRequest(LeaveRequest l) {
         boolean isRequestDateDuplicate = isPersonDataInDayExist(l);
         if (isRequestDateDuplicate) {

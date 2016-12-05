@@ -123,6 +123,12 @@
     </context-param>
     
     <context-param>
+        <description>Refuse when user apply for new leaveRequest after special hour contain tomorrow's leaveRequest</description> 
+        <param-name>REQUEST_DENY_TIME</param-name>
+        <param-value>15</param-value>
+    </context-param>
+    
+    <context-param>
         <description>Control the user apply for the leaveRequest and overtimeRequest</description> 
         <param-name>ACCESS_CONTROL_TIME</param-name>
         <param-value>21</param-value>

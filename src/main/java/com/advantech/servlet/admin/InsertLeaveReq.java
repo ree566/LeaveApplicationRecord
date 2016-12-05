@@ -26,13 +26,15 @@ import javax.servlet.http.*;
 public class InsertLeaveReq extends HttpServlet {
 
 //    private static final Logger log = LoggerFactory.getLogger(InsertLeaveReq.class);
-    private int ADMIN_MODIFY_SIGN;
+    private int USER_MODIFY_SIGN, ADMIN_MODIFY_SIGN, SYTEM_MANAGER_PERMISSION;
     private LeaveRequestService leaveRequestService;
     private ParamChecker pChecker;
 
     @Override
     public void init() throws ServletException {
+        USER_MODIFY_SIGN = StringParser.strToInt(getServletContext().getInitParameter("USER_MODIFY_SIGN"));
         ADMIN_MODIFY_SIGN = StringParser.strToInt(getServletContext().getInitParameter("ADMIN_MODIFY_SIGH"));
+        SYTEM_MANAGER_PERMISSION = StringParser.strToInt(getServletContext().getInitParameter("SYTEM_MANAGER_PERMISSION"));
         leaveRequestService = BasicService.getLeaveRequestService();
         pChecker = new ParamChecker();
     }
@@ -54,6 +56,7 @@ public class InsertLeaveReq extends HttpServlet {
         String[] startDate = req.getParameterValues("startDate");
         String[] endDate = req.getParameterValues("endDate");
         String[] leaveReason = req.getParameterValues("leaveReason");
+        int permission = (int) req.getSession(false).getAttribute("permission");
 
         List l = new ArrayList();
 
@@ -78,7 +81,7 @@ public class InsertLeaveReq extends HttpServlet {
                     end,
                     StringParser.strToInt(leaveType[i]),
                     StringParser.strToInt(leaveReason[i]),
-                    ADMIN_MODIFY_SIGN
+                    permission >= SYTEM_MANAGER_PERMISSION ? USER_MODIFY_SIGN : ADMIN_MODIFY_SIGN
             ));
         }
         if (l.isEmpty()) {

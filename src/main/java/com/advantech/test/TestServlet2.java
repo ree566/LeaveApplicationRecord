@@ -6,14 +6,11 @@
 package com.advantech.test;
 
 import com.advantech.helper.StringParser;
-import com.advantech.model.LeaveRequestDAO;
-import com.advantech.service.BasicService;
-import com.google.gson.Gson;
+import com.advantech.quartz.DailyMailSend;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
@@ -49,8 +46,8 @@ public class TestServlet2 extends HttpServlet {
 //        int page = StringParser.strToInt(req.getParameter("page"));
         PrintWriter out = res.getWriter();
 //        List l = BasicService.getLeaveRequestService().getLeaveRequestDetailInPage(size, page);
-        out.print(req.getRemoteAddr());
-//        DailyMailSend.sendMailEverySiteFloor();
+
+        DailyMailSend.sendMailEverySiteFloor();
     }
 
     private String getDate() {

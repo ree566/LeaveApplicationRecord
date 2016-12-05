@@ -50,19 +50,21 @@ public class GetLeaveRequestHistory extends HttpServlet {
         out.print(new JSONObject().put("data", getLeaveRequest(
                 (int) session.getAttribute("userNo"),
                 (int) session.getAttribute("permission"),
-                (String)session.getAttribute("sitefloor")
+                (String) session.getAttribute("sitefloor"),
+                req.getParameter("startDate"),
+                req.getParameter("endDate") + " 23:00"
         )));
 
     }
 
-    private List getLeaveRequest(int userNo, int permission, String sitefloor) {
+    private List getLeaveRequest(int userNo, int permission, String sitefloor, String startDate, String endDate) {
         List l;
         if (permission == BASIC_PERMISSION) {
-            l = leaveRequestService.getPersonalRequest(userNo);
+            l = leaveRequestService.getPersonalRequest(startDate, endDate, userNo);
         } else if (permission > BASIC_PERMISSION && permission < SYSOP_LIMIT_PERMISSION) {
-            l = leaveRequestService.getLeaveRequestBySitefloor(sitefloor);
+            l = leaveRequestService.getLeaveRequestBySitefloor(startDate, endDate, sitefloor);
         } else if (permission >= SYSOP_LIMIT_PERMISSION) {
-            l = leaveRequestService.getLeaveRequest();
+            l = leaveRequestService.getLeaveRequest(startDate, endDate);
         } else {
             l = new ArrayList();
         }
