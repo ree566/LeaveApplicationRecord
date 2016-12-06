@@ -5,9 +5,11 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
+        <c:set var="isAdmin" value="${sessionScope.permission >= initParam.SYTEM_MANAGER_PERMISSION ? true: false}" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>${initParam.pageTitle}</title>
         <link rel="stylesheet" href="../css/jquery.dataTables.min.css">
@@ -128,7 +130,7 @@
                     extraFormats: ['YYYY-MM-DD']
                 });
                 var ffin = $('#ffin').datetimepicker({
-                    defaultDate: moment().endOf('isoWeek'),
+                    defaultDate: ${isAdmin} ? moment().endOf('isoWeek') : moment('12-31', 'MM-DD'),
                     locale: "zh-tw",
                     stepping: 30,
                     format: 'YYYY-MM-DD',
@@ -164,9 +166,11 @@
     </head>
     <body>
         <jsp:include page="../temp/header.jsp" />
-        <div>
-            <h5 class="alarm">※僅會顯示一周內請假紀錄，如搜尋結果為空時請擴大搜尋時間範圍</h5>
-        </div>
+        <c:if test="${isAdmin}">
+            <div>
+                <h5 class="alarm">※僅會顯示一周內請假紀錄，如搜尋結果為空時請擴大搜尋時間範圍</h5>
+            </div>
+        </c:if>
         <div id="wigetCtrl">
             <div class="container">
                 <div class="row">
