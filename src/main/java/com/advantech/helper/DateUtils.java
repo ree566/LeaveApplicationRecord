@@ -30,7 +30,11 @@ public class DateUtils {
     private static final String FULL_DATE_INFO = "yyyy-MM-dd HH:mm:ss.SSS";
     
     public static void main(String[] arg0) { 
-        System.out.println(isTomorrowBetweenTwoDates("2016-12-07 08:30", "2016-12-31 18:30"));
+        System.out.println(isNextBussinessDayBetweenTwoDates("2016-12-07 08:30", "2016-12-31 18:30"));
+    }
+    
+    private DateUtils(){
+        
     }
     
     public static boolean checkDate(String begin, String end) {
@@ -39,11 +43,11 @@ public class DateUtils {
         return beginTime.isBefore(endTime);
     }
     
-    public static boolean isTomorrowBetweenTwoDates(String startDate, String endDate) {
+    public static boolean isNextBussinessDayBetweenTwoDates(String startDate, String endDate) {
         return isDayBetweenTwoDates(
                 toDateTime(DATE_WITHOUT_SECOND, startDate),
                 toDateTime(DATE_WITHOUT_SECOND, endDate),
-                new DateUtils().getToday().plusDays(1)
+                findNextBusinessDay()
         );
     }
     
@@ -90,23 +94,23 @@ public class DateUtils {
         return DateTimeFormat.forPattern(reg).parseDateTime(d);
     }
     
-    private DateTime getToday() {
+    private static DateTime getToday() {
         return new DateTime().withTimeAtStartOfDay();
     }
     
-    public String getTodaysString() {
+    public static String getTodaysString() {
         return toDateStringOnlyDay(getToday());
     }
     
-    public String nextBusinessDay() {
+    public static String nextBusinessDay() {
         return toDateStringOnlyDay(findNextBusinessDay());
     }
     
-    public DateTime findNextBusinessDay() {
+    public static DateTime findNextBusinessDay() {
         return findNextBusinessDay(getToday());
     }
     
-    private DateTime findNextBusinessDay(DateTime d) {
+    private static DateTime findNextBusinessDay(DateTime d) {
         log.info("Finding next businessDay...");
 //        System.out.println("Finding next businessDay...");
 
@@ -121,7 +125,7 @@ public class DateUtils {
     }
 
     //Check is today in special day table(1-5)
-    public boolean checkTodayIsSpecailDay() {
+    public static boolean checkTodayIsSpecailDay() {
         DateTime today = getToday();
         boolean checkStatus = checkDaySpecial(today);
         log.info("Today is " + toFullDateString(today) + " ,is today a special day ? -- " + checkStatus);
@@ -129,7 +133,7 @@ public class DateUtils {
         return checkStatus;
     }
     
-    private boolean checkDaySpecial(DateTime d) {
+    private static boolean checkDaySpecial(DateTime d) {
         HolidayService hs = BasicService.getHolidayService();
         int dayOfWeek = d.getDayOfWeek();
         switch (dayOfWeek) {

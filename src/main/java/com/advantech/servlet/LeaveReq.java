@@ -8,7 +8,7 @@ package com.advantech.servlet;
 import com.advantech.helper.StringParser;
 import com.advantech.entity.LeaveRequest;
 import static com.advantech.helper.DateUtils.getCurrentHour;
-import static com.advantech.helper.DateUtils.isTomorrowBetweenTwoDates;
+import static com.advantech.helper.DateUtils.isNextBussinessDayBetweenTwoDates;
 import com.advantech.helper.ParamChecker;
 import com.advantech.service.BasicService;
 import com.advantech.service.LeaveRequestService;
@@ -67,11 +67,12 @@ public class LeaveReq extends HttpServlet {
 
         if (isParamVaild) {
             if (getCurrentHour() >= REQUEST_DENY_TIME && permission == BASIC_PERMISSION) {
-                if (isTomorrowBetweenTwoDates(beginTime, endTime)) { // if contains tomorrow
+                if (isNextBussinessDayBetweenTwoDates(beginTime, endTime)) { 
                     out.print("如欲申請明日的假期請於" + REQUEST_DENY_TIME + "時之前申請，如有問題請聯絡系統管理員");
                     return;
                 }
             }
+            
             LeaveRequest lr = new LeaveRequest(
                     userNo,
                     beginTime,

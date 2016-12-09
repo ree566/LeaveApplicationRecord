@@ -5,15 +5,11 @@
  */
 package com.advantech.servlet.admin;
 
-import com.advantech.helper.DateUtils;
 import com.advantech.helper.StringParser;
 import com.advantech.entity.LeaveRequest;
-import com.advantech.helper.ParamChecker;
 import com.advantech.service.BasicService;
 import com.advantech.service.LeaveRequestService;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;

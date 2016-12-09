@@ -34,7 +34,6 @@ public class DailyMailSend implements Job {
     private final String subject = " 請假人員列表";
     private final String[] tableHead = {"工號", "名稱", "假種", "事由", "時數", "開始時間", "結束時間", "申請時間"};
     private static final int MAIN_MAILTARGET_PERMISSION = 3;
-    private final DateUtils dateUtils = new DateUtils();
 
     private String today;
     private String nextBusinessDay;
@@ -42,7 +41,7 @@ public class DailyMailSend implements Job {
     @Override
     public void execute(JobExecutionContext jec) throws JobExecutionException {
 
-        boolean isTodaySpecialDay = dateUtils.checkTodayIsSpecailDay();
+        boolean isTodaySpecialDay = DateUtils.checkTodayIsSpecailDay();
         if (!isTodaySpecialDay) {
             sendMailEverySiteFloor();
         }
@@ -142,15 +141,15 @@ public class DailyMailSend implements Job {
     }
     
     public String mailTest(String sitefloor){
-        today = dateUtils.getTodaysString();
-        nextBusinessDay = dateUtils.nextBusinessDay();
+        today = DateUtils.getTodaysString();
+        nextBusinessDay = DateUtils.nextBusinessDay();
         return this.generateMailBody(sitefloor);
     }
 
     private void sendMail(String sitefloor, String mainTarget, JSONArray ccList) {
 
-        today = dateUtils.getTodaysString();
-        nextBusinessDay = dateUtils.nextBusinessDay();
+        today = DateUtils.getTodaysString();
+        nextBusinessDay = DateUtils.nextBusinessDay();
 
         String mailTitle = generateTitle(sitefloor);
         String mailBody = generateMailBody(sitefloor);

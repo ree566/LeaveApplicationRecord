@@ -56,33 +56,41 @@ public class InsertLeaveReq extends HttpServlet {
         String[] startDate = req.getParameterValues("startDate");
         String[] endDate = req.getParameterValues("endDate");
         String[] leaveReason = req.getParameterValues("leaveReason");
-        int permission = (int) req.getSession(false).getAttribute("permission");
+
+        HttpSession session = req.getSession(false);
+        int currentUserNo = (int) session.getAttribute("userNo");
+        int permission = (int) session.getAttribute("permission");
 
         List l = new ArrayList();
 
-        for (int i = 0, j = userNo.length; i < j; i++) {
+        if (permission >= SYTEM_MANAGER_PERMISSION) {
 
-            boolean isParamVaild = pChecker.checkInputVals(userNo[i], leaveType[i], startDate[i], endDate[i]);
-            if (!isParamVaild || StringParser.strToInt(leaveType[i]) == -1) {
-                continue;
+            for (int i = 0, j = userNo.length; i < j; i++) {
+
+                boolean isParamVaild = pChecker.checkInputVals(userNo[i], leaveType[i], startDate[i], endDate[i]);
+                if (!isParamVaild || StringParser.strToInt(leaveType[i]) == -1) {
+                    continue;
+                }
+
+                String start = startDate[i];
+                String end = endDate[i];
+                if (!DateUtils.checkDate(start, end)) {
+                    String str = start;
+                    start = end;
+                    end = str;
+                }
+
+                int user = StringParser.strToInt(userNo[i]);
+
+                l.add(new LeaveRequest(
+                        user,
+                        start,
+                        end,
+                        StringParser.strToInt(leaveType[i]),
+                        StringParser.strToInt(leaveReason[i]),
+                        (user == currentUserNo ? USER_MODIFY_SIGN : ADMIN_MODIFY_SIGN)
+                ));
             }
-
-            String start = startDate[i];
-            String end = endDate[i];
-            if (!DateUtils.checkDate(start, end)) {
-                String str = start;
-                start = end;
-                end = str;
-            }
-
-            l.add(new LeaveRequest(
-                    StringParser.strToInt(userNo[i]),
-                    start,
-                    end,
-                    StringParser.strToInt(leaveType[i]),
-                    StringParser.strToInt(leaveReason[i]),
-                    permission >= SYTEM_MANAGER_PERMISSION ? USER_MODIFY_SIGN : ADMIN_MODIFY_SIGN
-            ));
         }
         if (l.isEmpty()) {
             out.print("無資料新增");

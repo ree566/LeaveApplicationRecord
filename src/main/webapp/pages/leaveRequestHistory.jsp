@@ -130,7 +130,7 @@
                     extraFormats: ['YYYY-MM-DD']
                 });
                 var ffin = $('#ffin').datetimepicker({
-                    defaultDate: ${isAdmin} ? moment().endOf('isoWeek') : moment('12-31', 'MM-DD'),
+                    defaultDate: ${isAdmin} ? moment().endOf('isoWeek') : moment().add(3, 'months'),
                     locale: "zh-tw",
                     stepping: 30,
                     format: 'YYYY-MM-DD',
