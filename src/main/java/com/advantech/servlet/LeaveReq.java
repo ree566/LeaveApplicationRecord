@@ -68,7 +68,7 @@ public class LeaveReq extends HttpServlet {
         if (isParamVaild) {
             if (getCurrentHour() >= REQUEST_DENY_TIME && permission == BASIC_PERMISSION) {
                 if (isNextBussinessDayBetweenTwoDates(beginTime, endTime)) { 
-                    out.print("如欲申請明日的假期請於" + REQUEST_DENY_TIME + "時之前申請，如有問題請聯絡系統管理員");
+                    out.print("如欲申請下次上班日的假期請於" + REQUEST_DENY_TIME + "時前完成申請，如有問題請聯絡系統管理員");
                     return;
                 }
             }

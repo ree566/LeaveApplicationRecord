@@ -235,7 +235,7 @@
             <h3>請在下方選擇各項資訊後，送出完成請假申請。</h3>
             <hr />
             <div>
-                <h5 class="alarm">※欲請包含明日的假期請於今日${initParam.REQUEST_DENY_TIME}時完成申請，超過時間不予受理</h5>
+                <h5 class="alarm">※欲申請包含"下次上班日"的假期請於今日${initParam.REQUEST_DENY_TIME}時前完成申請，逾期不予受理</h5>
                 <table id="leaveRequest" class="table">
                     <tr>
                         <td class="title">申請時間</td>

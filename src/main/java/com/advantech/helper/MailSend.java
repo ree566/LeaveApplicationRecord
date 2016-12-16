@@ -44,7 +44,8 @@ public class MailSend {
         } catch (UnknownHostException | SocketException ex) {
             log.error(ex.toString());
         }
-        mailHost = hostaddr;
+//        mailHost = hostaddr;
+        mailHost = "Relay.advantech.com.tw";
         mailPort = properties.getMailServerPort();
         mailServerAddress = properties.getMailServerUsername() + "@" + hostaddr;
         password = properties.getMailServerPassword();
@@ -115,10 +116,7 @@ public class MailSend {
     public static void main(String[] arg0) {
 
         MailSend m = MailSend.getInstance();
-        System.out.println(m.mailServerAddress);
-        System.out.println(m.mailPort);
-        System.out.println(m.mailHost);
-        System.out.println(m.password);
+        m.sendMailWithoutSender(MailSend.class, "Wei.Cheng@advantech.com.tw", new JSONArray(), "test", "test");
     }
 
     //Get the Host address.
